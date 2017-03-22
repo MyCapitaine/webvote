@@ -3,7 +3,7 @@
  */
 $(document).ready(function(){
     $("#find_by_name").click(function(){
-        $.post("/getName",
+        $.post("/findName",
             {
                 name:$("#name").val()
             },
@@ -13,7 +13,8 @@ $(document).ready(function(){
                 $("tbody").empty();
                 for(var obj in objs){
 
-                    var tr="<tr>";
+                    var tr_head="<tr>";
+                    var tr_foot="</tr>";
                     var name="<td>"+objs[obj].name+"</td>";
                     var id="<td>"+objs[obj].id+"</td>";
                     var height="<td>"+objs[obj].height+"</td>";
@@ -23,7 +24,7 @@ $(document).ready(function(){
                     var price="<td>"+objs[obj].price+"</td>";
                     var floatprice="<td>"+objs[obj].floatprice+"</td>";
                     var doubleprice="<td>"+objs[obj].doubleprice+"</td>";
-                    tr=tr+name+id+height+sex+birthday+sendtime+price+floatprice+doubleprice;
+                    var tr=tr_head+id+name+height+sex+birthday+sendtime+price+floatprice+doubleprice+tr_foot;
                     $("tbody").append(tr);
                 }
             }

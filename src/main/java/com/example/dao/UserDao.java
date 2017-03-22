@@ -5,14 +5,15 @@ package com.example.dao;
  */
 
         import com.example.entity.User;
-        import org.springframework.data.repository.CrudRepository;
+        import org.springframework.data.jpa.repository.JpaRepository;
         import javax.transaction.Transactional;
         import java.math.BigDecimal;
         import java.util.Date;
         import java.util.List;
 
 @Transactional
-public interface UserDao extends CrudRepository<User, Integer> {
+public interface UserDao extends JpaRepository<User, Integer> {
+    //public User findOne(Integer id);
     public List<User> findByName(String name);
     public List<User> findBySex(char sex);
     public List<User> findByBirthday(Date birthday);

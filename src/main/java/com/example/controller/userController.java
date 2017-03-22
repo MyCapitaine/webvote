@@ -5,23 +5,65 @@ package com.example.controller;
  */
         import com.example.dao.UserDao;
         import com.example.entity.JsonResult;
-        import com.example.entity.Result;
         import com.example.entity.User;
-        import com.google.gson.Gson;
-        import net.sf.json.JSONArray;
+        import com.example.entity.UserRegister;
+        import com.example.service.UserServiceImp;
+        import com.example.serviceInterface.UserService;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Controller;
+        import org.springframework.web.bind.annotation.RequestBody;
         import org.springframework.web.bind.annotation.RequestMapping;
         import org.springframework.web.bind.annotation.ResponseBody;
         import java.math.BigDecimal;
         import java.text.ParseException;
         import java.text.SimpleDateFormat;
-        import java.util.Date;
         import java.util.List;
 @Controller
 public class userController {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserService userService;
+
+    private int page_size=10;
+
+    @RequestMapping("/save")
+    @ResponseBody
+    public JsonResult<Object[]> save(@RequestBody List<UserRegister> userList){
+        System.out.println("ids.size is "+userList.size());
+        //JsonResult delete = userService.delete(id_array,page_index,page_size);
+        JsonResult users=new JsonResult(userList);
+        return users;
+    }
+    @RequestMapping("/delete")
+    @ResponseBody
+    public JsonResult<Object[]> delete(int[] id_array,int page_index){
+        System.out.println("ids.size is"+id_array);
+        JsonResult delete = userService.delete(id_array,page_index,page_size);
+        if (delete != null ) {
+            return  delete;
+        }
+        return null;
+    }
+    @RequestMapping("/initPage")
+    @ResponseBody
+    public JsonResult<Object[]> initPage(int  page_index){
+        JsonResult page = userService.initPage(page_index,page_size);
+        if (page != null ) {
+            return  page;
+        }
+        return null;
+    }
+
+    @RequestMapping("/getUser")
+    @ResponseBody
+    public JsonResult<Object[]> findById(String id){
+        JsonResult user = userService.findById(Integer.parseInt(id));
+        if (user != null ) {
+            return  user;
+        }
+        return null;
+    }
     @RequestMapping("/getName")
     @ResponseBody
     public JsonResult<Object[]> getByName(String name) {
@@ -38,6 +80,15 @@ public class userController {
         return null;
         //return new Result("");
         //return "user " + name + " is not exist.";
+    }
+    @RequestMapping("/findName")
+    @ResponseBody
+    public JsonResult<Object[]> findByName(String name) {
+        JsonResult<Object[]> userList = userService.findByName(name);
+        if (userList != null ) {
+            return  userList;
+        }
+        return null;
     }
 
     @RequestMapping("/getSex")
@@ -67,21 +118,24 @@ public class userController {
         return "user " + birthday + " is not exist.";
     }
 
-    @RequestMapping("/getSendtime")
+    @RequestMapping("/getSendTime")
     @ResponseBody
-    public String findBySendtime(String sendtime) {
-        System.out.println("sendtime:"+sendtime);
-        SimpleDateFormat formate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        List<User> userList = null;
-        try {
-            userList = userDao.findBySendtime(formate.parse(sendtime));
-        } catch (ParseException e) {
-            e.printStackTrace();
+    public JsonResult<Object[]> findBySendtime(String sendTime) {
+        System.out.println("sendTime:"+sendTime);
+
+        if(sendTime!=null&&sendTime!=""){
+            SimpleDateFormat formate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            List<User> userList = null;
+            try {
+                userList = userDao.findBySendtime(formate.parse(sendTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (userList != null && userList.size()!=0) {
+                return  new JsonResult(userList);
+            }
         }
-        if (userList != null && userList.size()!=0) {
-            return "The user length is: " + userList.size();
-        }
-        return "user " + sendtime + " is not exist.";
+        return null;
     }
 
     @RequestMapping("/getPrice")
