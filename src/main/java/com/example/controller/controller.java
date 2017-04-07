@@ -50,8 +50,6 @@ public class controller {
     @RequestMapping("/random")
     public String random( ModelMap model){
         int random=(int)(Math.random()*9);
-        System.out.println("validate:"+model.get("validate"));
-        System.out.println("currentUser:"+model.get("currentUser"));
         model.addAttribute("number",registerDao.findOne(random));
         return "random";
     }

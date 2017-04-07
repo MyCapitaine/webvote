@@ -33,6 +33,14 @@ public class DemoApplicationTests {
 	@Autowired
 	private RegisterService registerService;
 
+	@Test
+	public void test9(){
+		registerService.release(1);
+	}
+	@Test
+	public void test8(){
+		registerService.ban(1);
+	}
 
 	@Test
 	public void test7(){

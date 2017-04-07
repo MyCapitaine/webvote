@@ -41,11 +41,11 @@ public class userController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public JsonResult login(LoginVO form, ModelMap model){
-//        System.out.println("validate:"+model.get("validate"));
-//        System.out.println("name:"+form.getLogin_name()+";pwd:"+form.getLogin_pwd());
+    public JsonResult login(LoginVO form, ModelMap model,HttpSession session){
         JsonResult js=registerService.login(form.getLogin_name(),form.getLogin_pwd());
-        //model.addAttribute("currentUser",js.getData());
+        if(js.getData()!=null){
+            model.addAttribute("currentUser",js.getData());
+        }
         return js;
     }
 

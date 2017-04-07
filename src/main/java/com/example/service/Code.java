@@ -22,7 +22,7 @@ public class Code {
             }
             return sb.toString();
         } catch (Exception e) {
-            return null;
+            return "MD5Encoder error";
         }
     }
 }

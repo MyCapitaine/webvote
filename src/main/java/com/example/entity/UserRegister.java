@@ -9,6 +9,21 @@ import java.util.Date;
 @Entity
 @Table(name = "userregister")
 public class UserRegister {
+
+    @Column(name = "banned")
+    private int banned;//是否被封禁
+    @Column(name = "loginname", length = 45)
+    private String loginname;//登录名
+    @Column(name = "loginpwd", length = 45)
+    private String loginpwd;//登录密码
+    @Column(name = "bindemail", length = 45)
+    private String bindemail;//绑定邮箱
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registertime; // 注册时间，格式：yyyy-MM-dd HH:mm:ss
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;//用户id，注册后自动生成
+
     public UserRegister() { }
 
     public String getLoginpwd() {
@@ -59,18 +74,14 @@ public class UserRegister {
         this.registertime = registertime;
     }
 
-    @Column(name = "loginname", length = 45)
-    private String loginname;
-    @Column(name = "loginpwd", length = 45)
-    private String loginpwd;
-    @Column(name = "bindemail", length = 45)
-    private String bindemail;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date registertime; // 日期类型，格式：yyyy-MM-dd HH:mm:ss
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
 
+    public int getBanned() {
+        return banned;
+    }
+
+    public void setBanned(int banned) {
+        this.banned = banned;
+    }
 
 
 }

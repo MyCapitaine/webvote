@@ -81,7 +81,6 @@ function login(validate) {
 		//remeberUser.SetPwdAndChk();
 		var md5 = new MD5();
 		var f = md5.MD5($("#email").val()+$("#password").val()).toString();
-		console.log(f);
 		$.ajax({
 			url : "/login",
 			type : "post",
@@ -98,11 +97,9 @@ function login(validate) {
 				$('.loading').hide();
 				console.log(data);
 				if (data.success) {
-
+					location.href="/random";
 				} else {
-					// 登录异常
-					$(".login-error").show();
-					$(".login-error").html($.i18n.prop("Error.Error"));
+					console.log(data.message);
 				}
 			}
 		});
