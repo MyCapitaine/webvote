@@ -1,7 +1,11 @@
 package com.example;
 
+import com.example.dao.RegisterDao;
 import com.example.dao.UserDao;
 import com.example.entity.User;
+import com.example.entity.UserRegister;
+import com.example.service.SendEmail;
+import com.example.serviceInterface.RegisterService;
 import com.example.serviceInterface.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,9 +28,37 @@ public class DemoApplicationTests {
 	private UserDao userDao;
 
 	@Autowired
-	private UserService userSer;
+	private RegisterDao registerDao;
+
+	@Autowired
+	private RegisterService registerService;
 
 
+	@Test
+	public void test7(){
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(currentTime);
+		ParsePosition pos = new ParsePosition(0);
+		Date currentTime_2 = formatter.parse(dateString, pos);
+
+		UserRegister uu=registerDao.findOne(10);
+		uu.setRegistertime(currentTime);
+		registerDao.save(uu);
+	}
+
+	@Test
+	public void test6(){
+//		String to="578776370@qq.com";
+//		String to="lzs105@sina.com";
+		String to="lzs105@163.com";
+		StringBuffer  content=new StringBuffer ("您好：");
+		content.append(to+"!<br>");
+		content.append("请点击下面的链接来激活您的账号（如果不能跳转，请复制粘贴到浏览器地址栏）<br>");
+		//content.append("http://localhost:8080/validate?token=pass");
+		content.append("http://www.qq.com");
+		SendEmail.send(to,content.toString());
+	}
 	@Test
 	public void test1() {
 
@@ -45,7 +77,7 @@ public class DemoApplicationTests {
 	@Test
 	public void test2(){
 
-		for(int i=0;i<5;i++){
+		for(int i=0;i<20;i++){
 			Date currentTime = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String dateString = formatter.format(currentTime);
@@ -75,8 +107,11 @@ public class DemoApplicationTests {
 		String dateString = formatter.format(currentTime);
 		ParsePosition pos = new ParsePosition(0);
 		Date currentTime_2 = formatter.parse(dateString, pos);
+		ParsePosition pos3 = new ParsePosition(2);
+		Date currentTime_3 = formatter.parse(dateString, pos3);
 		System.out.println(dateString);
 		System.out.println(currentTime_2);
+		System.out.println(currentTime_3);
 	}
 
 	@Test

@@ -19,7 +19,7 @@ import java.util.List;
  */
 //@Transactional
 @Service
-public class UserServiceImp implements UserService{
+public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
     public JsonResult<Object[]> findByName(String name) {

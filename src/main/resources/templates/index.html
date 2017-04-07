@@ -1,10 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8"/>
-    <title>Index</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <!--<link rel="shortcut icon" href="/images/favicon.ico" />-->
+    <link rel="stylesheet" href="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="style/style.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="/js/jquery.js"></script>
+
+    <script type="text/javascript" src="/js/jquery.validate.js"></script>
+    <script type="text/javascript" src="/js/email_match.js"></script>
+    <script type="text/javascript" src="/js/page_login.js"></script>
+    <!--[if IE]>
+    <script src="/js/html5.js"></script>
+    <![endif]-->
+    <!--[if lte IE 6]>
+    <script src="/js/DD_belatedPNG_0.0.8a-min.js" language="javascript"></script>
+    <script>
+        DD_belatedPNG.fix('div,li,a,h3,span,images,.png_bg,ul,input,dd,dt');
+    </script>
+    <![endif]-->
+    <style>
+        ul{
+            margin:0;
+            padding:0;
+        }
+        li {
+            list-style-type:none;
+            padding:4px;
+        }
+        *{
+            z-index:0;
+        }
+        .hover,.current{
+            background:red;
+        }
+        #txtLoginIDTip{
+            position:absolute;
+            border:1px solid #dcdcdc;
+            background:#fff;
+            *top:22px;
+            z-index:11111;
+        }
+    </style>
 </head>
-<body>
+<body class="loginbody">
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">网投</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="signup"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+            <li><a href="signin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+        </ul>
+    </div>
+</nav>
+
 
 </body>
 </html>

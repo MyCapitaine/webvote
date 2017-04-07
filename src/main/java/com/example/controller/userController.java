@@ -7,31 +7,58 @@ package com.example.controller;
         import com.example.entity.JsonResult;
         import com.example.entity.User;
         import com.example.entity.UserRegister;
-        import com.example.service.UserServiceImp;
+        import com.example.serviceInterface.RegisterService;
         import com.example.serviceInterface.UserService;
+        import com.example.vo.LoginVO;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Controller;
+        import org.springframework.ui.ModelMap;
         import org.springframework.web.bind.annotation.RequestBody;
         import org.springframework.web.bind.annotation.RequestMapping;
         import org.springframework.web.bind.annotation.ResponseBody;
+        import org.springframework.web.bind.annotation.SessionAttributes;
+        import org.springframework.web.context.request.RequestContextHolder;
+        import org.springframework.web.context.request.ServletRequestAttributes;
+
+
+        import javax.servlet.http.HttpServletRequest;
+        import javax.servlet.http.HttpSession;
         import java.math.BigDecimal;
         import java.text.ParseException;
         import java.text.SimpleDateFormat;
         import java.util.List;
 @Controller
+@SessionAttributes({"currentUser","validate"})
 public class userController {
     @Autowired
     private UserDao userDao;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RegisterService registerService;
 
     private int page_size=10;
+
+    @RequestMapping("/login")
+    @ResponseBody
+    public JsonResult login(LoginVO form, ModelMap model){
+//        System.out.println("validate:"+model.get("validate"));
+//        System.out.println("name:"+form.getLogin_name()+";pwd:"+form.getLogin_pwd());
+        JsonResult js=registerService.login(form.getLogin_name(),form.getLogin_pwd());
+        //model.addAttribute("currentUser",js.getData());
+        return js;
+    }
 
     @RequestMapping("/save")
     @ResponseBody
     public JsonResult<Object[]> save(@RequestBody List<UserRegister> userList){
-        System.out.println("ids.size is "+userList.size());
+        //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        //System.out.println("ids.size is "+userList.size());
         //JsonResult delete = userService.delete(id_array,page_index,page_size);
+        for(UserRegister ur : userList){
+            registerService.register(ur);
+        }
         JsonResult users=new JsonResult(userList);
         return users;
     }
@@ -169,5 +196,19 @@ public class userController {
             return "The user length is: " + userList.size();
         }
         return "user " + doubleprice + " is not exist.";
+    }
+
+    public static HttpSession getSession() {
+        HttpSession session = null;
+        try {
+            session = getRequest().getSession();
+        } catch (Exception e) {}
+        return session;
+    }
+
+    public static HttpServletRequest getRequest() {
+        ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder
+                .getRequestAttributes();
+        return attrs.getRequest();
     }
 }
