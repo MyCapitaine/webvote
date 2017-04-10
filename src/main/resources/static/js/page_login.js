@@ -81,13 +81,14 @@ function login(validate) {
 		//remeberUser.SetPwdAndChk();
 		var md5 = new MD5();
 		var f = md5.MD5($("#email").val()+$("#password").val()).toString();
+		console.log("checked:0"+$(".jz").is(":checked"));
 		$.ajax({
 			url : "/login",
 			type : "post",
 			data : {
 				login_name : $("#email").val(),
 				login_pwd : f,
-				remember:false
+				remember : $(".jz").is(":checked")
 			},
 			dataType : "json",
 			beforeSend : function() {

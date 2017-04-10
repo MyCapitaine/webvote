@@ -25,7 +25,7 @@ public class LoginVO {
         this.login_pwd = login_pwd;
     }
 
-    public boolean isRemember() {
+    public boolean getRemember() {
         return remember;
     }
 

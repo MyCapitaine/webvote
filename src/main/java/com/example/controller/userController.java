@@ -21,7 +21,9 @@ package com.example.controller;
         import org.springframework.web.context.request.ServletRequestAttributes;
 
 
+        import javax.servlet.http.Cookie;
         import javax.servlet.http.HttpServletRequest;
+        import javax.servlet.http.HttpServletResponse;
         import javax.servlet.http.HttpSession;
         import java.math.BigDecimal;
         import java.text.ParseException;
@@ -41,10 +43,17 @@ public class userController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public JsonResult login(LoginVO form, ModelMap model,HttpSession session){
+    public JsonResult login(LoginVO form, ModelMap model,HttpSession session,HttpServletResponse httpServletResponse){
         JsonResult js=registerService.login(form.getLogin_name(),form.getLogin_pwd());
         if(js.getData()!=null){
             model.addAttribute("currentUser",js.getData());
+            if(form.getRemember()){
+                String cv=form.getLogin_name()+":"+form.getLogin_pwd();
+                Cookie cookie=new Cookie("currentUser",cv);
+                cookie.setMaxAge(1000*60*60*24*30);
+                cookie.setPath("/");
+                httpServletResponse.addCookie(cookie);
+            }
         }
         return js;
     }

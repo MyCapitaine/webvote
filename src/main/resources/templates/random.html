@@ -21,20 +21,15 @@
         </ul>
         <ul th:unless="${currentUser} eq null" class="nav navbar-nav navbar-right">
             <li><a href="#" ><span class="glyphicon glyphicon-user" th:text="${currentUser.loginname}"></span> </a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
         </ul>
     </div>
 </nav>
-<div th:fragment="random" th:object="${number}">
-    <p th:text="*{loginname}" >3333</p>
-    <p th:text="${validate}">233</p>
-    <button type="button" class="btn btn-danger" id="random" >random</button>
-</div>
+
 <script th:inline="javascript">
-    var user = [[${number}]];
-    console.log(user);
+    var user = [[${currentUser}]];
 </script>
-<div th:fragment="random" th:object="${currentUser}">
+<div th:fragment="random" th:object="${currentUser}" th:if="${currentUser}!=null">
     <p th:text="*{loginname}" >3333</p>
     <p th:text="${validate}">233</p>
     <button type="button" class="btn btn-danger" id="random2" >random</button>

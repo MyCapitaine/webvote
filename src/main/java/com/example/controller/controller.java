@@ -45,12 +45,13 @@ public class controller {
     public String signup(){
         return "signup";
     }
+
     @Autowired
     private RegisterDao registerDao;
     @RequestMapping("/random")
     public String random( ModelMap model){
-        int random=(int)(Math.random()*9);
-        model.addAttribute("number",registerDao.findOne(random));
+//        int random=(int)(Math.random()*9);
+//        model.addAttribute("number",registerDao.findOne(random));
         return "random";
     }
 
