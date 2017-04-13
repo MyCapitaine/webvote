@@ -18,32 +18,32 @@ public class UserInformation {
     @Id
     private int id;//用户id
 
-    @Column(name="nick_name")
+    @Column(name="nick_name",nullable = false,unique = true)
     private String nickName;//用户昵称
 
-    @Column(name="portrait")
+    @Column(name="portrait",nullable = false)
     private String portrait;//头像url路径，默认：
 
-    @Column(name="sign")
+    @Column(name="sign",nullable = false)
     private String sign;//个性签名，默认：这个人很懒，什么也没留下
 
-    @Column(name="level")
+    @Column(name="level",nullable = false)
     private int level;//个人等级，初始为1
 
-    @Column(name="experience")
+    @Column(name="experience",nullable = false)
     private int experience;//经验值，初始为0
 
-    @Column(name="binded_email")
-    private String bindedEmail;//绑定邮箱
+    @Column(name="binding_email",nullable = false,unique = true)
+    private String bindingEmail;//绑定邮箱
 
-    @Column(name="register_time")
+    @Column(name="register_time",nullable = false)
     private Date registerTime;//注册时间，格式：yyyy-MM-dd HH:mm:ss
 
     public UserInformation(UserRegister ur) {
         this.id=ur.getId();
         this.nickName=nick+id;
-        this.bindedEmail=ur.getBindemail();
-        this.registerTime=ur.getRegistertime();
+        this.bindingEmail =ur.getBindingEmail();
+        this.registerTime=ur.getRegisterTime();
         this.sign="这个人很懒，什么也没留下";
         this.level=1;
         this.experience=0;
@@ -52,6 +52,10 @@ public class UserInformation {
     public UserInformation() {
 
     }
+
+    public int getId() {return id;}
+
+    public void setId(int id) {this.id = id;}
 
     public String getNickName() {
         return nickName;
@@ -85,12 +89,12 @@ public class UserInformation {
         this.level = level;
     }
 
-    public String getBindedEmail() {
-        return bindedEmail;
+    public String getBindingEmail() {
+        return bindingEmail;
     }
 
-    public void setBindedEmail(String bindedEmail) {
-        this.bindedEmail = bindedEmail;
+    public void setBindingEmail(String bindingEmail) {
+        this.bindingEmail = bindingEmail;
     }
 
     public Date getRegisterTime() {

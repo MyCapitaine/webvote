@@ -13,8 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 @Transactional
-public interface RegisterDao extends JpaRepository<UserRegister, Integer> {
+public interface UserRegisterDao extends JpaRepository<UserRegister, Integer> {
     //public User findOne(Integer id);
-    public List<UserRegister> findByLoginname(String loginname);
-    public List<UserRegister> findByBindemail(String bindemail);
+    public List<UserRegister> findByLoginName(String loginname);
+    public List<UserRegister> findByBindingEmail(String bindemail);
 }

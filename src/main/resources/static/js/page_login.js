@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+	console.log(previousPage);
 	$("#email").emailMatch();
 	// 隐藏Loading/登录失败 DIV
 	$(".loading").hide();
@@ -86,9 +87,9 @@ function login(validate) {
 			url : "/login",
 			type : "post",
 			data : {
-				login_name : $("#email").val(),
-				login_pwd : f,
-				remember : $(".jz").is(":checked")
+                loginName : $("#email").val(),
+                loginPassword : f,
+				remember : $(".remember").is(":checked")
 			},
 			dataType : "json",
 			beforeSend : function() {
@@ -98,7 +99,15 @@ function login(validate) {
 				$('.loading').hide();
 				console.log(data);
 				if (data.success) {
-					location.href="/random";
+				    if(previousPage==null){
+                        location.href="index";
+                    }
+				    else{
+                        location.href=""+previousPage;
+                    }
+                    //window.history.back();
+                    //
+					//
 				} else {
 					console.log(data.message);
 				}

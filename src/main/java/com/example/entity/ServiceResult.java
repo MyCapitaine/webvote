@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by hasee on 2017/3/6.
  */
-public class JsonResult<T> implements Serializable {
+public class ServiceResult<T> implements Serializable{
     private static final long serialVersionUID = -4699713095477151086L;
 
     /**
@@ -45,29 +45,23 @@ public class JsonResult<T> implements Serializable {
         this.success = success;
     }
 
-    public JsonResult() {
+    public ServiceResult() {
         super();
     }
 
-    public JsonResult(ServiceResult sr) {
-        this.data = (T) sr.getData();
-        this.success = sr.isSuccess();
-        this.message = sr.getMessage();
-    }
-
-    public JsonResult(T data, String message, boolean success) {
+    public ServiceResult(T data, String message, boolean success) {
         this.data = data;
         this.message = message;
         this.success = success;
     }
 
-    public JsonResult(T data, String message) {
+    public ServiceResult(T data, String message) {
         this.data = data;
         this.message = message;
         this.success = true;
     }
 
-    public JsonResult(T data) {
+    public ServiceResult(T data) {
         this.data = data;
         this.success = true;
     }

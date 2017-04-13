@@ -3,15 +3,14 @@
  */
 $(document).ready(function(){
 
-
     $.get("/initPage",
         {
-            page_index:0
+            page_index:page_index-1
         },
         function(data){
-             sessionStorage.setItem("page_index="+0,JSON.stringify(data.data.content));
+            sessionStorage.setItem("page_index="+0,JSON.stringify(data.data.content));
             var total=data.data.totalPages;
-            dynamic_page(total,1);
+            dynamic_page(total,page_index);
             dynamic_table(data.data.content);
             check_all();
             del();
@@ -177,7 +176,7 @@ function dynamic_page(page_total,page_current){
         //绑定事件
         bindEvent:function(totalsubpageTmep,args){
             return (function(){
-
+                //删除操作
                 $("#delete").on("click",function(){
                     var ids=[];
                     $(":checked").not("#all").each(function(){
@@ -206,9 +205,11 @@ function dynamic_page(page_total,page_current){
                     }
 
                 });
+                //第几页
                 totalsubpageTmep.on("click","a.geraltTb_pager",function(event){
                     var current = parseInt($(this).text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
+                    changeURL($(".active").text());
                     change_to_page($(".active").text()-1);
                 });
                 //首页
@@ -402,6 +403,12 @@ function dynamic_page(page_total,page_current){
 //         });
 //     }
 // }
+
+
+function changeURL(page_index){
+    var stateObj = { foo: "bar" };
+    history.pushState(stateObj, "page 2", "page?page_index="+page_index);
+}
 
 //换页
 function change_to_page(page_index){

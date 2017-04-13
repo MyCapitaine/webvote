@@ -6,7 +6,7 @@ import java.security.MessageDigest;
  * Created by hasee on 2017/4/7.
  */
 public class Code {
-    public final static String MD5Encoder(String s, String charset) {
+    public final static String MD5Encoder(String s, String charset) throws Exception {
         try {
             byte[] btInput = s.getBytes(charset);
             MessageDigest mdInst = MessageDigest.getInstance("MD5");
@@ -22,7 +22,7 @@ public class Code {
             }
             return sb.toString();
         } catch (Exception e) {
-            return "MD5Encoder error";
+            throw new Exception("MD5Encoder error");
         }
     }
 }

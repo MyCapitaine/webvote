@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="bootstrap-datetimepicker.css" rel="stylesheet"/>
     <!-- HTML5 shim and Respond.js for IE8 support of Html5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -13,12 +13,34 @@
     <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="jquery.min.js"></script>
-    <script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
     <script src="json2.js"></script>
     <script src="page_table.js"></script>
     <title>Page</title>
 </head>
 <body>
+
+<script th:inline="javascript">
+    var page_index = [[${page_index}]];
+    console.log("inline js :"+page_index);
+</script>
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">网投</a>
+        </div>
+
+        <ul th:if="${currentUser} eq null" class="nav navbar-nav navbar-right">
+            <li><a href="signup"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+            <li><a href="signin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+        </ul>
+        <ul th:unless="${currentUser} eq null" class="nav navbar-nav navbar-right">
+            <li><a href="#" ><span class="glyphicon glyphicon-user" th:text="${currentUser.nickName}"></span> </a></li>
+            <li><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
+        </ul>
+    </div>
+</nav>
 <div class="container">
     <div>
         <table class="table table-striped">

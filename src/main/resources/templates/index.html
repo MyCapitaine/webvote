@@ -3,32 +3,35 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="style/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+
     <script type="text/javascript" src="jquery-3.2.0.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
+
 </head>
 <body>
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">网投</a>
-        </div>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">网投</a>
+            </div>
 
-        <ul th:if="${currentUser} eq null" class="nav navbar-nav navbar-right">
-            <li><a href="signup"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-            <li><a href="signin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
-        </ul>
-        <ul th:unless="${currentUser} eq null" class="nav navbar-nav navbar-right">
-            <li><a href="#" ><span class="glyphicon glyphicon-user" th:text="${currentUser.loginname}"></span> </a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
-        </ul>
+            <ul th:if="${currentUser} eq null" class="nav navbar-nav navbar-right">
+                <li><a href="signup"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                <li><a href="signin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+            </ul>
+            <ul th:unless="${currentUser} eq null" class="nav navbar-nav navbar-right">
+                <li><a href="#" ><span class="glyphicon glyphicon-user" th:text="${currentUser.nickName}"></span> </a></li>
+                <li><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div th:fragment="random" th:object="${currentUser}" th:if="${currentUser}!=null">
+        <p th:text="*{nickName}" >3333</p>
+        <p th:text="${validate}">233</p>
+        <button type="button" class="btn btn-danger" id="delete">随机</button>
     </div>
-</nav>
-<div th:fragment="random" th:object="${currentUser}" th:if="${currentUser}!=null">
-    <p th:text="*{loginname}" >3333</p>
-    <p th:text="${validate}">233</p>
-    <button type="button" class="btn btn-danger" id="random2" >random</button>
-</div>
 </body>
 </html>

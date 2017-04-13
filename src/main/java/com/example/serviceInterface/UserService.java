@@ -1,10 +1,6 @@
 package com.example.serviceInterface;
 
 import com.example.entity.JsonResult;
-import com.example.entity.User;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 /**
  * Created by hasee on 2017/3/7.

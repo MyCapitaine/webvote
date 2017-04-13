@@ -7,43 +7,48 @@ import java.util.Date;
  * Created by hasee on 2017/3/22.
  */
 @Entity
-@Table(name = "userregister")
+@Table(name = "user_register")
 public class UserRegister {
 
-    @Column(name = "banned")
-    private int banned;//是否被封禁
-    @Column(name = "loginname", length = 45)
-    private String loginname;//登录名
-    @Column(name = "loginpwd", length = 45)
-    private String loginpwd;//登录密码
-    @Column(name = "bindemail", length = 45)
-    private String bindemail;//绑定邮箱
+    @Column(name = "banned",nullable = false,length = 1)
+    private int banned=0;//是否被封禁;1表示被封禁
+
+    @Column(name = "login_name",nullable = false,unique = true)
+    private String loginName;//登录名
+
+    @Column(name = "login_pwd",nullable = false)
+    private String loginPassword;//登录密码
+
+    @Column(name = "binding_mail",nullable = false,unique = true)
+    private String bindingEmail;//绑定邮箱
+
     @Temporal(TemporalType.TIMESTAMP)
-    private Date registertime; // 注册时间，格式：yyyy-MM-dd HH:mm:ss
+    private Date registerTime; // 注册时间，格式：yyyy-MM-dd HH:mm:ss
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;//用户id，注册后自动生成
 
     public UserRegister() { }
 
-    public String getLoginpwd() {
+    public String getLoginPassword() {
 
-        return loginpwd;
+        return loginPassword;
     }
 
-    public void setLoginpwd(String loginpwd) {
+    public void setLoginPassword(String loginPassword) {
 
-        this.loginpwd = loginpwd;
+        this.loginPassword = loginPassword;
     }
 
-    public String getBindemail() {
+    public String getBindingEmail() {
 
-        return bindemail;
+        return bindingEmail;
     }
 
-    public void setBindemail(String bindemail) {
+    public void setBindingEmail(String bindingEmail) {
 
-        this.bindemail = bindemail;
+        this.bindingEmail = bindingEmail;
     }
 
     public int getId() {
@@ -56,22 +61,22 @@ public class UserRegister {
         this.id = id;
     }
 
-    public String getLoginname() {
+    public String getLoginName() {
 
-        return loginname;
+        return loginName;
     }
 
     public void setLogin_name(String login_name) {
 
-        this.loginname = login_name;
+        this.loginName = login_name;
     }
 
-    public Date getRegistertime() {
-        return registertime;
+    public Date getRegisterTime() {
+        return registerTime;
     }
 
-    public void setRegistertime(Date registertime) {
-        this.registertime = registertime;
+    public void setRegisterTime(Date registerTime) {
+        this.registerTime = registerTime;
     }
 
 

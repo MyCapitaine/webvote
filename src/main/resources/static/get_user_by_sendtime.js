@@ -2,7 +2,7 @@
  * Created by hasee on 2017/3/7.
  */
 $(document).ready(function(){
-    $(".form_datetime").datetimepicker({
+    $("#datetimepicker1").datetimepicker({
         minView: "month", //选择日期后，不会再跳转去选择时分秒
         format: "yyyy-mm-dd ", //选择日期后，文本框显示的日期格式
         language: 'zh-CN', //汉化
@@ -13,7 +13,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $("#get_user_by_sendTime").click(function(){
         var time=$("#sendTime").val();
-        console.log("time is"+time=="");
+        console.log("time is"+time);
         var date=(time=="")?null:(new Date(time).Format("yyyy-MM-dd hh:mm:ss"));
         $.post("/getSendTime",
             {

@@ -5,24 +5,24 @@ package com.example.vo;
  */
 public class LoginVO {
 
-    private String login_name;
-    private String login_pwd;
+    private String loginName;
+    private String loginPassword;
     private boolean remember;
 
-    public String getLogin_name() {
-        return login_name;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setLogin_name(String login_name) {
-        this.login_name = login_name;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
-    public String getLogin_pwd() {
-        return login_pwd;
+    public String getLoginPassword() {
+        return loginPassword;
     }
 
-    public void setLogin_pwd(String login_pwd) {
-        this.login_pwd = login_pwd;
+    public void setLoginPassword(String loginPassword) {
+        this.loginPassword = loginPassword;
     }
 
     public boolean getRemember() {

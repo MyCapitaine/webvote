@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <!--<link rel="shortcut icon" href="/images/favicon.ico" />-->
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="style/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+
 
 
     <script type="text/javascript" src="jquery-3.2.0.js"></script>
@@ -27,29 +28,8 @@
     </script>
     <![endif]-->
     <style>
-        .loginbox .login-content .row {
-
-            -webkit-box-sizing:content-box;
-            box-sizing: content-box;
-        }
-        .input-text-user,.input-text-password{
-            -webkit-box-sizing:content-box;
-            box-sizing: content-box;
-        }
-
-        ul{
-            margin:0;
-            padding:0;
-        }
-        li {
-            list-style-type:none;
-            padding:4px;
-        }
         *{
             z-index:0;
-        }
-        .hover,.current{
-            background:red;
         }
         #txtLoginIDTip{
             position:absolute;
@@ -62,79 +42,88 @@
 </head>
 <body class="loginbody">
 
-<div class="dataEye">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">网投</a>
+<script th:inline="javascript">
+    var previousPage = [[${previousPage}]];
+</script>
+
+    <div class="dataEye">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">网投</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="signup"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                </ul>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="signup"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="loginbox">
+        </nav>
+        <div class="loginbox">
+            <div class="login-content">
+                <div class="loginbox-title">
+                    <h3 style="margin-top: 10px">登录</h3>
+                </div>
+                <form id="signupForm">
+                    <div class="login-error"></div>
+                    <div class="box">
 
-        <div class="login-content">
-            <div class="loginbox-title">
-                <h3>登录</h3>
+                        <label class="field">用户名</label>
+                        <input type="text" class="input-text-user " name="email" id="email"/>
+
+                    </div>
+
+                    <div class="box">
+                        <label class="field">密码</label>
+                        <input type="password" class="input-text-password " name="password" id="password"/>
+                    </div>
+
+                    <div class="box tips">
+                        <!--<div class="checkbox">-->
+                            <!--<label><input type="checkbox"/>记住我</label>-->
+                            <!--<a href="forget.jsp" class="link">忘记密码</a>-->
+                        <!--</div>-->
+                        <div class="checkbox" style="margin-top: 0px;margin-bottom: 0px;line-height: 20px;">
+                            <label >
+                                <input class="remember" type="checkbox" checked="checked"/>记住我
+                            </label>
+                            <a href="" class="link" style="position: absolute;right: 2px;line-height: 20px;height: 20px;">忘记密码</a>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="box btnArea">
+                        <a class="login-btn" id="submit">登录</a>
+                    </div>
+                    <div id="txtLoginIDTip">
+                    </div>
+                </form>
+
             </div>
-            <form id="signupForm">
-                <div class="login-error"></div>
-                <div class="row">
-
-                    <label class="field">用户名</label>
-                    <input type="text" class="input-text-user " name="email" id="email"/>
-
-                </div>
-
-                <div class="row">
-                    <label class="field">密码</label>
-                    <input type="password" class="input-text-password " name="password" id="password"/>
-                </div>
-
-                <div class="row">
-                    <label style="height: 25px; position: relative;">
-                        <input class="jz" type="checkbox" checked="checked"/>
-                        <em>记住我<strong>不是自己的电脑上不要勾选此项</strong></em>
-                    </label>
-                </div>
-
-                <div class="row btnArea">
-                    <a class="login-btn" id="submit">登录</a>
-                </div>
-                <div class="row tips">
-                    <a href="forget.jsp" class="link">忘记密码</a>
-                </div>
-                <div id="txtLoginIDTip">
-                </div>
-            </form>
-
+            <div class="go-regist">
+                还没有账号？请
+                <a href="signup">立即注册</a>
+            </div>
         </div>
-        <div class="go-regist">
-            还没有账号？请
-            <a href="signup">立即注册</a>
+
+        <div id="footer">
+            <div class="dblock">
+                <!--<div class="inline-block"><img src="../images/logo-gray.png"/></div>-->
+                <div class="inline-block">webvote</div>
+                <div class="inline-block copyright">
+                    <p><a href="#">关于我们</a> | <a href="#">微博</a> | <a href="#">隐私政策</a> | <a href="#">人员招聘</a></p>
+                    <p> Copyright © 2013 JS代码网</p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div id="footer">
-        <div class="dblock">
-            <!--<div class="inline-block"><img src="../images/logo-gray.png"/></div>-->
-            <div class="inline-block">webvote</div>
-            <div class="inline-block copyright">
-                <p><a href="#">关于我们</a> | <a href="#">微博</a> | <a href="#">隐私政策</a> | <a href="#">人员招聘</a></p>
-                <p> Copyright © 2013 JS代码网</p>
+    <div class="loading">
+        <div class="mask">
+            <div class="loading-img">
+                <img src="../images/loading.gif" width="31" height="31"/>
             </div>
         </div>
     </div>
-</div>
-<div class="loading">
-    <div class="mask">
-        <div class="loading-img">
-            <img src="../images/loading.gif" width="31" height="31"/>
-        </div>
-    </div>
-</div>
 </body>
 </html>

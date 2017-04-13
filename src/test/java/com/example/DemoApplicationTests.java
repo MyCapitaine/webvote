@@ -1,12 +1,17 @@
 package com.example;
 
-import com.example.dao.RegisterDao;
+import com.example.dao.UserRegisterDao;
 import com.example.dao.UserDao;
-import com.example.entity.User;
-import com.example.entity.UserRegister;
+import com.example.entity.*;
+import com.example.exception.ActiveValidateServiceException;
+import com.example.exception.SendEmailException;
+import com.example.exception.UserInformationServiceException;
+import com.example.exception.UserRegisterServiceException;
 import com.example.service.SendEmail;
-import com.example.serviceInterface.RegisterService;
-import com.example.serviceInterface.UserService;
+import com.example.serviceInterface.UserInformationService;
+import com.example.serviceInterface.UserRegisterService;
+import com.example.serviceInterface.ValidateService;
+import com.example.vo.ModifyLoginPasswordVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +33,92 @@ public class DemoApplicationTests {
 	private UserDao userDao;
 
 	@Autowired
-	private RegisterDao registerDao;
+	private UserRegisterDao userRegisterDao;
 
 	@Autowired
-	private RegisterService registerService;
+	private UserRegisterService userRegisterService;
+
+	@Autowired
+	private UserInformationService userInformationService;
+	@Autowired
+	private ValidateService activeValidateService;
 
 	@Test
+    public void test12(){
+        System.out.println(userRegisterDao.findByLoginName("name0").size());
+    }
+	@Test
+	public void test11(){
+
+        ModifyLoginPasswordVO form = new ModifyLoginPasswordVO();
+        form.setId(1);
+        form.setOldLoginPassword("111");
+        form.setNewLoginPassword("2333");
+        form.setSecondNewLoginPassword("2333");
+        ServiceResult sr=userRegisterService.modifyLoginPassword(form);
+        System.out.println(sr.getMessage());
+	}
+	@Test
+	public void test10(){
+		UserRegister ur=new UserRegister();
+		ur.setLogin_name("aaa");
+		ur.setBindingEmail("578776370@qq.com");
+		ur.setLoginPassword("111");
+		ur.setRegisterTime(new Date());
+		JsonResult js = new JsonResult();
+		js.setData(null);
+		js.setMessage("register failed");
+		js.setSuccess(false);
+
+		UserInformation ui=null;
+		try{
+			ServiceResult ursr = userRegisterService.register(ur);
+			ur = (UserRegister) ursr.getData();
+			js.setMessage(ursr.getMessage());
+			js.setSuccess(ursr.isSuccess());
+
+			ui = new UserInformation(ur);
+			ServiceResult uisr = userInformationService.register(ui);
+			js.setMessage(uisr.getMessage());
+			js.setSuccess(uisr.isSuccess());
+
+			ServiceResult avsr = activeValidateService.getValidator(ur);
+            ActiveValidate av = (ActiveValidate)avsr.getData();
+			String validator = av.getValidator() ;
+			js.setMessage(avsr.getMessage());
+			js.setSuccess(avsr.isSuccess());
+
+			SendEmail.sendValidateEmail(ur.getBindingEmail(),validator);
+
+			js.setData(ui);
+
+		}
+		catch (UserRegisterServiceException e) {
+			System.out.println(js) ;
+		}
+		catch (UserInformationServiceException e){
+			userRegisterService.delete(ur);
+		}
+		catch (ActiveValidateServiceException e){
+			userRegisterService.delete(ur);
+			userInformationService.delete(ui);
+		}
+		catch(SendEmailException e){
+			userRegisterService.delete(ur);
+			userInformationService.delete(ui);
+			activeValidateService.deleteValidator(ur);
+			js.setMessage(e.getMessage());
+		}
+
+		System.out.println(js) ;
+	}
+	@Test
 	public void test9(){
-		registerService.release(1);
+		userRegisterService.release(1);
 	}
 	@Test
 	public void test8(){
-		registerService.ban(1);
+		userRegisterService.ban(1);
 	}
 
 	@Test
@@ -50,22 +129,27 @@ public class DemoApplicationTests {
 		ParsePosition pos = new ParsePosition(0);
 		Date currentTime_2 = formatter.parse(dateString, pos);
 
-		UserRegister uu=registerDao.findOne(10);
-		uu.setRegistertime(currentTime);
-		registerDao.save(uu);
+		UserRegister uu= userRegisterDao.findOne(10);
+		uu.setRegisterTime(currentTime);
+		userRegisterDao.save(uu);
 	}
 
 	@Test
 	public void test6(){
 //		String to="578776370@qq.com";
 //		String to="lzs105@sina.com";
-		String to="lzs105@163.com";
+//		String to="lzs105@163.com";
+		String to="1@qq.com";
 		StringBuffer  content=new StringBuffer ("您好：");
 		content.append(to+"!<br>");
 		content.append("请点击下面的链接来激活您的账号（如果不能跳转，请复制粘贴到浏览器地址栏）<br>");
 		//content.append("http://localhost:8080/validate?token=pass");
 		content.append("http://www.qq.com");
-		SendEmail.send(to,content.toString());
+		try {
+			SendEmail.sendValidateEmail(to,content.toString());
+		} catch (SendEmailException e) {
+			e.printStackTrace();
+		}
 	}
 	@Test
 	public void test1() {

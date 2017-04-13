@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="jquery-3.2.0.js"></script>
+</head>
+<body>
+    <div >
+        <p th:text="${message}"></p>
+        <p><a th:href="@{''+${redirectTo}}" >如果没有自动跳转，请点击链接</a></p>
+    </div>
+    <script th:inline="javascript">
+        var message = [[${message}]];
+        var url = [[${redirectTo}]];
+        $(document).ready(function(){
+            setTimeout(function(){
+//                if(message=="退出登录"){
+//
+//                    window.history.back();
+//                }
+                location.href=""+url;
+            },3000);
+        });
+    </script>
+</body>
+</html>

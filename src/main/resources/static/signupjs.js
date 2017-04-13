@@ -3,16 +3,16 @@
  */
 $(document).ready(function(){
     var users=[];
-    for(var i=10;i<20;i++){
+    for(var i=0;i<10;i++){
         var user={
-            loginname:"name"+i,
-            loginpwd:"pwd"+i,
-            bindemail:"email"+i,
-            registertime:new Date()
+            //id:i,
+            loginName:"name"+i,
+            loginPassword:"pwd"+i,
+            bindingEmail:i+"@qq.com",
+            registerTime:new Date()
         };
         users.push(user);
     }
-    console.log(users);
     $.ajax({
         type:"post",
         url:"/save",
@@ -20,9 +20,7 @@ $(document).ready(function(){
         dataType:"json",
         contentType:'application/json;charset=utf-8',
         success:function(data){
-            for(user in data.data){
-                console.log(data.data[user]);
-            }
+            console.log(data.data);
         }
     });
 });
