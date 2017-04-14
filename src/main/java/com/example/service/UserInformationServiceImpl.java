@@ -42,15 +42,15 @@ public class UserInformationServiceImpl implements UserInformationService {
 
 
     @Override
-    public ServiceResult delete(UserInformation ui) {
+    public ServiceResult delete(UserRegister ur) {
 
         ServiceResult sr = new ServiceResult();
         sr.setData(null);
         sr.setMessage("UserInformation delete failed");
         sr.setSuccess(false);
 
-        if(userInformationDao.findOne(ui.getId())!=null){
-            userInformationDao.delete(ui.getId());
+        if(userInformationDao.findOne(ur.getId())!=null){
+            userInformationDao.delete(ur.getId());
             sr.setMessage("UserInformation delete success");
             sr.setSuccess(true);
         }

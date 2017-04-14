@@ -15,6 +15,7 @@ package com.example.controller;
         import com.example.serviceInterface.UserRegisterService;
         import com.example.serviceInterface.UserService;
         import com.example.vo.LoginVO;
+        import com.example.vo.RegisterVO;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Controller;
         import org.springframework.ui.ModelMap;
@@ -31,6 +32,7 @@ package com.example.controller;
         import java.text.ParseException;
         import java.text.SimpleDateFormat;
         import java.util.ArrayList;
+        import java.util.Date;
         import java.util.List;
 @Controller
 @SessionAttributes({"currentUser","message","redirectTo","previousPage"})//
@@ -79,49 +81,69 @@ public class userController {
         return jr;
     }
 
+    //validate remote访问方法，被占用返回false
+    @RequestMapping("/isLoginNameUsed")
+    @ResponseBody
+    public String isLoginNameUsed(String loginName){
+        return !userRegisterService.isLoginNameUsed(loginName)+"";
+    }
+    //同上
+    @RequestMapping("/isEmailBinding")
+    @ResponseBody
+    public String isEmailBinding(String bindingEmail){
+        return !userRegisterService.isEmailBinding(bindingEmail)+"";
+    }
+
     @RequestMapping("/register")
     @ResponseBody
-    public JsonResult register(UserRegister ur ){
+    public JsonResult register(RegisterVO form , ModelMap model){
         JsonResult js = new JsonResult();
         js.setData(null);
         js.setMessage("register failed");
         js.setSuccess(false);
 
-        UserInformation ui=null;
+        UserRegister ur = new UserRegister();
+        ur.setLoginPassword(form.getLoginPassword());
+        ur.setBindingEmail(form.getBindingEmail());
+        ur.setLogin_name(form.getLoginName());
+        ur.setRegisterTime(new Date());
+
         try{
             ServiceResult ursr = userRegisterService.register(ur);
             ur = (UserRegister) ursr.getData();
-            js.setMessage(ursr.getMessage());
-            js.setSuccess(ursr.isSuccess());
 
-            ui = new UserInformation(ur);
+            UserInformation ui = new UserInformation(ur);
             ServiceResult uisr = userInformationService.register(ui);
-            js.setMessage(uisr.getMessage());
-            js.setSuccess(uisr.isSuccess());
 
             ServiceResult avsr = validateService.getValidator(ur);
-            String validator = (String) avsr.getData();
-            js.setMessage(avsr.getMessage());
-            js.setSuccess(avsr.isSuccess());
+            ActiveValidate av = (ActiveValidate)avsr.getData();
+            String validator = av.getValidator() ;
 
             SendEmail.sendValidateEmail(ur.getBindingEmail(),validator);
 
+            model.addAttribute("currentUser",ui);
+            model.addAttribute("redirectTo","index");
+            model.addAttribute("message","注册成功，请在72小时内查看邮件激活！");
+            js.setMessage("register success");
+            js.setSuccess(true);
             js.setData(ui);
-
         }
         catch (UserRegisterServiceException e) {
-            return js;
+            js.setMessage(e.getMessage());
+//            return js;
         }
         catch (UserInformationServiceException e){
             userRegisterService.delete(ur);
+            js.setMessage(e.getMessage());
         }
         catch (ActiveValidateServiceException e){
             userRegisterService.delete(ur);
-            userInformationService.delete(ui);
+            userInformationService.delete(ur);
+            js.setMessage(e.getMessage());
         }
         catch(SendEmailException e){
             userRegisterService.delete(ur);
-            userInformationService.delete(ui);
+            userInformationService.delete(ur);
             validateService.deleteValidator(ur);
             js.setMessage(e.getMessage());
         }

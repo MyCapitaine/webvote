@@ -26,7 +26,7 @@ $(document).ready(function() {
 		},
 		messages : {
 			email : {
-				required : "请输入",
+				required : "请输入用户名",
 				email : "邮箱格式不正确"
 			},
 			password : {

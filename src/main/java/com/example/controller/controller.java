@@ -38,6 +38,8 @@ public class controller {
         return "page";
     }
 
+
+
     @RequestMapping("/find")
     public String find(){
         return "find";

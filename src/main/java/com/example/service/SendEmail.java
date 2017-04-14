@@ -34,7 +34,7 @@ public class SendEmail {
         properties.setProperty("mail.smtp.host", host);
         properties.setProperty("mail.smtp.auth","true");
         //properties.put("mail.smtp.port", "587");
-        return Session.getDefaultInstance(properties,new Authenticator(){
+        return Session.getInstance(properties,new Authenticator(){
             public PasswordAuthentication getPasswordAuthentication()
             {
                 return new PasswordAuthentication(from, pwd); //发件人邮件用户名、密码

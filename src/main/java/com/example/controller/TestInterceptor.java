@@ -32,7 +32,8 @@ public class TestInterceptor implements HandlerInterceptor {
         if(referer!=null
                 &&referer.indexOf("signout")<0
                 &&referer.indexOf("validate")<0
-                &&referer.indexOf("signin")<0){
+                &&referer.indexOf("signin")<0
+                &&referer.indexOf("signup")<0){
             session.setAttribute("previousPage",referer);
         }
 

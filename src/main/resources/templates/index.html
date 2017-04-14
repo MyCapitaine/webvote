@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
-    <link href="style/style.css" rel="stylesheet" type="text/css" />
+    <!--<link href="style/style.css" rel="stylesheet" type="text/css" />-->
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="jquery-3.2.0.js"></script>
@@ -22,8 +22,9 @@
                 <li><a href="signin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
             </ul>
             <ul th:unless="${currentUser} eq null" class="nav navbar-nav navbar-right">
-                <li><a href="#" ><span class="glyphicon glyphicon-user" th:text="${currentUser.nickName}"></span> </a></li>
-                <li><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
+                <!--th:text="${currentUser.nickName}"-->
+                <li><a href="#" th:text="${currentUser.nickName}"></a></li>
+                <li ><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
             </ul>
         </div>
     </nav>

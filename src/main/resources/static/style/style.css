@@ -913,7 +913,7 @@ input.error{border:1px solid #C00;background:#FFD2D2;color:#666;}
 .loginbox .login-content .tips input{margin-right:5px;}
 .loginbox .login-content .btnArea{padding:0;margin:15px auto 5px auto;}
 .loginbox .login-content .row .noPic{background-image:none;padding:0 15px;width:300px;height:34px;line-height:34px;}
-.go-regist{text-align:center;height:80px;line-height:80px;}
+.go-regist{text-align:center;height:30px;line-height:30px;}
 .btnArea .abtn{font-size:14px;padding:0 30px;}
 a.link,.go-regist a,.loginbox label a{color:#006DA7; cursor:pointer; line-height:25px;}
 .login-error{display:none;width:330px;margin:0 auto;color:red;}

@@ -101,11 +101,11 @@ public class DemoApplicationTests {
 		}
 		catch (ActiveValidateServiceException e){
 			userRegisterService.delete(ur);
-			userInformationService.delete(ui);
+			userInformationService.delete(ur);
 		}
 		catch(SendEmailException e){
 			userRegisterService.delete(ur);
-			userInformationService.delete(ui);
+			userInformationService.delete(ur);
 			activeValidateService.deleteValidator(ur);
 			js.setMessage(e.getMessage());
 		}

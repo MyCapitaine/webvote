@@ -12,7 +12,7 @@ import com.example.exception.UserInformationServiceException;
 public interface UserInformationService {
     public ServiceResult register(UserInformation ui) throws UserInformationServiceException;
 
-    public ServiceResult delete(UserInformation ui);
+    public ServiceResult delete(UserRegister ur);
 
     public boolean isNickNameUsed(String nickName);
     public boolean isEmailBinded(String bindingEmail);
