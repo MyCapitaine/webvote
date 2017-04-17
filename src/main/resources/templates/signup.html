@@ -8,12 +8,9 @@
     <link href="css/my.css" rel="stylesheet" type="text/css" />
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
 
-
-
     <script type="text/javascript" src="jquery-3.2.0.js"></script>
     <script type="text/javascript" src="js/vue.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
-
 
     <script type="text/javascript" src="/js/jquery.validate.js"></script>
     <script type="text/javascript" src="/js/md5.js"></script>
@@ -54,8 +51,8 @@
                 <a class="navbar-brand" href="/">网投</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="signup"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                <li><a href="signin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
             </ul>
         </div>
     </nav>
@@ -76,6 +73,12 @@
                     <label class="field">密码</label>
                     <input type="password" class="input-text-password " name="password" id="password"/>
                     <label for="password" class="error" style="display: none;">请输入用户名</label>
+                </div>
+
+                <div class="box">
+                    <label class="field">确认密码</label>
+                    <input type="password" class="input-text-password " name="password_confirm" id="password_confirm"/>
+                    <label for="password_confirm" class="error" style="display: none;">请输入用户名</label>
                 </div>
 
                 <div class="box">

@@ -5,7 +5,7 @@
     $.fn.emailMatch= function(settings){
         var defaultSettings = {
             emailTip:"请输入邮箱地址",
-            aEmail: ["163.com", "qq.com", "gmail.com", "126.com", "hotmail.com", "yahoo.com", "yahoo.com.cn", "live.com", "sohu.com", "sina.com"], //邮件数组
+            aEmail: ["qq.com","163.com","sina.com","gmail.com","sohu.com","126.com","yahoo.com","yahoo.com.cn","live.com"], //邮件数组
             //wrapLayer:"body",
 			wrapLayer:"#txtLoginIDTip",
             className:"mailListBox",

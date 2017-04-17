@@ -7,10 +7,12 @@ import com.example.exception.ActiveValidateServiceException;
 import com.example.exception.SendEmailException;
 import com.example.exception.UserInformationServiceException;
 import com.example.exception.UserRegisterServiceException;
-import com.example.service.SendEmail;
+import com.example.serviceInterface.ActiveValidateService;
+import com.example.serviceInterface.SendEmail;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
-import com.example.serviceInterface.ValidateService;
+import com.example.util.SendActiveValidateEmail;
+import com.example.util.SendEmailFactory;
 import com.example.vo.ModifyLoginPasswordVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +43,7 @@ public class DemoApplicationTests {
 	@Autowired
 	private UserInformationService userInformationService;
 	@Autowired
-	private ValidateService activeValidateService;
+	private ActiveValidateService activeActiveValidateService;
 
 	@Test
     public void test12(){
@@ -82,13 +84,14 @@ public class DemoApplicationTests {
 			js.setMessage(uisr.getMessage());
 			js.setSuccess(uisr.isSuccess());
 
-			ServiceResult avsr = activeValidateService.getValidator(ur);
+			ServiceResult avsr = activeActiveValidateService.add(ur);
             ActiveValidate av = (ActiveValidate)avsr.getData();
 			String validator = av.getValidator() ;
 			js.setMessage(avsr.getMessage());
 			js.setSuccess(avsr.isSuccess());
 
-			SendEmail.sendValidateEmail(ur.getBindingEmail(),validator);
+			SendEmail se = SendEmailFactory.getInstance(SendActiveValidateEmail.class);
+			se.send(ur.getBindingEmail(),validator);
 
 			js.setData(ui);
 
@@ -106,7 +109,7 @@ public class DemoApplicationTests {
 		catch(SendEmailException e){
 			userRegisterService.delete(ur);
 			userInformationService.delete(ur);
-			activeValidateService.deleteValidator(ur);
+			activeActiveValidateService.delete(ur);
 			js.setMessage(e.getMessage());
 		}
 
@@ -146,7 +149,8 @@ public class DemoApplicationTests {
 		//content.append("http://localhost:8080/validate?token=pass");
 		content.append("http://www.qq.com");
 		try {
-			SendEmail.sendValidateEmail(to,content.toString());
+            SendEmail se = SendEmailFactory.getInstance(SendActiveValidateEmail.class);
+            se.send(to,content.toString());
 		} catch (SendEmailException e) {
 			e.printStackTrace();
 		}

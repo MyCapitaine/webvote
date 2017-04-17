@@ -5,6 +5,7 @@ import com.example.entity.ServiceResult;
 import com.example.entity.UserRegister;
 import com.example.exception.UserRegisterServiceException;
 import com.example.serviceInterface.UserRegisterService;
+import com.example.util.Code;
 import com.example.vo.ModifyLoginPasswordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

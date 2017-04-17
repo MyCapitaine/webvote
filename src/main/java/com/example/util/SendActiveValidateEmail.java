@@ -1,0 +1,47 @@
+package com.example.util;
+
+import com.example.exception.SendEmailException;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
+
+/**
+ * Created by hasee on 2017/4/14.
+ */
+public class SendActiveValidateEmail implements com.example.serviceInterface.SendEmail {
+
+    private static String getContent(String to, String validator){
+        StringBuffer  content=new StringBuffer ("您好：");
+        content.append(to+"!<br>");
+        content.append("请点击下面的链接来激活您的账号（如果不能跳转，请复制粘贴到浏览器地址栏）<br>");
+        content.append("http://localhost:8080/activeValidate?token=");
+        content.append(validator);
+        return content.toString();
+    }
+
+    @Override
+    public void send(String to, String url) throws SendEmailException{
+        try{
+            MimeMessage message = new MimeMessage(EmailSession.getSession());
+            message.setFrom(new InternetAddress(EmailSession.getFrom(),"网投", "UTF-8"));
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.setSubject("您注册的账号已创建，请激活");
+            message.setContent(getContent(to,url) , "text/html;charset=utf-8");
+            Transport.send(message);
+        }catch (MessagingException me) {
+            if(me.getMessage().equals("Invalid Addresses")){
+                throw new SendEmailException("绑定邮箱非法");
+            }
+            else{
+                throw new SendEmailException("邮件系统出了点问题，正在修复。请稍后再试");
+            }
+        }
+        catch (UnsupportedEncodingException ue){
+            throw new SendEmailException("邮件系统出了点问题：不支持的编码格式");
+        }
+    }
+}

@@ -1,7 +1,6 @@
 package com.example.controller;
 
-import com.example.entity.ServiceResult;
-import com.example.serviceInterface.ValidateService;
+import com.example.serviceInterface.ActiveValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -69,32 +68,6 @@ public class controller {
     @RequestMapping("/random")
     public String random( ModelMap model){
         return "random";
-    }
-
-    //验证
-    @Autowired
-    ValidateService validator;
-    @RequestMapping(value="/validate")
-    public String validate(String token,ModelMap model){
-        model.addAttribute("validate",token);
-        ServiceResult sr=validator.validate(token);
-        if(sr.isSuccess()){
-            model.addAttribute("currentUser",sr.getData());
-            model.addAttribute("message","成功激活，将跳转到首页");
-            model.addAttribute("redirectTo","/index");
-            return "/message";
-        }
-        else if(sr.getMessage().equals("已经激活")){
-            model.addAttribute("message","已经激活，请登录");
-            model.addAttribute("previousPage","index");
-            model.addAttribute("redirectTo","/signin");
-            return "/message";
-        }
-        else{
-            model.addAttribute("message","验证码已过期！请查看新邮件激活");
-            model.addAttribute("redirectTo","/index");
-            return "/message";
-        }
     }
 
     //message界面

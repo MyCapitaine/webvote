@@ -8,17 +8,13 @@
     <link href="css/my.css" rel="stylesheet" type="text/css" />
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
 
-
-
     <script type="text/javascript" src="jquery-3.2.0.js"></script>
     <script type="text/javascript" src="js/vue.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
 
-
     <script type="text/javascript" src="/js/jquery.validate.js"></script>
     <script type="text/javascript" src="/js/md5.js"></script>
-    <script type="text/javascript" src="/js/email_match.js"></script>
-    <script type="text/javascript" src="/js/page_login.js"></script>
+    <script type="text/javascript" src="/js/signin.js"></script>
     <!--[if IE]>
     <script src="/js/html5.js"></script>
     <![endif]-->
@@ -69,8 +65,8 @@
                     <div class="box">
 
                         <label class="field">用户名</label>
-                        <input type="text" class="input-text-user " name="email" id="email"/>
-                        <label for="email" class="error" style="display: none;">请输入用户名</label>
+                        <input type="text" class="input-text-user " name="loginName" id="loginName"/>
+                        <label for="loginName" class="error" style="display: none;">请输入用户名</label>
                     </div>
 
                     <div class="box">
@@ -80,20 +76,13 @@
                     </div>
 
                     <div class="box tips">
-                        <!--<div class="checkbox">-->
-                            <!--<label><input type="checkbox"/>记住我</label>-->
-                            <!--<a href="forget.jsp" class="link">忘记密码</a>-->
-                        <!--</div>-->
                         <div class="checkbox" style="margin-top: 0px;margin-bottom: 0px;line-height: 20px;">
                             <label >
                                 <input class="remember" type="checkbox" checked="checked"/>记住我
                             </label>
-                            <a href="" class="link" style="position: absolute;right: 2px;line-height: 20px;height: 20px;">忘记密码</a>
+                            <a href="forgetPassword" class="link" style="position: absolute;right: 2px;line-height: 20px;height: 20px;">忘记密码</a>
                         </div>
-
-
                     </div>
-
 
                     <div class="box btnArea">
                         <a class="login-btn" id="submit">登录</a>

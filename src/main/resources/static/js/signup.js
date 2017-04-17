@@ -29,7 +29,7 @@ $(document).ready(function() {
                 required : true,
                 email : true,
                 remote:{
-                    url:"/isEmailBinding",
+                    url:"/isBindingEmailUsed",
                     type:"POST",
                     data: {
                         bindingEmail:function () {
@@ -43,6 +43,12 @@ $(document).ready(function() {
                 required : true,
                 minlength : 4,
                 maxlength : 16
+            },
+            password_confirm : {
+                required : true,
+                minlength : 4,
+                maxlength : 16,
+                equalTo : "#password"
             }
         },
         messages : {
@@ -59,6 +65,12 @@ $(document).ready(function() {
                 required : "请输入密码",
                 minlength : "密码不少于4位",
                 maxlength : "密码不多于16位"
+            },
+            password_confirm : {
+                required : "请输入密码",
+                minlength : "密码不少于4位",
+                maxlength : "密码不多于16位",
+                equalTo : "两次密码输入不一致"
             }
         }
     });
@@ -67,14 +79,16 @@ $(document).ready(function() {
     if ($("#email").val()) {
         $("#email").prev().fadeOut();
     }
-
     if ($("#loginName").val()) {
         $("#loginName").prev().fadeOut();
     }
-
     if ($("#password").val()) {
         $("#password").prev().fadeOut();
     }
+    if ($("#password_confirm").val()) {
+        $("#password_confirm").prev().fadeOut();
+    }
+
     $("#email").focus(function() {
         $(this).prev().fadeOut();
     });
@@ -83,6 +97,7 @@ $(document).ready(function() {
             $(this).prev().fadeIn();
         }
     });
+
     $("#loginName").focus(function() {
         $(this).prev().fadeOut();
     });
@@ -97,6 +112,15 @@ $(document).ready(function() {
     });
     $("#password").blur(function() {
         if (!$("#password").val()) {
+            $(this).prev().fadeIn();
+        }
+    });
+
+    $("#password_confirm").focus(function() {
+        $(this).prev().fadeOut();
+    });
+    $("#password_confirm").blur(function() {
+        if (!$("#password_confirm").val()) {
             $(this).prev().fadeIn();
         }
     });
@@ -118,11 +142,6 @@ $(document).ready(function() {
 function login(validate) {
     // 校验Email, password，校验如果失败的话不提交
     if (validate.form()) {
-        //remeberUser.SetPwdAndChk();
-        // var md5 = new MD5();
-        // var f = md5.MD5($("#email").val()+$("#password").val()).toString();
-        console.log($("#loginName").val());
-        console.log($("#email").val());
         $.ajax({
             url : "/register",
             type : "post",
@@ -140,14 +159,8 @@ function login(validate) {
                 console.log(data);
                 if (data.success) {
                     location.href="message";
-                    // if(previousPage==null){
-                    //     location.href="index";
-                    // }
-                    // else{
-                    //     location.href=""+previousPage;
-                    // }
-                } else {
-                    console.log(data.message);
+                }
+                else {
                     if(data.message=="Email has been binding"){
                         var label=$("label[for='email']");
                         console.log(label);

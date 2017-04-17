@@ -1,22 +1,16 @@
 $(document).ready(function() {
 
 	console.log(previousPage);
-	$("#email").emailMatch();
+
 	// 隐藏Loading/登录失败 DIV
 	$(".loading").hide();
 	$(".login-error").hide();
 
-
-	// 输入框激活焦点、移除焦点
-	
-
 	// 获取表单验证对象[填写验证规则]
 	var validate = $("#signupForm").validate({
 		rules : {
-			email : {
+            loginName : {
 				required : true,
-				// email : true
-
 			},
 			password : {
 				required : true,
@@ -25,9 +19,8 @@ $(document).ready(function() {
 			}
 		},
 		messages : {
-			email : {
+            loginName : {
 				required : "请输入用户名",
-				email : "邮箱格式不正确"
 			},
 			password : {
 				required : "请输入密码",
@@ -38,18 +31,18 @@ $(document).ready(function() {
 	});
 
 	// 输入框激活焦点、溢出焦点的渐变特效
-	if ($("#email").val()) {
-		$("#email").prev().fadeOut();
+	if ($("#loginName").val()) {
+		$("#loginName").prev().fadeOut();
 	}
 
 	if ($("#password").val()) {
 		$("#password").prev().fadeOut();
 	}
-	$("#email").focus(function() {
+	$("#loginName").focus(function() {
 		$(this).prev().fadeOut();
 	});
-	$("#email").blur(function() {
-		if (!$("#email").val()) {
+	$("#loginName").blur(function() {
+		if (!$("#loginName").val()) {
 			$(this).prev().fadeIn();
 		}
 	});
@@ -67,7 +60,7 @@ $(document).ready(function() {
 		login(validate);
 	});
 
-	$("body").each(function() {
+	$("body").not("#email").each(function() {
 		$(this).keydown(function() {
 			if (event.keyCode == 13) {
 				login(validate);
@@ -81,13 +74,13 @@ function login(validate) {
 	if (validate.form()) {
 		//remeberUser.SetPwdAndChk();
 		var md5 = new MD5();
-		var f = md5.MD5($("#email").val()+$("#password").val()).toString();
-		console.log("checked:0"+$(".jz").is(":checked"));
+		var f = md5.MD5($("#loginName").val()+$("#password").val()).toString();
+		console.log("checked:"+$(".jz").is(":checked"));
 		$.ajax({
 			url : "/login",
 			type : "post",
 			data : {
-                loginName : $("#email").val(),
+                loginName : $("#loginName").val(),
                 loginPassword : f,
 				remember : $(".remember").is(":checked")
 			},

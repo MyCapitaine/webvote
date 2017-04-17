@@ -7,7 +7,11 @@ import com.example.entity.ServiceResult;
 import com.example.entity.UserRegister;
 import com.example.exception.ActiveValidateServiceException;
 import com.example.exception.SendEmailException;
-import com.example.serviceInterface.ValidateService;
+import com.example.serviceInterface.ActiveValidateService;
+import com.example.serviceInterface.SendEmail;
+import com.example.util.Code;
+import com.example.util.SendActiveValidateEmail;
+import com.example.util.SendEmailFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +22,9 @@ import java.util.List;
  * Created by hasee on 2017/4/11.
  */
 @Service
-public class ActiveValidateServiceImpl implements ValidateService {
+public class ActiveValidateServiceImpl implements ActiveValidateService {
     @Autowired
     private ActiveValidateDao activeValidateDao;
-
-    @Autowired
-    private UserInformationDao userInformationDao;
 
     public ServiceResult validate(String validator){
         Date now=new Date();
@@ -34,14 +35,13 @@ public class ActiveValidateServiceImpl implements ValidateService {
         sr.setSuccess(false);
 
         List<ActiveValidate> avs=activeValidateDao.findByValidator(validator);
-        System.out.println("size:"+avs.size());
         if(avs.size()!=0){
             for(ActiveValidate av:avs){
                 if(now.before(av.getDeadline())){
-                    sr.setData(userInformationDao.findOne(av.getId()));
-                    activeValidateDao.delete(av.getId());
+                    sr.setData(av);
                     sr.setSuccess(true);
                     sr.setMessage("validate success");
+                    activeValidateDao.delete(av.getId());
                 }
                 else{
                     try {
@@ -60,36 +60,34 @@ public class ActiveValidateServiceImpl implements ValidateService {
         return sr;
     }
 
-    public ServiceResult getValidator(UserRegister ur) throws ActiveValidateServiceException{
+    public ServiceResult add(UserRegister ur) throws ActiveValidateServiceException{
         ServiceResult sr = new ServiceResult();
         sr.setData(null);
         sr.setMessage("create validator failed");
         sr.setSuccess(false);
 
-        ActiveValidate av = null;
         try{
-            String validator=Code.MD5Encoder(ur.getBindingEmail(),"utf-8");
+            String validator= Code.MD5Encoder(ur.getBindingEmail(),"utf-8");
             if(activeValidateDao.findByValidator(validator).size()!=0){
                 validator=randomValidator(ur);
                 if(activeValidateDao.findByValidator(validator).size()!=0){
                     validator=""+ur.getId();
                 }
             }
-            av=new ActiveValidate(ur);
+            ActiveValidate av=new ActiveValidate(ur);
             av.setValidator(validator);
             activeValidateDao.save(av);
+
+            sr.setData(av);
+            sr.setMessage("create validator success");
+            sr.setSuccess(true);
         } catch (Exception e) {
             throw new ActiveValidateServiceException(e.getMessage());
         }
-
-        sr.setData(av);
-        sr.setMessage("create validator success");
-        sr.setSuccess(true);
-
         return sr;
     }
 
-    public void deleteValidator(UserRegister ur){
+    public void delete(UserRegister ur){
         if(activeValidateDao.findOne(ur.getId())!=null)
             activeValidateDao.delete(ur.getId());
     }
@@ -104,7 +102,8 @@ public class ActiveValidateServiceImpl implements ValidateService {
         Date deadline=new Date(now+1000*60*60*24*3);
         av.setDeadline(deadline);
         activeValidateDao.save(av);
-        SendEmail.sendValidateEmail(av.getBindingEmail(),av.getValidator());
+        SendEmail se = SendEmailFactory.getInstance(SendActiveValidateEmail.class);
+        se.send(av.getBindingEmail(),av.getValidator());
         return av.getValidator();
     }
 }

@@ -2,7 +2,9 @@ package com.example.controller;
 
 import com.example.entity.JsonResult;
 import com.example.entity.ServiceResult;
+import com.example.entity.UserInformation;
 import com.example.entity.UserRegister;
+import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -11,6 +13,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 /**
  * Created by hasee on 2017/4/10.
@@ -18,6 +21,9 @@ import javax.servlet.http.HttpSession;
 public class TestInterceptor implements HandlerInterceptor {
     @Autowired
     private UserRegisterService userRegisterService;
+
+    @Autowired
+    private UserInformationService userInformationService;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
@@ -28,12 +34,14 @@ public class TestInterceptor implements HandlerInterceptor {
         System.out.println("referer:"+referer);
         Cookie[] cookies=httpServletRequest.getCookies();
         HttpSession session=httpServletRequest.getSession();
+        HashMap hm = new HashMap();
         //session.setAttribute("redirectTo",referer);
         if(referer!=null
-                &&referer.indexOf("signout")<0
-                &&referer.indexOf("validate")<0
-                &&referer.indexOf("signin")<0
-                &&referer.indexOf("signup")<0){
+                &&referer.indexOf("sign")<0
+                &&referer.indexOf("alidate")<0
+                &&referer.indexOf("log")<0
+                &&referer.indexOf("forget")<0
+                ){//&&referer.indexOf("signin")<0&&referer.indexOf("signup")<0
             session.setAttribute("previousPage",referer);
         }
 
@@ -70,8 +78,10 @@ public class TestInterceptor implements HandlerInterceptor {
                     String userinfo=cookie.getValue();
                     String[] infos=userinfo.split(":");
                     ServiceResult sr= userRegisterService.login(infos[0],infos[1]);
-                    if(sr.getData()!=null){
-                        session.setAttribute("currentUser",sr.getData());
+                    UserRegister ur = (UserRegister)sr.getData();
+                    if(sr.isSuccess()){
+                        ServiceResult uisr = userInformationService.findById(ur.getId());
+                        session.setAttribute("currentUser",uisr.getData());
                         cookie.setMaxAge(60*60*24*30);
                         httpServletResponse.addCookie(cookie);
                     }
