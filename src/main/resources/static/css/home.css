@@ -10,6 +10,77 @@ li{
 	list-style : none;
 }
 
+.title{
+	height: 50px;
+    padding-left: 30px;
+    border-bottom: 1px solid #ddd;
+}
+.title-text{
+	color:#00a1d6;
+	float: left;
+	margin: 15px 0 0 5px;
+	font-size:14px;
+}
+.img-wrapper{
+	width:820px;
+	margin:20px auto 20px auto;
+	
+}
+.portrait{
+	
+	margin:20px auto 20px auto;
+	border: 1px solid #e5e9ef;
+    border-radius: 100px;
+    
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+.portrait img{
+	border-radius: 48px;
+    display: block;
+    width: 96px;
+    height: 96px;
+    margin: 52px auto 0;
+}
+.information{
+	width:820px;
+	margin:20px auto 20px auto;
+}
+.row{
+	margin-bottom: 30px;
+}
+.textName{
+	width: 110px;
+    float: left;
+	position: relative;
+    
+    color: #666;
+    font-size: 12px;
+    font: 12px 'Microsoft YaHei','Hiragino Sans GB',Arial,sans-serif;
+}
+.security-right label{
+	width:100px;
+	text-align: right;
+	float:right;
+	margin-right:20px;
+	height: 28px;
+    line-height: 28px;
+}
+.row input{
+	border: 1px solid #ddd;
+    border-radius: 2px;
+    height:24px;
+    color: #717171; 
+}
+.row textarea{
+	width:600px;
+	height:80px;
+	padding: 3px 8px;
+	color: #717171; 
+	resize: none;
+}
+
 .z_top {
     height: 50px;
     background: #fff;
@@ -43,7 +114,7 @@ li{
 .z_top .z_top_nav {
     float: left;
     height: 50px;
-    font-size: 14px;
+    font-size: 13px;
     margin-left: 0px;
 }
 ul{
@@ -84,7 +155,7 @@ ul{
 .child-list li a {
 	text-align: center;
     display: block;
-    height: 48px;
+    height: 50px;
     color: #222;
     font-size: 14px;
     line-height: 48px;

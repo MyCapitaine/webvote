@@ -18,16 +18,15 @@
 				<div class="z_top_nav">
 					<ul>
 						<li class="home">
-							<a href="/"><span>网投</span></a>
-							<span>主站</span>
+								
+							<a href="/"><span>网投</span><span>主站</span></a>							
 						</li>
 					</ul>
 				</div>
 				
-				<div class="uns_box">
+				<div class="uns_box" >
 					<ul class="menu">
-						
-						<li style="display: list-item;"><a href="home" th:text="${currentUser.nickName}"></a></li>
+						<li style="display: list-item;"><a href="home" th:with="str=${currentUser.nickName}+'aaaaaaa'" th:text=" ${#strings.abbreviate(str  ,10)} "></a></li>
 						<li ><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
 					</ul>
 				</div>
@@ -68,7 +67,50 @@
 		</div>
 
         <div class="security-right">
-            right
+	        <div class="title">
+	        	<span class="title-text">我的头像</span>
+	        </div>
+            <div class="img-wrapper">
+            
+            	<div class="portrait">
+            		<img src="/images/red_yellow.jpg"/>
+            	</div>
+            </div>
+            
+            <div class="title">
+	        	<span class="title-text">我的信息</span>
+	        </div>
+            <div class="information">
+            	<div class="row">
+            	<div class="textName">
+            		<label>昵称:</label>
+            	</div>
+            	<input type="text" th:field="${currentUser.nickName}"/>
+            	</div>
+	            <div class="row">
+	            	<div class="textName">
+	            		<label>个性签名:</label>
+	            	</div>
+	            	
+	            	<textarea cols="30" rows="10"  th:field="${currentUser.sign}"/>
+	
+	            </div>
+	            <div class="row">
+	            	<div class="textName">
+	            		<label>注册邮箱:</label>
+	            	</div>
+	            	
+	            	<input type="text" th:field="${currentUser.bindingEmail}"/>
+	            </div>
+	            <div class="row">
+	            	<div class="textName">
+	            		<label>注册时间:</label>
+	            	</div>
+	            	
+	            	<input type="text" th:field="${currentUser.registerTime}"/>
+	            </div>
+            </div>
+            
     	</div>
     </div>
 </body>
