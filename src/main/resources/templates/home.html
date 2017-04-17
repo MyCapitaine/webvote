@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <!--<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />-->
+    
+    <link href="css/home.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery-3.2.0.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+
+</head>
+<body>
+    <div class="z_top_container">
+		<div class="z_top b-header-blur-black">
+			<div class="z_header">
+				<div class="z_top_nav">
+					<ul>
+						<li class="home">
+							<a href="/"><span>网投</span></a>
+							<span>主站</span>
+						</li>
+					</ul>
+				</div>
+				
+				<div class="uns_box">
+					<ul class="menu">
+						
+						<li style="display: list-item;"><a href="home" th:text="${currentUser.nickName}"></a></li>
+						<li ><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+    <div class="security_content">
+    	<div class="security-left">
+    		<ul class="child-list">
+                <li>
+                    <a href="#" id="home" rec-linkid="account_tab_index_click" title="首页" class="bg-blue">
+                        <i class="al-sy check-t"></i>
+                        <span>首<b style="width: 28px;display: inline-block;"></b>页</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" id="coin">
+                        <i class="al-coin"></i>
+                        <span>我的硬币</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="record">
+                        <i class="al-jl"></i>
+                        <span>我的记录</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="site">
+                        <i class="al-aq"></i>
+                        <span>账号安全</span>
+                    </a>
+                </li>
+            </ul>
+		</div>
+
+        <div class="security-right">
+            right
+    	</div>
+    </div>
+</body>
+</html>
