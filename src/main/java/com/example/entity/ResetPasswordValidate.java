@@ -15,7 +15,7 @@ public class ResetPasswordValidate {
     @Id
     private int id;
 
-    @Column(name="validator",nullable = false,unique = true)
+    @Column(name="validator",nullable = false)
     private String validateCode;
 
     @Column(name="deadline",nullable = false)

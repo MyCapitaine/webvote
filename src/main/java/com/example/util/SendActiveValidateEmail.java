@@ -1,6 +1,7 @@
 package com.example.util;
 
 import com.example.exception.SendEmailException;
+import com.example.serviceInterface.SendEmail;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -12,12 +13,12 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by hasee on 2017/4/14.
  */
-public class SendActiveValidateEmail implements com.example.serviceInterface.SendEmail {
+public class SendActiveValidateEmail implements SendEmail {
 
     private static String getContent(String to, String validator){
         StringBuffer  content=new StringBuffer ("您好：");
         content.append(to+"!<br>");
-        content.append("请点击下面的链接来激活您的账号（如果不能跳转，请复制粘贴到浏览器地址栏）<br>");
+        content.append("请点击下面的链接来激活您的账号（如果链接不能点击，请复制粘贴到浏览器地址栏）<br>");
         content.append("http://localhost:8080/activeValidate?token=");
         content.append(validator);
         return content.toString();

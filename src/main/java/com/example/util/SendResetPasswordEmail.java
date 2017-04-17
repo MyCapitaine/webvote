@@ -17,10 +17,16 @@ public class SendResetPasswordEmail implements SendEmail {
 
     private static String getContent(String to, String url){
         StringBuffer  content=new StringBuffer ("您好：");
-        content.append(to+"!<br>");
-        content.append("请点击下面的链接完成重置密码操作（如果不能跳转，请复制粘贴到浏览器地址栏）<br>");
-        content.append("http://localhost:8080/resetPasswordValidate?token=");
+        content.append(to);
+        content.append("!<br>");
+        content.append("请点击下面的链接完成重置密码操作<br>");
+        content.append("<h3>");
+        content.append("（下面的链接仅能访问一次，刷新/关闭后链接失效）");
+        content.append("</h3>");
+        content.append("http://localhost:8080/resetPasswordValidate?");
         content.append(url);
+        content.append("<br>");
+        content.append("（如果上面的链接不能点击，请复制粘贴到浏览器地址栏）");
         return content.toString();
     }
 

@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface UserInformationDao extends JpaRepository<UserInformation, Integer> {
 
-    public List<UserInformation> findByNickName(String nickName);
-    public List<UserInformation> findByBindingEmail(String bindingEmail);
+    public UserInformation findByNickName(String nickName);
+    public UserInformation findByBindingEmail(String bindingEmail);
 }

@@ -15,6 +15,6 @@ import java.util.List;
 @Transactional
 public interface UserRegisterDao extends JpaRepository<UserRegister, Integer> {
     //public User findOne(Integer id);
-    public List<UserRegister> findByLoginName(String loginname);
-    public List<UserRegister> findByBindingEmail(String bindemail);
+    public UserRegister findByLoginName(String loginname);
+    public UserRegister findByBindingEmail(String bindemail);
 }

@@ -6,12 +6,12 @@
     <link href="css/my.css" rel="stylesheet" type="text/css" />
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="jquery-3.2.0.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.0.js"></script>
     <script type="text/javascript" src="js/vue.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
 
     <script type="text/javascript" src="/js/jquery.validate.js"></script>
-    <script type="text/javascript" src="/js/reset_password.js"></script>
+    <script type="text/javascript" src="/js/send_email.js"></script>
 </head>
 <body class="loginbody">
 
@@ -21,9 +21,14 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">网投</a>
             </div>
-            <ul class="nav navbar-nav navbar-right">
+            <ul th:if="${currentUser} eq null" class="nav navbar-nav navbar-right">
                 <li><a href="signup"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
                 <li><a href="signin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+            </ul>
+            <ul th:unless="${currentUser} eq null" class="nav navbar-nav navbar-right">
+                <!--th:text="${currentUser.nickName}"-->
+                <li><a href="#" th:text="${currentUser.nickName}"></a></li>
+                <li ><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
             </ul>
         </div>
     </nav>
@@ -43,7 +48,7 @@
                     <a class="login-btn" id="submit">发送邮件</a>
                 </div>
                 <div class="go-regist">
-                    想起来了？
+                   	 想起来了？
                     <a href="signin">回去登陆</a>
                 </div>
                 <div id="txtLoginIDTip">

@@ -127,19 +127,21 @@ $(document).ready(function() {
 
     // ajax提交登录
     $("#submit").bind("click", function() {
-        login(validate);
+        signup(validate);
     });
 
     $("body").each(function() {
         $(this).keydown(function() {
             if (event.keyCode == 13) {
-                login(validate);
+                signup(validate);
             }
         });
     });
+    
+    
 });
 
-function login(validate) {
+function signup(validate) {
     // 校验Email, password，校验如果失败的话不提交
     if (validate.form()) {
         $.ajax({

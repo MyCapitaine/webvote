@@ -34,13 +34,14 @@ public class TestInterceptor implements HandlerInterceptor {
         System.out.println("referer:"+referer);
         Cookie[] cookies=httpServletRequest.getCookies();
         HttpSession session=httpServletRequest.getSession();
-        HashMap hm = new HashMap();
         //session.setAttribute("redirectTo",referer);
         if(referer!=null
+        		&&referer.indexOf("local")>=0
                 &&referer.indexOf("sign")<0
                 &&referer.indexOf("alidate")<0
                 &&referer.indexOf("log")<0
                 &&referer.indexOf("forget")<0
+                &&referer.indexOf("message")<0
                 ){//&&referer.indexOf("signin")<0&&referer.indexOf("signup")<0
             session.setAttribute("previousPage",referer);
         }
@@ -92,10 +93,6 @@ public class TestInterceptor implements HandlerInterceptor {
         //如果已经登录，则不再访问登录界面、请求登录服务或者访问注册界面
         if(servlet.indexOf("signin")>=0||servlet.indexOf("signup")>=0){
             if(session.getAttribute("currentUser")!=null){
-//                UserInformation ui= (UserInformation) session.getAttribute("currentUser");
-//                System.out.println("已登录,当前用户："+ui.getNickName());
-//                httpServletRequest.getRequestDispatcher("logged.html").forward(httpServletRequest,httpServletResponse);
-//                httpServletResponse.sendRedirect("logged");
                 session.setAttribute("message","已经登录");
                 session.setAttribute("redirectTo",session.getAttribute("previousPage"));
                 httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest,httpServletResponse);
@@ -108,7 +105,7 @@ public class TestInterceptor implements HandlerInterceptor {
 
         }
         //个人中心需要登录后才能访问
-        if(servlet.indexOf("myhome")>=0){
+        if(servlet.indexOf("home")>=0){
             if(session.getAttribute("currentUser")==null){
                 httpServletResponse.sendRedirect("signin.html");
                 return false;

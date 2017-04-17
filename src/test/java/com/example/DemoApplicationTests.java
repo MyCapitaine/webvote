@@ -47,7 +47,7 @@ public class DemoApplicationTests {
 
 	@Test
     public void test12(){
-        System.out.println(userRegisterDao.findByLoginName("name0").size());
+        System.out.println(userRegisterDao.findByLoginName("name0"));
     }
 	@Test
 	public void test11(){

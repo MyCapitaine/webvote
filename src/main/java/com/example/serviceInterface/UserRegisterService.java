@@ -5,28 +5,28 @@ import com.example.entity.UserRegister;
 import com.example.exception.UserRegisterServiceException;
 import com.example.vo.ModifyLoginPasswordVO;
 
-import java.util.List;
-
 /**
  * Created by hasee on 2017/3/29.
  */
 public interface UserRegisterService {
 
-    public ServiceResult register(UserRegister ur) throws UserRegisterServiceException;
+    public ServiceResult<UserRegister> register(UserRegister ur) throws UserRegisterServiceException;
     public boolean isLoginNameUsed(String loginName);
     public boolean isEmailBinding(String bindingEmail);
 
-    public ServiceResult delete(UserRegister ur);
+    public ServiceResult<UserRegister> delete(UserRegister ur);
 
+    public ServiceResult<UserRegister> modify(UserRegister ur);
     public void release(int id);
     public void ban(int id);
-    public ServiceResult modifyLoginPassword(ModifyLoginPasswordVO form);
-    public ServiceResult modifyBindingEmail(UserRegister ur);
+    public ServiceResult<UserRegister> modifyLoginPassword(ModifyLoginPasswordVO form);
+    public ServiceResult<UserRegister> modifyBindingEmail(UserRegister ur);
 
     public boolean isBanned(UserRegister ur);
-    public List<UserRegister> getURByName(String login_name);
-    public ServiceResult login(String login_name, String md5);
+    public UserRegister getURByName(String login_name);
+    public ServiceResult<UserRegister> login(String login_name, String md5);
 
-    public ServiceResult findByLoginName(String login_name);
-    public ServiceResult findByBindEmail(String bind_email);
+    public ServiceResult<UserRegister> findByLoginName(String login_name);
+    public ServiceResult<UserRegister> findByBindEmail(String bind_email);
+    public ServiceResult<UserRegister> findById(int id);
 }

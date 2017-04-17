@@ -2,6 +2,7 @@
  * Created by hasee on 2017/4/14.
  */
 $(document).ready(function(){
+	$(".loading").hide();
 
     if ($("#email").val()) {
         $("#email").prev().fadeOut();
@@ -16,6 +17,12 @@ $(document).ready(function(){
     });
 
     var validate = $("#signupForm").validate({
+    	
+    	
+    	submitHandler: function(form) {   
+    		console.log("this:"+this);
+    		//resetPassword(this)    
+    	},
         rules : {
             email : {
                 required : true,
@@ -40,20 +47,51 @@ $(document).ready(function(){
         }
     });
 
-    $("#submit").bind("click", function() {
-        login(validate);
+//    $("#submit").bind("click", function() {
+//    	$(this).unbind('click');
+//        //resetPassword(validate);
+//    	setTimeout(function(){
+//    		
+//    	},1500);
+//    });
+    
+    $("#submit").bind('click',function(){
+    	clickSlow(validate);
     });
+    
+    $("body").each(function() {
+		$(this).keydown(function() {
+			if (event.keyCode == 13) {
+				resetPassword(validate);
+			}
+		});
+	});
+    
 });
 
-function login(validate){
+function clickSlow(validate){
+	$(this).unbind('click');
+    resetPassword(validate);
+	setTimeout(function(){
+		$(this).bind('click',clickSlow);
+	},1500);
+}
+
+function resetPassword(validate){
 
     if(validate.form()){
-        $.post(
-            "/sendResetPasswordEmail",
-            {
-                email:$("#email").val()
-            },
-            function(result){
+    	$.ajax({
+			url : "/sendResetPasswordEmail",
+			type : "post",
+			data : {
+				email:$("#email").val()
+			},
+			dataType : "json",
+			beforeSend : function() {
+				$('.loading').show();	
+			},
+			success : function(result){
+				$('.loading').hide();
                 if(result.success){
                     location.href="message";
                 }
@@ -63,6 +101,6 @@ function login(validate){
                     label.show();
                 }
             }
-        )
+		});
     }
 }

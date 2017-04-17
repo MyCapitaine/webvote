@@ -10,7 +10,6 @@ import com.example.vo.ModifyLoginPasswordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * Created by hasee on 2017/3/29.
@@ -29,7 +28,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      */
     @Override
     public boolean isLoginNameUsed(String login_name) {
-        return (userRegisterDao.findByLoginName(login_name).size()>0)?true:false;
+        return (userRegisterDao.findByLoginName(login_name)!=null)?true:false;
     }
 
     /**
@@ -39,7 +38,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      */
     @Override
     public boolean isEmailBinding(String bind_email) {
-        return (userRegisterDao.findByBindingEmail(bind_email).size()>0)?true:false;
+        return (userRegisterDao.findByBindingEmail(bind_email)!=null)?true:false;
     }
 
     /**
@@ -49,8 +48,8 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      * todo 发送验证邮件
      */
     @Override
-    public ServiceResult register(UserRegister ur) throws UserRegisterServiceException {
-        ServiceResult sr=new ServiceResult();
+    public ServiceResult<UserRegister> register(UserRegister ur) throws UserRegisterServiceException {
+        ServiceResult<UserRegister> sr=new ServiceResult<UserRegister>();
         sr.setData(null);
         sr.setMessage("UserRegister register failed");
         sr.setSuccess(false);
@@ -99,9 +98,9 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     }
 
     @Override
-    public ServiceResult delete(UserRegister ur) {
+    public ServiceResult<UserRegister> delete(UserRegister ur) {
 
-        ServiceResult sr = new ServiceResult();
+        ServiceResult<UserRegister> sr = new ServiceResult<UserRegister>();
         sr.setData(null);
         sr.setMessage("UserRegister delete failed");
         sr.setSuccess(false);
@@ -114,6 +113,23 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 
         return sr;
     }
+    
+    @Override
+	public ServiceResult<UserRegister> modify(UserRegister ur) {
+		// TODO Auto-generated method stub
+		ServiceResult<UserRegister> sr = new ServiceResult<UserRegister>();
+		sr.setData(null);
+		sr.setMessage("modify failed");
+		sr.setSuccess(false);
+		
+		userRegisterDao.save(ur);
+		
+		sr.setData(ur);
+		sr.setMessage("modify success");
+		sr.setSuccess(true);
+		
+		return null;
+	}
 
     /**
      * ban 根据id解封账号
@@ -143,9 +159,9 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     }
 
     @Override
-    public ServiceResult modifyLoginPassword(ModifyLoginPasswordVO form) {
+    public ServiceResult<UserRegister> modifyLoginPassword(ModifyLoginPasswordVO form) {
 
-        ServiceResult sr = new ServiceResult();
+        ServiceResult<UserRegister> sr = new ServiceResult<UserRegister>();
         sr.setData(null);
         sr.setMessage("modify password failed");
         sr.setSuccess(false);
@@ -157,6 +173,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                     ur.setLoginPassword(form.getNewLoginPassword());
                     userRegisterDao.save(ur);
 
+                    sr.setData(ur);
                     sr.setMessage("modify password success");
                     sr.setSuccess(true);
                 }
@@ -183,7 +200,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     }
 
     @Override
-    public ServiceResult modifyBindingEmail(UserRegister ur) {
+    public ServiceResult<UserRegister> modifyBindingEmail(UserRegister ur) {
 
         return null;
     }
@@ -204,7 +221,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      * @return 返回一个List<UserRegister>
      */
     @Override
-    public List<UserRegister> getURByName(String login_name) {
+    public UserRegister getURByName(String login_name) {
         return userRegisterDao.findByLoginName(login_name);
     }
 
@@ -216,16 +233,18 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      * todo 检测账号是否被封禁
      */
     @Override
-    public ServiceResult login(String login_name, String md5pwd) {
-        ServiceResult sr=new ServiceResult();
+    public ServiceResult<UserRegister> login(String login_name, String md5pwd) {
+        ServiceResult<UserRegister> sr=new ServiceResult<UserRegister>();
         sr.setData(null);
         sr.setSuccess(false);
         sr.setMessage("log in failed");
 
-        List<UserRegister> urs=getURByName(login_name);
+//        List<UserRegister> urs=getURByName(login_name);
+        UserRegister ur=getURByName(login_name);
             //将实例的登录名和登录密码拼接后进行md5加密，将前者和cookie中的md5加密信息进行比较
-        if(urs.size()>0){
-            for(UserRegister ur :urs){
+//        if(urs.size()>0){
+        if(ur!=null){
+//            for(UserRegister ur :urs){
                 //todo 检测账号是否被封禁
                 if(!isBanned(ur)){
                     String info=ur.getLoginName()+ur.getLoginPassword();
@@ -248,7 +267,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                 else {
                     sr.setMessage("User is banned");
                 }
-            }
+//            }
         }
         else{
             sr.setMessage("User is not exist");
@@ -263,15 +282,19 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      * 下面两个方法似乎没啥用，先放着
      */
     @Override
-    public ServiceResult findByLoginName(String login_name) {
-        return new ServiceResult(userRegisterDao.findByLoginName(login_name));
+    public ServiceResult<UserRegister> findByLoginName(String login_name) {
+        return new ServiceResult<UserRegister>(userRegisterDao.findByLoginName(login_name));
     }
 
     @Override
-    public ServiceResult findByBindEmail(String bind_email) {
-        return new ServiceResult(userRegisterDao.findByBindingEmail(bind_email));
+    public ServiceResult<UserRegister> findByBindEmail(String bind_email) {
+        return new ServiceResult<UserRegister>(userRegisterDao.findByBindingEmail(bind_email));
     }
+	@Override
+	public ServiceResult<UserRegister> findById(int id) {
+		// TODO Auto-generated method stub
+		return new ServiceResult<UserRegister>(userRegisterDao.findOne(id));
+	}
 
-    private class DaoTest {
-    }
+	
 }

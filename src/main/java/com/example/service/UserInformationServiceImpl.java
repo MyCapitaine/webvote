@@ -59,12 +59,12 @@ public class UserInformationServiceImpl implements UserInformationService {
 
     @Override
     public boolean isNickNameUsed(String nickName) {
-        return (userInformationDao.findByNickName(nickName).size()>0)?true:false;
+        return (userInformationDao.findByNickName(nickName)!=null)?true:false;
     }
 
     @Override
     public boolean isEmailBinded(String bindingEmail) {
-        return (userInformationDao.findByBindingEmail(bindingEmail).size()>0)?true:false;
+        return (userInformationDao.findByBindingEmail(bindingEmail)!=null)?true:false;
     }
 
     @Override
@@ -111,8 +111,8 @@ public class UserInformationServiceImpl implements UserInformationService {
         sr.setData(null);
         sr.setSuccess(false);
         try{
-            List<UserInformation> uis=userInformationDao.findByNickName(name);
-            sr.setData(uis);
+            UserInformation ui=userInformationDao.findByNickName(name);
+            sr.setData(ui);
             sr.setMessage("find success");
             sr.setSuccess(true);
         }catch (Exception e){

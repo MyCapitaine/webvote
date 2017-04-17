@@ -24,27 +24,25 @@ public class ResetPasswordValidateServiceImpl implements ResetPasswordValidateSe
     ResetPasswordValidateDao resetPasswordValidateDao;
 
     @Override
-    public ServiceResult validate(String validateCode) {
+    public ServiceResult<ResetPasswordValidate> validate(int id,String validateCode) {
         Date now = new Date();
 
-        ServiceResult sr = new ServiceResult();
+        ServiceResult<ResetPasswordValidate> sr = new ServiceResult<ResetPasswordValidate>();
         sr.setData(null);
         sr.setMessage("validate failed");
         sr.setSuccess(false);
 
-        List<ResetPasswordValidate> rpvs = resetPasswordValidateDao.findByValidateCode(validateCode);
-        if(rpvs.size()>0){
-            for(ResetPasswordValidate rpv : rpvs){
-                Date deadline = rpv.getDeadline();
-                if(now.before(deadline)){
-                    sr.setData(rpv);
-                    sr.setSuccess(true);
-                    sr.setMessage("validate success");
-                    delete(rpv.getId());
-                }
-                else{
-                    sr.setMessage("link overdue");
-                }
+        ResetPasswordValidate rpv = resetPasswordValidateDao.findOne(id);
+        if(rpv!=null){
+            Date deadline = rpv.getDeadline();
+            if(now.before(deadline)){
+                sr.setData(rpv);
+                sr.setSuccess(true);
+                sr.setMessage("validate success");
+                delete(rpv.getId());
+            }
+            else{
+                sr.setMessage("link overdue");
             }
         }
         else{
@@ -55,17 +53,17 @@ public class ResetPasswordValidateServiceImpl implements ResetPasswordValidateSe
     }
 
     @Override
-    public ServiceResult add(UserRegister ur) throws ActiveValidateServiceException {
-        ServiceResult sr = new ServiceResult();
+    public ServiceResult<ResetPasswordValidate> add(UserRegister ur) throws ActiveValidateServiceException {
+        ServiceResult<ResetPasswordValidate> sr = new ServiceResult<ResetPasswordValidate>();
         sr.setData(null);
         sr.setMessage("create validateCode failed");
         sr.setSuccess(false);
 
         try{
             String validateCode= Code.MD5Encoder(ur.getBindingEmail(),"utf-8");
-            if(resetPasswordValidateDao.findByValidateCode(validateCode).size()!=0){
-                validateCode=""+ur.getId();
-            }
+//            if(resetPasswordValidateDao.findByValidateCode(validateCode).size()!=0){
+//                validateCode=""+ur.getId();
+//            }
             ResetPasswordValidate rpv=new ResetPasswordValidate(ur.getId());
             rpv.setValidateCode(validateCode);
             resetPasswordValidateDao.save(rpv);
