@@ -1,15 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
-    <!--<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />-->
-    
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>test</title>
+
+    <script src="js/jquery.min.js"></script>
+    <!--<link href="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet"/>-->
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap-datetimepicker.js"></script>
+    <script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of Html5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!--<script src="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>-->
+    <!--<script src="bootstrap-datetimepicker.js"></script>-->
+    <!--<script src="bootstrap-datetimepicker.zh-CN.js"></script>-->
+    <script src="js/get_user_by_sendtime.js"></script>
     <link href="css/home.css" rel="stylesheet" type="text/css" />
-
-    <script type="text/javascript" src="js/jquery-3.2.0.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-
 </head>
 <body>
     <div class="z_top_container">
@@ -72,8 +92,14 @@
 	        </div>
             <div class="img-wrapper">
             
-            	<div class="portrait">
-            		<img src="/images/red_yellow.jpg"/>
+            	<div class="portrait-wrapper">
+            		<div class="portrait">
+            			<img  src="/images/red_yellow.jpg"/>
+	            		<div class="texttip">
+	            			<p>点击查看原图</p>
+	            		</div>
+            		</div>
+            		
             	</div>
             </div>
             
@@ -82,10 +108,10 @@
 	        </div>
             <div class="information">
             	<div class="row">
-            	<div class="textName">
-            		<label>昵称:</label>
-            	</div>
-            	<input type="text" th:field="${currentUser.nickName}"/>
+	            	<div class="textName">
+	            		<label>昵称:</label>
+	            	</div>
+	            	<input type="text" th:field="${currentUser.nickName}"/>
             	</div>
 	            <div class="row">
 	            	<div class="textName">
@@ -97,21 +123,61 @@
 	            </div>
 	            <div class="row">
 	            	<div class="textName">
-	            		<label>注册邮箱:</label>
+	            		<label>性别:</label>
+	            	</div>
+	            	<div class="textValue">
+	            		<label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
+	            	</div>
+	            	<div class="action">
+	            		<a >修改绑定邮箱</a>
 	            	</div>
 	            	
-	            	<input type="text" th:field="${currentUser.bindingEmail}"/>
+	            </div>
+	            <div class="row">
+	            	<div class="textName">
+	            		<label>出生日期:</label>
+	            	</div>
+	            	<div class='input-group date' id='datetimepicker1'>
+
+                <input type='text' class="form-control"  id="sendTime"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+            	</span>
+            </div>
+	            </div>
+	            <div class="row">
+	            	<div class="textName">
+	            		<label>绑定邮箱:</label>
+	            	</div>
+	            	<div class="textValue">
+	            		<label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
+	            	</div>
+	            	<div class="action">
+	            		<a >修改绑定邮箱</a>
+	            	</div>
+	            	
 	            </div>
 	            <div class="row">
 	            	<div class="textName">
 	            		<label>注册时间:</label>
 	            	</div>
-	            	
-	            	<input type="text" th:field="${currentUser.registerTime}"/>
+	            	<div class="textValue">
+	            		<label th:text="${currentUser.registerTime}">注册时间:</label>
+	            	</div>
 	            </div>
+	            
+	            <div class="row">            	
+	            	<div class="box btnArea">
+                        <a class="login-btn" id="submit">保存</a>
+                    </div>
+	            </div>
+	            
+	            
             </div>
             
     	</div>
     </div>
+    
+    
 </body>
 </html>

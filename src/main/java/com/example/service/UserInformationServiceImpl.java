@@ -81,7 +81,7 @@ public class UserInformationServiceImpl implements UserInformationService {
             sr.setMessage("modify success");
             sr.setSuccess(true);
         }catch (Exception e){
-
+        	e.printStackTrace();
         }
 
         return sr;

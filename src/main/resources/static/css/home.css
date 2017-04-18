@@ -1,6 +1,7 @@
 a {
     color: #000;
     text-decoration: none;
+    cursor: pointer;
 }
 body {
     display: block;
@@ -26,22 +27,50 @@ li{
 	margin:20px auto 20px auto;
 	
 }
-.portrait{
-	
+.portrait-wrapper{	
 	margin:20px auto 20px auto;
 	border: 1px solid #e5e9ef;
     border-radius: 100px;
-    
+    background-color: #4C4A43;
     width: 200px;
     height: 200px;
     position: relative;
 }
-.portrait img{
-	border-radius: 48px;
+.portrait{
+	margin-top: 29px;
+    margin-left: 29px;
+}
+.portrait ,.portrait img{
+	    border-radius: 72px;
     display: block;
-    width: 96px;
-    height: 96px;
-    margin: 52px auto 0;
+    width: 144px;
+    height: 144px;
+    position: absolute;
+    cursor: pointer;
+    z-index: 100;	
+}
+.texttip{
+	font-size: 12px;
+    display: block;
+    cursor: default;
+    position: absolute;
+    z-index: 50;
+    margin-top: 50px;
+    margin-left: 36px;
+    color: #fff;
+    transition: margin 0.3s;
+}
+.portrait:hover .texttip{
+	display: block;
+    cursor: default;
+    position: absolute;
+    z-index: 50;
+    margin-top: 144px;
+    margin-left: 36px;
+    color: #fff;
+}
+.texttip p{
+	margin-top: 4px;
 }
 .information{
 	width:820px;
@@ -53,14 +82,32 @@ li{
 .textName{
 	width: 110px;
     float: left;
-	position: relative;
-    
+	position: relative;    
     color: #666;
     font-size: 12px;
     font: 12px 'Microsoft YaHei','Hiragino Sans GB',Arial,sans-serif;
 }
+.textValue,.action{
+	display: inline-block;
+    position: relative;
+    color: #666;
+    font-size: 12px;
+    font: 12px 'Microsoft YaHei','Hiragino Sans GB',Arial,sans-serif;
+}
+.action a{
+	text-align: right;
+    float: right;
+    margin-right: 20px;
+    height: 28px;
+    line-height: 28px;
+	cursor:pointer;
+	color:#215A8D;
+	opacity: 0.75;
+}
+.action a:hover{
+	opacity: 1;
+}
 .security-right label{
-	width:100px;
 	text-align: right;
 	float:right;
 	margin-right:20px;
@@ -79,6 +126,31 @@ li{
 	padding: 3px 8px;
 	color: #717171; 
 	resize: none;
+}
+
+.btnArea{
+	width: 150px;
+	padding:0;
+	margin:15px auto 5px auto;
+	height: 36px;
+	}
+.login-btn {
+    display: block;
+    background: url(../images/bg.png) repeat-x left top;
+    width: 150px;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    color: white;
+    font-size: 16px;
+    border-radius: 3px;
+    border: 1px solid #215A8D;
+    opacity: 0.75;
+}
+.login-btn:hover{ 
+	text-decoration:none; 
+	color:white;
+	opacity:1;
 }
 
 .z_top {
@@ -195,47 +267,37 @@ ul{
 
 
 
-.navbar-default {
-    background-color: #f8f8f8;
-    border-color: #e7e7e7;
-}
-.navbar {
+.input-group {
     position: relative;
-    min-height: 50px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
+    display: table;
+    border-collapse: separate;
+}
+.input-group .form-control {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+}
+.input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    height: 50px;
 }
-.container-fluid {
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-}
-.navbar-header {
-    float: left;
-    margin-right: 0;
-    margin-left: 0;
-}
-.container-fluid .navbar-brand {
-    margin-left: -15px;
-}
-.navbar-default .navbar-brand {
-    color: #777;
-}
-.navbar-brand {
-    float: left;
-    height: 50px;
-    padding: 15px 15px;
-    font-size: 18px;
-    line-height: 20px;
-}
-.navbar-right {
-    float: right !important;
-    margin-right: -15px;
-}
-.navbar-nav {
-    float: left;
-    margin: 0;
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
