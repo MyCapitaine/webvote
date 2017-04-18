@@ -2,6 +2,8 @@ a {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+    display: inline-block;
+    padding:0 10px;
 }
 body {
     display: block;
@@ -10,6 +12,7 @@ body {
 li{
 	list-style : none;
 }
+
 
 .title{
 	height: 50px;
@@ -65,12 +68,12 @@ li{
     cursor: default;
     position: absolute;
     z-index: 50;
-    margin-top: 144px;
+    margin-top: 143px;
     margin-left: 36px;
     color: #fff;
 }
 .texttip p{
-	margin-top: 4px;
+	margin-top: 2px;
 }
 .information{
 	width:820px;
@@ -78,6 +81,8 @@ li{
 }
 .row{
 	margin-bottom: 30px;
+    margin-right: 0px;
+    margin-left: 0px;
 }
 .textName{
 	width: 110px;
@@ -94,6 +99,33 @@ li{
     font-size: 12px;
     font: 12px 'Microsoft YaHei','Hiragino Sans GB',Arial,sans-serif;
 }
+.textValue ul{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    border-radius: 4px;
+    color: #717171;
+}
+.selected{
+    background-color: #00a0d8 !important;
+    color: #fff;
+    cursor: default
+}
+.textValue li{
+    border-radius: 8px;
+    list-style: none;
+    display: inline-block;
+    height: 28px;
+    font-size: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 28px;
+    cursor: pointer;
+}
+.canHover:hover{
+    color:#fff;
+    background-color: #717171;
+}
 .action a{
 	text-align: right;
     float: right;
@@ -107,12 +139,16 @@ li{
 .action a:hover{
 	opacity: 1;
 }
-.security-right label{
+.textName label,.textValue label{
 	text-align: right;
 	float:right;
 	margin-right:20px;
 	height: 28px;
     line-height: 28px;
+}
+.error{
+    float: none;
+    color: red;
 }
 .row input{
 	border: 1px solid #ddd;
@@ -134,7 +170,7 @@ li{
 	margin:15px auto 5px auto;
 	height: 36px;
 	}
-.login-btn {
+.submit-btn {
     display: block;
     background: url(../images/bg.png) repeat-x left top;
     width: 150px;
@@ -147,11 +183,12 @@ li{
     border: 1px solid #215A8D;
     opacity: 0.75;
 }
-.login-btn:hover{ 
+.submit-btn:hover{
 	text-decoration:none; 
 	color:white;
 	opacity:1;
 }
+
 
 .z_top {
     height: 50px;
@@ -161,9 +198,10 @@ li{
     left: 0;
     width: 100%;
     position: relative;
-    z-index: 10000;
+    z-index: 10;
     font-family: "Microsoft YaHei",Arial,Helvetica,sans-serifsans-serif;
     color: #222;
+    margin-bottom: 20px;
 }
 
 .z_top .z_header {
@@ -210,8 +248,7 @@ ul{
     height: 50px;
     line-height: 50px;
     position: relative;
-    padding-left: 10px;
-    padding-right: 10px;
+
 }
 
 .uns_box li:hover {
@@ -231,11 +268,15 @@ ul{
     color: #222;
     font-size: 14px;
     line-height: 48px;
+    padding:0;
 }
 .child-list li a:hover {
     background-color: #e1e4ea;
 }
 
+.information_container{
+    margin-top: 0px;
+}
 .security_content{    
 	overflow: hidden;
     width: 980px;
@@ -253,6 +294,10 @@ ul{
     height: 100%;
 }
 
+.active{
+    background-color: #00a1d7;
+}
+
 .security-right {
     float: right;
     width: 830px;
@@ -262,6 +307,33 @@ ul{
     min-height: 832px;
     box-sizing: border-box;
 }
+
+.big-img{
+    position: absolute;
+    width: 100%;
+    z-index: 500;
+    height: 100%;
+    overflow: hidden;
+    text-align: center;
+    display: table;
+}
+.mask{
+    position: fixed;
+    z-index: 500;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: table;
+    background: rgba(139, 142, 134, 0.75);
+    text-align: center;
+}
+
+.mask span{
+    display:table-cell;
+    vertical-align:middle;
+}
+
 
 
 

@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import com.example.vo.ModifyInformationVO;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,10 +15,11 @@ import java.util.Date;
 @Table(name = "user_information")
 public class UserInformation {
 
-    public static String nick="用户";//用户昵称前缀
-
     @Id
     private int id;//用户id
+
+    @Column(name="birthday",nullable = false)
+    private Date birthday;//出生日期
 
     @Column(name="nick_name",nullable = false,unique = true)
     private String nickName;//用户昵称
@@ -26,6 +29,9 @@ public class UserInformation {
 
     @Column(name="sign",nullable = false)
     private String sign;//个性签名，默认：这个人很懒，什么也没留下
+
+    @Column(name="sex",nullable = false)
+    private String sex;//个性签名，默认：这个人很懒，什么也没留下
 
     @Column(name="level",nullable = false)
     private int level;//个人等级，初始为1
@@ -39,18 +45,28 @@ public class UserInformation {
     @Column(name="register_time",nullable = false)
     private Date registerTime;//注册时间，格式：yyyy-MM-dd HH:mm:ss
 
+    public UserInformation() {
+
+    }
+
     public UserInformation(UserRegister ur) {
         this.id=ur.getId();
-        this.nickName=nick+id;
         this.bindingEmail =ur.getBindingEmail();
         this.registerTime=ur.getRegisterTime();
         this.sign="这个人很懒，什么也没留下";
         this.level=1;
         this.experience=0;
         this.portrait="";
+        this.birthday=ur.getRegisterTime();
+        this.sex="未知";
     }
-    public UserInformation() {
 
+    public UserInformation(ModifyInformationVO form) {
+        this.id=form.getId();
+        this.sign=form.getSign();
+        this.portrait="";
+        //this.birthday=form.getBirthday();
+        this.sex="未知";
     }
 
     public int getId() {return id;}
@@ -113,4 +129,19 @@ public class UserInformation {
         this.experience = experience;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 }

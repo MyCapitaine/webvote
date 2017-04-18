@@ -5,10 +5,19 @@ package com.example.vo;
  */
 public class RegisterVO {
     private String loginName;
+    private String nickName;
     private String loginPassword;
     private String bindingEmail;//绑定邮箱
 
     public RegisterVO() {
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getLoginName() {

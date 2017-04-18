@@ -57,9 +57,25 @@ public class UserInformationServiceImpl implements UserInformationService {
         return null;
     }
 
+    //注册时检测昵称是否被占用
     @Override
     public boolean isNickNameUsed(String nickName) {
-        return (userInformationDao.findByNickName(nickName)!=null)?true:false;
+        return userInformationDao.findByNickName(nickName)!=null?true:false;
+    }
+
+    //在个人中心修改信息时检测昵称是否被占用
+    @Override
+    public boolean isNickNameUsed(int id,String nickName) {
+        UserInformation ui=userInformationDao.findByNickName(nickName);
+        if(ui==null){
+            return false;
+        }
+        else if(ui!=null&&ui.getId()==id){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     @Override

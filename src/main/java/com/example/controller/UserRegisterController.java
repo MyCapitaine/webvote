@@ -3,7 +3,6 @@ package com.example.controller;
 /**
  * Created by hasee on 2017/3/6.
  */
-        import com.example.dao.UserDao;
         import com.example.entity.*;
         import com.example.exception.ActiveValidateServiceException;
         import com.example.exception.SendEmailException;
@@ -22,26 +21,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
         import org.springframework.web.bind.annotation.*;
-        import org.springframework.web.context.request.RequestContextHolder;
-        import org.springframework.web.context.request.ServletRequestAttributes;
 
 
         import javax.servlet.http.Cookie;
-        import javax.servlet.http.HttpServletRequest;
         import javax.servlet.http.HttpServletResponse;
         import javax.servlet.http.HttpSession;
-        import java.math.BigDecimal;
-        import java.text.ParseException;
-        import java.text.SimpleDateFormat;
         import java.util.Date;
-        import java.util.List;
+
 @Controller
 @SessionAttributes({"currentUser","message","redirectTo","previousPage"})//
-public class userController {
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private UserService userService;
+public class UserRegisterController {
     @Autowired
     private UserRegisterService userRegisterService;
     @Autowired
@@ -53,9 +42,25 @@ public class userController {
     @Autowired
     private SetPasswordValidateService setPasswordValidateService;
 
-    private int page_size=10;
+
 
     /************************用户登录***************************/
+    //返回登录界面
+    @RequestMapping("/signin")
+    public String signin(){
+        return "signin";
+    }
+
+    //退出登录，返回message界面
+    @RequestMapping("/signout")
+    public String signout(ModelMap model){//SessionStatus sessionStatus,,@ModelAttribute(value = "previousPage")String previous
+        //model.addAttribute("redirectTo",previous);
+        model.addAttribute("message","退出登录");
+        //sessionStatus.setComplete();
+        return "message";
+    }
+
+    //登录验证
     @RequestMapping("/login")
     @ResponseBody
     public JsonResult<UserInformation> login(LoginVO form, ModelMap model,HttpSession session,HttpServletResponse httpServletResponse){
@@ -91,16 +96,31 @@ public class userController {
     }
 
     /************************注册用户***************************/
+    //返回注册界面
+    @RequestMapping("/signup")
+    public String signup(){
+        return "signup";
+    }
+
+    //检测昵称是否被占用。被占用返回"false"
+    @RequestMapping("/isNickNameUsed")
+    @ResponseBody
+    public String isNickNameUsed(String nickName){
+        return !userInformationService.isNickNameUsed(nickName)+"";
+    }
+
     //注册时 validate remote访问方法，用户名是否被占用，被占用返回"false"
     @RequestMapping("/isLoginNameUsed")
     @ResponseBody
     public String isLoginNameUsed(String loginName){
         return !userRegisterService.isLoginNameUsed(loginName)+"";
     }
+
     //同上，绑定邮箱是否被占用，被占用则返回"false"
     @RequestMapping("/isBindingEmailUsed")
     @ResponseBody
     public String isBindingEmailUsed(String bindingEmail){return !userRegisterService.isEmailBinding(bindingEmail)+"";}
+
     @RequestMapping("/register")
     @ResponseBody
     public JsonResult<UserInformation> register(RegisterVO form , ModelMap model){
@@ -120,6 +140,7 @@ public class userController {
             ur = (UserRegister) ursr.getData();
 
             UserInformation ui = new UserInformation(ur);
+            ui.setNickName(form.getNickName());
             ServiceResult<?> uisr = userInformationService.register(ui);
             ui = (UserInformation) uisr.getData();
 
@@ -188,6 +209,7 @@ public class userController {
 //        }
         return js;
     }
+
     @RequestMapping(value="/activeValidate")
     public String activeValidate(String token,ModelMap model){
         model.addAttribute("validate",token);
@@ -220,12 +242,14 @@ public class userController {
     public String forgetPassword(Model model){
         return "sendEmail";
     }
+
     //找回密码时 validate remote访问方法，邮箱是否被绑定，被绑定则返回"true"
     @RequestMapping("/isEmailBinding")
     @ResponseBody
     public String isEmailBinding(String bindingEmail){
         return userRegisterService.isEmailBinding(bindingEmail)+"";
     }
+
     @RequestMapping("/sendResetPasswordEmail")
     @ResponseBody
     public JsonResult<ResetPasswordValidate> sendResetPasswordEmail(String email,ModelMap model){
@@ -268,6 +292,7 @@ public class userController {
 
         return jr;
     }
+
     @RequestMapping("/resetPasswordValidate")
     public String resetPasswordValidate(@RequestParam(value = "token")String validateCode,int id,ModelMap modelMap,Model model){
 
@@ -291,6 +316,7 @@ public class userController {
         }
         return "message";
     }
+
     @RequestMapping("/resetPassword")
     @ResponseBody
     public JsonResult<Object> resetPassword(SetPasswordVO spvo,ModelMap model){
@@ -326,163 +352,5 @@ public class userController {
     	return jr;
     }
     
-    
-    
-    @RequestMapping("/home")
-    public String home(ModelMap model){
-        return "home";
-    }
 
-
-
-    @RequestMapping("/delete")
-    @ResponseBody
-    public JsonResult<?> delete(int[] id_array,int page_index){
-        System.out.println("ids.size is"+id_array);
-        JsonResult<?> delete = userService.delete(id_array,page_index,page_size);
-        if (delete != null ) {
-            return  delete;
-        }
-        return null;
-    }
-    @RequestMapping("/initPage")
-    @ResponseBody
-    public JsonResult<Object[]> initPage(int  page_index){
-        System.out.println("initpage:"+page_index);
-        JsonResult page = userService.initPage(page_index,page_size);
-        if (page != null ) {
-            return  page;
-        }
-        return null;
-    }
-
-    @RequestMapping("/getUser")
-    @ResponseBody
-    public JsonResult<Object[]> findById(String id){
-        JsonResult user = userService.findById(Integer.parseInt(id));
-        if (user != null ) {
-            return  user;
-        }
-        return null;
-    }
-    @RequestMapping("/getName")
-    @ResponseBody
-    public JsonResult<Object[]> getByName(String name) {
-        List<User> userList = userDao.findByName(name);
-        if (userList != null && userList.size()!=0) {
-            //Gson gson = new Gson();
-            //String jsonArray = gson.toJson(userList);
-            //return userList;
-           // return  userList;
-            return  new JsonResult(userList);
-           // return jsonArray;
-            //return "The user length is: " + userList.size();
-        }
-        return null;
-        //return new ServiceResult("");
-        //return "user " + name + " is not exist.";
-    }
-    @RequestMapping("/findName")
-    @ResponseBody
-    public JsonResult<Object[]> findByName(String name) {
-        JsonResult<Object[]> userList = userService.findByName(name);
-        if (userList != null ) {
-            return  userList;
-        }
-        return null;
-    }
-
-    @RequestMapping("/getSex")
-    @ResponseBody
-    public String getBySex(char sex) {
-        List<User> userList = userDao.findBySex(sex);
-        if (userList != null && userList.size()!=0) {
-            return "The user length is: " + userList.size();
-        }
-        return "user " + sex + " is not exist.";
-    }
-
-    @RequestMapping("/getBirthday")
-    @ResponseBody
-    public String findByBirthday(String birthday) {
-        System.out.println("birthday:"+birthday);
-        SimpleDateFormat formate=new SimpleDateFormat("yyyy-MM-dd");
-        List<User> userList = null;
-        try {
-            userList = userDao.findByBirthday(formate.parse(birthday));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if (userList != null && userList.size()!=0) {
-            return "The user length is: " + userList.size();
-        }
-        return "user " + birthday + " is not exist.";
-    }
-
-    @RequestMapping("/getSendTime")
-    @ResponseBody
-    public JsonResult<Object[]> findBySendtime(String sendTime) {
-        System.out.println("sendTime:"+sendTime);
-
-        if(sendTime!=null&&sendTime!=""){
-            SimpleDateFormat formate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            List<User> userList = null;
-            try {
-                userList = userDao.findBySendtime(formate.parse(sendTime));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (userList != null && userList.size()!=0) {
-                return  new JsonResult(userList);
-            }
-        }
-        return null;
-    }
-
-    @RequestMapping("/getPrice")
-    @ResponseBody
-    public String findByPrice(BigDecimal price) {
-        List<User> userList = null;
-        userList = userDao.findByPrice(price);
-        if (userList != null && userList.size()!=0) {
-            return "The user length is: " + userList.size();
-        }
-        return "user " + price + " is not exist.";
-    }
-
-    @RequestMapping("/getFloatprice")
-    @ResponseBody
-    public String findFloatprice(float floatprice) {
-        List<User> userList = null;
-        userList = userDao.findByFloatprice(floatprice);
-        if (userList != null && userList.size()!=0) {
-            return "The user length is: " + userList.size();
-        }
-        return "user " + floatprice + " is not exist.";
-    }
-
-    @RequestMapping("/getDoubleprice")
-    @ResponseBody
-    public String findByPrice(double doubleprice) {
-        List<User> userList = null;
-        userList = userDao.findByDoubleprice(doubleprice);
-        if (userList != null && userList.size()!=0) {
-            return "The user length is: " + userList.size();
-        }
-        return "user " + doubleprice + " is not exist.";
-    }
-
-    public static HttpSession getSession() {
-        HttpSession session = null;
-        try {
-            session = getRequest().getSession();
-        } catch (Exception e) {}
-        return session;
-    }
-
-    public static HttpServletRequest getRequest() {
-        ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder
-                .getRequestAttributes();
-        return attrs.getRequest();
-    }
 }

@@ -15,6 +15,7 @@ public interface UserInformationService {
     public ServiceResult delete(UserRegister ur);
 
     public boolean isNickNameUsed(String nickName);
+    public boolean isNickNameUsed(int id,String nickName);
     public boolean isEmailBinded(String bindingEmail);
     public ServiceResult modify(UserInformation ui);
 

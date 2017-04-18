@@ -28,10 +28,14 @@
     <!--<script src="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>-->
     <!--<script src="bootstrap-datetimepicker.js"></script>-->
     <!--<script src="bootstrap-datetimepicker.zh-CN.js"></script>-->
-    <script src="js/get_user_by_sendtime.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/jquery.validate.js"></script>
     <link href="css/home.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<script th:inline="javascript">
+    var id = [[${currentUser.id}]];
+</script>
     <div class="z_top_container">
 		<div class="z_top b-header-blur-black">
 			<div class="z_header">
@@ -46,8 +50,8 @@
 				
 				<div class="uns_box" >
 					<ul class="menu">
-						<li style="display: list-item;"><a href="home" th:with="str=${currentUser.nickName}+'aaaaaaa'" th:text=" ${#strings.abbreviate(str  ,10)} "></a></li>
-						<li ><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
+						<li style="display: list-item;"><a href="home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+						<li ><a href="signout"> 退出</a></li>
 					</ul>
 				</div>
 				
@@ -55,129 +59,148 @@
 		</div>
 	</div>
 
-    <div class="security_content">
-    	<div class="security-left">
-    		<ul class="child-list">
-                <li>
-                    <a href="#" id="home" rec-linkid="account_tab_index_click" title="首页" class="bg-blue">
-                        <i class="al-sy check-t"></i>
-                        <span>首<b style="width: 28px;display: inline-block;"></b>页</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="#" id="coin">
-                        <i class="al-coin"></i>
-                        <span>我的硬币</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" id="record">
-                        <i class="al-jl"></i>
-                        <span>我的记录</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" id="site">
-                        <i class="al-aq"></i>
-                        <span>账号安全</span>
-                    </a>
-                </li>
-            </ul>
-		</div>
+    <div class="information_container">
+        <div class="security_content">
+            <div class="security-left">
+                <ul class="child-list">
+                    <li>
+                        <a href="#" id="home" title="首页" class="active">
+                            <i ></i>
+                            <span>首<b style="width: 28px;display: inline-block;"></b>页</span>
+                        </a>
+                    </li>
 
-        <div class="security-right">
-	        <div class="title">
-	        	<span class="title-text">我的头像</span>
-	        </div>
-            <div class="img-wrapper">
-            
-            	<div class="portrait-wrapper">
-            		<div class="portrait">
-            			<img  src="/images/red_yellow.jpg"/>
-	            		<div class="texttip">
-	            			<p>点击查看原图</p>
-	            		</div>
-            		</div>
-            		
-            	</div>
+                    <li>
+                        <a href="#" id="coin">
+                            <i class="al-coin"></i>
+                            <span>我的硬币</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="record">
+                            <i class="al-jl"></i>
+                            <span>我的记录</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="site">
+                            <i class="al-aq"></i>
+                            <span>账号安全</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
-            
-            <div class="title">
-	        	<span class="title-text">我的信息</span>
-	        </div>
-            <div class="information">
-            	<div class="row">
-	            	<div class="textName">
-	            		<label>昵称:</label>
-	            	</div>
-	            	<input type="text" th:field="${currentUser.nickName}"/>
-            	</div>
-	            <div class="row">
-	            	<div class="textName">
-	            		<label>个性签名:</label>
-	            	</div>
-	            	
-	            	<textarea cols="30" rows="10"  th:field="${currentUser.sign}"/>
-	
-	            </div>
-	            <div class="row">
-	            	<div class="textName">
-	            		<label>性别:</label>
-	            	</div>
-	            	<div class="textValue">
-	            		<label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
-	            	</div>
-	            	<div class="action">
-	            		<a >修改绑定邮箱</a>
-	            	</div>
-	            	
-	            </div>
-	            <div class="row">
-	            	<div class="textName">
-	            		<label>出生日期:</label>
-	            	</div>
-	            	<div class='input-group date' id='datetimepicker1'>
 
-                <input type='text' class="form-control"  id="sendTime"/>
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-            	</span>
-            </div>
-	            </div>
-	            <div class="row">
-	            	<div class="textName">
-	            		<label>绑定邮箱:</label>
-	            	</div>
-	            	<div class="textValue">
-	            		<label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
-	            	</div>
-	            	<div class="action">
-	            		<a >修改绑定邮箱</a>
-	            	</div>
-	            	
-	            </div>
-	            <div class="row">
-	            	<div class="textName">
-	            		<label>注册时间:</label>
-	            	</div>
-	            	<div class="textValue">
-	            		<label th:text="${currentUser.registerTime}">注册时间:</label>
-	            	</div>
-	            </div>
-	            
-	            <div class="row">            	
-	            	<div class="box btnArea">
-                        <a class="login-btn" id="submit">保存</a>
+            <div class="security-right">
+                <div class="title">
+                    <span class="title-text">我的头像</span>
+                </div>
+                <div class="img-wrapper">
+
+                    <div class="portrait-wrapper">
+                        <div class="portrait">
+                            <img  class="portrait-img" src="/images/red_yellow.jpg"/>
+                            <div class="texttip">
+                                <p>点击查看原图</p>
+                            </div>
+                        </div>
+
                     </div>
-	            </div>
-	            
-	            
+                </div>
+
+                <div class="title">
+                    <span class="title-text">我的信息</span>
+                </div>
+                <div class="information">
+                    <form class="information-form">
+                        <div class="row">
+                            <div class="textName">
+                                <label for="nickName">昵<b style="width: 24px;display: inline-block;"></b>称:</label>
+                            </div>
+                            <input type="text" th:value="${currentUser.nickName}" id="nickName" name="nickName"/>
+                        </div>
+                        <div class="row">
+                            <div class="textName">
+                                <label for="sign">个性签名:</label>
+                            </div>
+                            <textarea cols="30" rows="10"  th:field="${currentUser.sign}" id="sign" name="sign"/>
+
+                        </div>
+                        <div class="row">
+                            <div class="textName">
+                                <label >性<b style="width: 24px;display: inline-block;"></b>别:</label>
+                                <!--for="sex"-->
+                            </div>
+                            <div class="textValue">
+                                <ul th:if="${currentUser.sex} eq 男">
+                                    <li class="selected">男</li>
+                                    <li class="canHover">女</li>
+                                    <li class="canHover">未知</li>
+                                </ul>
+                                <ul th:if="${currentUser.sex} eq 女">
+                                    <li class="canHover">男</li>
+                                    <li class="selected">女</li>
+                                    <li class="canHover">未知</li>
+                                </ul>
+                                <ul th:if="${currentUser.sex} eq 未知">
+                                    <li class="canHover">男</li>
+                                    <li class="canHover">女</li>
+                                    <li class="selected">未知</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="textName">
+                                <label for="birthday">出生日期:</label>
+                            </div>
+                            <div class='input-group date' id='datetimepicker1' style="width:120px" >
+
+                                <input th:with="date=${currentUser.birthday}" th:value="${#dates.format(date, 'yyyy-MM-dd')}"
+                                       type='text' class="form-control" style="padding-top: 1px;padding-bottom: 1px"
+                                       id="birthday" name="birthday" readonly="readonly"
+                                />
+                                <span class="input-group-addon" style="padding-top: 0px;padding-bottom: 0px;padding-left: 0px;">
+							<span class=" glyphicon-calendar"></span>
+						</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="textName">
+                                <label>绑定邮箱:</label>
+                            </div>
+                            <div class="textValue">
+                                <label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
+                            </div>
+                            <div class="action">
+                                <a >修改绑定邮箱</a>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="textName">
+                                <label>注册时间:</label>
+                            </div>
+                            <div class="textValue">
+                                <label th:text="${currentUser.registerTime}">注册时间:</label>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row">
+                        <div class="box btnArea">
+                            <a class="submit-btn" id="submit">保存</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-    	</div>
+        </div>
     </div>
-    
+
+    <div >
+        <div class="mask" style="display: none">
+            <span><img src="/images/red_yellow.jpg"/></span>
+        </div>
+    </div>
     
 </body>
 </html>

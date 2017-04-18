@@ -5,6 +5,7 @@
     <title>Title</title>
     <link href="css/my.css" rel="stylesheet" type="text/css" />
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="css/home.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="js/jquery-3.2.0.js"></script>
     <script type="text/javascript" src="js/vue.js"></script>
@@ -16,22 +17,33 @@
 <body class="loginbody">
 
 <div class="dataEye">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">网投</a>
+    <div class="z_top_container">
+        <div class="z_top b-header-blur-black">
+            <div class="z_header">
+                <div class="z_top_nav">
+                    <ul>
+                        <li class="home">
+
+                            <a href="/"><span>网投</span><span>主站</span></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="uns_box" >
+                    <ul class="menu" th:if="${currentUser} eq null">
+                        <li ><a href="signin"> 登录</a></li>
+                        <li ><a href="signup" >注册</a></li>
+
+                    </ul>
+                    <ul class="menu" th:unless="${currentUser} eq null">
+                        <li style="display: list-item;"><a href="home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                        <li ><a href="signout"> 退出</a></li>
+                    </ul>
+                </div>
+
             </div>
-            <ul th:if="${currentUser} eq null" class="nav navbar-nav navbar-right">
-                <li><a href="signup"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-                <li><a href="signin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
-            </ul>
-            <ul th:unless="${currentUser} eq null" class="nav navbar-nav navbar-right">
-                <!--th:text="${currentUser.nickName}"-->
-                <li><a href="#" th:text="${currentUser.nickName}"></a></li>
-                <li ><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
-            </ul>
         </div>
-    </nav>
+    </div>
     <div class="loginbox">
         <div class="login-content">
             <div class="loginbox-title">

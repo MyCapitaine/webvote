@@ -19,9 +19,7 @@ $(document).ready(function(){
     var validate = $("#signupForm").validate({
     	
     	
-    	submitHandler: function(form) {   
-    		console.log("this:"+this);
-    		//resetPassword(this)    
+    	submitHandler: function(form) {
     	},
         rules : {
             email : {

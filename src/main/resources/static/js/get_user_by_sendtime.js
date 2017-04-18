@@ -13,7 +13,6 @@ $(document).ready(function(){
 $(document).ready(function(){
     $("#get_user_by_sendTime").click(function(){
         var time=$("#sendTime").val();
-        console.log("time is"+time);
         var date=(time=="")?null:(new Date(time).Format("yyyy-MM-dd hh:mm:ss"));
         $.post("/getSendTime",
             {

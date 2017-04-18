@@ -12,6 +12,19 @@ $(document).ready(function() {
     // 获取表单验证对象[填写验证规则]
     var validate = $("#signupForm").validate({
         rules : {
+            nickName : {
+                required :true,
+                remote : {
+                    url : "/isNickNameUsed",
+                    type : "POST",
+                    date : {
+                        nickName : function () {
+                            console.log($("#nickName").val());
+                            return $("#nickName").val();
+                        }
+                    }
+                }
+            },
             loginName : {
                 required : true,
                 remote:{
@@ -52,6 +65,11 @@ $(document).ready(function() {
             }
         },
         messages : {
+            nickName:{
+                required:"请输入昵称",
+                remote:"昵称已被占用"
+
+            },
             loginName : {
                 required : "请输入用户名",
                 remote:"用户名已被占用"
@@ -76,6 +94,9 @@ $(document).ready(function() {
     });
 
     // 输入框激活焦点、溢出焦点的渐变特效
+    if ($("#nickName").val()) {
+        $("#nickName").prev().fadeOut();
+    }
     if ($("#email").val()) {
         $("#email").prev().fadeOut();
     }
@@ -88,6 +109,15 @@ $(document).ready(function() {
     if ($("#password_confirm").val()) {
         $("#password_confirm").prev().fadeOut();
     }
+
+    $("#nickName").focus(function() {
+        $(this).prev().fadeOut();
+    });
+    $("#nickName").blur(function() {
+        if (!$("#nickName").val()) {
+            $(this).prev().fadeIn();
+        }
+    });
 
     $("#email").focus(function() {
         $(this).prev().fadeOut();
@@ -150,6 +180,7 @@ function signup(validate) {
             data : {
                 loginName : $("#loginName").val(),
                 loginPassword : $("#password").val(),
+                nickName:$("#nickName").val(),
                 bindingEmail : $("#email").val()
             },
             dataType : "json",
@@ -165,7 +196,6 @@ function signup(validate) {
                 else {
                     if(data.message=="Email has been binding"){
                         var label=$("label[for='email']");
-                        console.log(label);
                         label.html(data.message);
                         label.show();
                     }

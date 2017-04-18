@@ -98,12 +98,22 @@ function login(validate) {
 				    else{
                         location.href=""+previousPage;
                     }
-                    //window.history.back();
-                    //
-					//
-				} else {
-					console.log(data.message);
 				}
+				else if(data.message=="User is not exist"){
+                    var label=$("label[for='loginName']");
+                    label.html("用户不存在");
+                    label.show();
+				}
+                else if(data.message=="User is banned"){
+                    var label=$("label[for='loginName']");
+                    label.html("用户被封");
+                    label.show();
+                }
+                else if(data.message=="name or pwd wrong."){
+                    var label=$("label[for='loginName']");
+                    label.html("用户名或密码错误");
+                    label.show();
+                }
 			}
 		});
 	}
