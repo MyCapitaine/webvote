@@ -251,13 +251,12 @@ ul{
 
 }
 
-.uns_box li:hover {
+.uns_box li:hover ,.home:hover{
     float: left;
     text-align: center;
     height: 50px;
     line-height: 50px;
     position: relative;
-    
     background: #e1e4ea;
 }
 

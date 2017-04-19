@@ -41,9 +41,14 @@
     </div>
 
 
-    <div th:fragment="random" th:object="${currentUser}" th:if="${currentUser}!=null">
-        <p th:text="*{nickName}" >3333</p>
-        <p th:text="${validate}">233</p>
+    <div th:fragment="random" th:object="${currentUser}" th:if="${currentUser}!=null"
+        style="width: 980px;margin:0 auto">
+        <p th:text="*{id}" >3333</p>
+        <p th:text="*{sign}" >3333</p>
+        <p th:text="*{sex}">233</p>
+        <p th:text="*{birthday}">233</p>
+        <p th:text="*{bindingEmail}">233</p>
+        <p th:text="*{registerTime}">233</p>
         <button type="button" class="btn btn-danger" id="delete">随机</button>
     </div>
 </body>
