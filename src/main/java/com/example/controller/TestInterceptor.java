@@ -6,6 +6,7 @@ import com.example.entity.UserInformation;
 import com.example.entity.UserRegister;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
+import com.example.util.IpAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -79,12 +80,14 @@ public class TestInterceptor implements HandlerInterceptor {
                     String userinfo=cookie.getValue();
                     String[] infos=userinfo.split(":");
                     ServiceResult sr= userRegisterService.login(infos[0],infos[1]);
-                    UserRegister ur = (UserRegister)sr.getData();
                     if(sr.isSuccess()){
+                        UserRegister ur = (UserRegister)sr.getData();
                         ServiceResult uisr = userInformationService.findById(ur.getId());
                         session.setAttribute("currentUser",uisr.getData());
                         cookie.setMaxAge(60*60*24*30);
                         httpServletResponse.addCookie(cookie);
+
+                        String ip=IpAddress.getIpAddr(httpServletRequest);
                     }
                 }
             }

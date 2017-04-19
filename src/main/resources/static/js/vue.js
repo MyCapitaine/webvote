@@ -1488,7 +1488,7 @@ var initProxy;
     config.keyCodes = new Proxy(config.keyCodes, {
       set: function set (target, key, value) {
         if (isBuiltInModifier(key)) {
-          warn(("Avoid overwriting built-in modifier in config.keyCodes: ." + key));
+          warn(("Avoid overwriting built-in modifier in configurer.keyCodes: ." + key));
           return false
         } else {
           target[key] = value;
@@ -3355,7 +3355,7 @@ function resolveFilter (id) {
 /*  */
 
 /**
- * Runtime helper for checking keyCodes from config.
+ * Runtime helper for checking keyCodes from configurer.
  */
 function checkKeyCodes (
   eventKeyCode,
@@ -4008,13 +4008,13 @@ var builtInComponents = {
 /*  */
 
 function initGlobalAPI (Vue) {
-  // config
+  // configurer
   var configDef = {};
   configDef.get = function () { return config; };
   {
     configDef.set = function () {
       warn(
-        'Do not replace the Vue.config object, set individual fields instead.'
+        'Do not replace the Vue.configurer object, set individual fields instead.'
       );
     };
   }

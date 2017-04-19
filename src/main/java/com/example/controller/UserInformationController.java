@@ -12,7 +12,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,6 +72,13 @@ public class UserInformationController {
         jr.setSuccess(true);
 
         return jr;
+    }
+
+    @RequestMapping("/home/safe")
+    @ResponseBody
+    public String safe(ModelMap model){
+
+        return "safe";
     }
 
 
