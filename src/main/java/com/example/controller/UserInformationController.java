@@ -75,7 +75,6 @@ public class UserInformationController {
     }
 
     @RequestMapping("/home/safe")
-    @ResponseBody
     public String safe(ModelMap model){
 
         return "safe";
