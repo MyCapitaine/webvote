@@ -1,18 +1,20 @@
 package com.example.controller;
 
+import com.example.dao.LoginRecordDao;
 import com.example.entity.JsonResult;
+import com.example.entity.LoginRecord;
 import com.example.entity.ServiceResult;
 import com.example.entity.UserInformation;
+import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
 import com.example.vo.ModifyInformationVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,6 +29,8 @@ public class UserInformationController {
     private UserRegisterService userRegisterService;
     @Autowired
     private UserInformationService userInformationService;
+    @Autowired
+    private LoginRecordService loginRecordService;
 
     @RequestMapping("/home")
     public String home(ModelMap model){
@@ -75,9 +79,26 @@ public class UserInformationController {
     }
 
     @RequestMapping("/home/safe")
-    public String safe(ModelMap model){
-
+    public String safe(ModelMap model,@RequestParam(value = "page_index",defaultValue = "1")int page_index){
+        model.addAttribute("page_index",page_index);
         return "safe";
+    }
+
+    @RequestMapping("/home/record")
+    @ResponseBody
+    public JsonResult record(@ModelAttribute(value = "currentUser")UserInformation ui,int page_index){
+        int page_size= 10;
+        JsonResult jr = new JsonResult();
+        jr.setMessage("failed");
+        jr.setSuccess(false);
+        Pageable page = new PageRequest(page_index, page_size);
+        ServiceResult lrsr = loginRecordService.find(ui.getId(),page);
+        if(lrsr.isSuccess()){
+            jr.setData(lrsr.getData());
+            jr.setMessage("success");
+            jr.setSuccess(true);
+        }
+        return jr;
     }
 
 

@@ -14,10 +14,13 @@
 
 
     <link href="../css/home.css" rel="stylesheet" type="text/css" />
+    <script src="../js/date_format.js"></script>
+    <script src="../js/safe.js"></script>
 </head>
 <body>
 <script th:inline="javascript">
     var id = [[${currentUser.id}]];
+    var page_index = [[${page_index}]];
 </script>
 <div class="z_top_container">
     <div class="z_top b-header-blur-black">
@@ -109,21 +112,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><div>2017-04-19 13:52:38</div></td>
-                                    <td><div>218.94.159.98</div></td>
-                                    <td><div>中国江苏南京电信</div></td>
-                                </tr>
-                                <tr>
-                                    <td><div>2017-04-19 13:52:38</div></td>
-                                    <td><div>218.94.159.98</div></td>
-                                    <td><div>中国江苏南京电信</div></td>
-                                </tr>
-                                <tr>
-                                    <td><div>2017-04-19 13:52:38</div></td>
-                                    <td><div>218.94.159.98</div></td>
-                                    <td><div>中国江苏南京电信</div></td>
-                                </tr>
+                                <!--<tr>-->
+                                    <!--<td><div>2017-04-19 13:52:38</div></td>-->
+                                    <!--<td><div>218.94.159.98</div></td>-->
+                                    <!--<td><div>中国江苏南京电信</div></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><div>2017-04-19 13:52:38</div></td>-->
+                                    <!--<td><div>218.94.159.98</div></td>-->
+                                    <!--<td><div>中国江苏南京电信</div></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><div>2017-04-19 13:52:38</div></td>-->
+                                    <!--<td><div>218.94.159.98</div></td>-->
+                                    <!--<td><div>中国江苏南京电信</div></td>-->
+                                <!--</tr>-->
                                 </tbody>
                             </table>
                         </div>
@@ -131,10 +134,23 @@
 
                 </form>
 
-                <div>
+                <div class="img-wrapper" style="display: none">
+
+                    <div class="error-wrapper">
+                        <div class="error-img">
+                            <img  class="portrait-img" src="/images/red_yellow.jpg"/>
+                            <div class="texttip">
+                                <p>点击查看原图</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div style="padding: 0 30px;">
                     <ul class="pagination" >
                     </ul>
                 </div>
+
             </div>
         </div>
     </div>

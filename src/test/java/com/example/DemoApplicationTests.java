@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.dao.LoginRecordDao;
 import com.example.dao.UserRegisterDao;
 import com.example.entity.*;
 import com.example.exception.ActiveValidateServiceException;
@@ -37,6 +38,19 @@ public class DemoApplicationTests {
 	@Autowired
 	private ActiveValidateService activeActiveValidateService;
 
+	@Autowired
+	private LoginRecordDao loginRecordDao;
+
+	@Test
+	public void test13(){
+		for(int i=0;i<10;i++){
+			LoginRecord lr =new LoginRecord();
+			lr.setIp("192.168.64.91");
+			lr.setLoginTime(new Date());
+			lr.setUserId(1);
+			loginRecordDao.save(lr);
+		}
+	}
 	@Test
     public void test12(){
         System.out.println(userRegisterDao.findByLoginName("name0"));

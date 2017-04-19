@@ -5,6 +5,7 @@ import com.example.entity.LoginRecord;
 import com.example.entity.ServiceResult;
 import com.example.serviceInterface.LoginRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,19 @@ public class LoginRecordServiceImpl implements LoginRecordService{
         lrsr.setMessage("Add login record success");
         lrsr.setSuccess(true);
 
-        return null;
+        return lrsr;
     }
 
     @Override
     public ServiceResult find(int id,Pageable pageable) {
-
-        return null;
+        ServiceResult sr = new ServiceResult();
+        sr.setData(null);
+        sr.setMessage("failed");
+        sr.setSuccess(false);
+        Page<LoginRecord> page = loginRecordDao.findByUserId(id,pageable);
+        sr.setData(page);
+        sr.setMessage("success");
+        sr.setSuccess(true);
+        return sr;
     }
 }

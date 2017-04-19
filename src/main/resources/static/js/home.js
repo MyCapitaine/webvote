@@ -58,8 +58,7 @@ $(document).ready(function(){
         modifyInformation(validate);
     });
 
-    $(".canHover").on("click",function(){
-
+    $(".textValue .canHover").on("click",function(){
         sex(this);
     });
 
