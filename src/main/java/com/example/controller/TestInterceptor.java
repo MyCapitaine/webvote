@@ -110,7 +110,7 @@ public class TestInterceptor implements HandlerInterceptor {
         //个人中心需要登录后才能访问
         if(servlet.indexOf("home")>=0){
             if(session.getAttribute("currentUser")==null){
-                httpServletResponse.sendRedirect("signin.html");
+                httpServletResponse.sendRedirect("/signin");
                 return false;
             }
             else {
