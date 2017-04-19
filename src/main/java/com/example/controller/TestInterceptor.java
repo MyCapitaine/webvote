@@ -1,9 +1,7 @@
 package com.example.controller;
 
-import com.example.entity.JsonResult;
-import com.example.entity.ServiceResult;
-import com.example.entity.UserInformation;
-import com.example.entity.UserRegister;
+import com.example.entity.*;
+import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
 import com.example.util.IpAddress;
@@ -14,6 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -26,16 +25,23 @@ public class TestInterceptor implements HandlerInterceptor {
     @Autowired
     private UserInformationService userInformationService;
 
+    @Autowired
+    private LoginRecordService loginRecordService;
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         System.out.println("----------preHandle----------");
+        String ip = IpAddress.getIpAddr(httpServletRequest);
+        System.out.println("ip address:"+ip);
         String servlet=httpServletRequest.getServletPath();
-        System.out.println("servlet:"+servlet);
+        System.out.println("request service:"+servlet);
         String referer=httpServletRequest.getHeader("Referer");
         System.out.println("referer:"+referer);
         Cookie[] cookies=httpServletRequest.getCookies();
         HttpSession session=httpServletRequest.getSession();
-        //session.setAttribute("redirectTo",referer);
+        System.out.println("session create time :"+new Date(session.getCreationTime()));
+        System.out.println("session life :"+session.getMaxInactiveInterval()+"s");
+
         if(referer!=null
         		&&referer.indexOf("local")>=0
                 &&referer.indexOf("sign")<0
@@ -46,9 +52,8 @@ public class TestInterceptor implements HandlerInterceptor {
                 ){//&&referer.indexOf("signin")<0&&referer.indexOf("signup")<0
             session.setAttribute("previousPage",referer);
         }
-
+        //System.out.println("previousPage:"+session.getAttribute("previousPage"));
         if(servlet.indexOf("signout")>=0){
-            System.out.println("the page before signout:"+httpServletRequest.getHeader("Referer"));
             //session.invalidate();
             if(cookies!=null){
                 for(Cookie cookie:cookies){
@@ -65,7 +70,6 @@ public class TestInterceptor implements HandlerInterceptor {
                 return true;
             }
             else{
-                System.out.println("请先登录");
                 session.setAttribute("message","请先登录");
                 session.setAttribute("redirectTo","/signin");
                 httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest,httpServletResponse);
@@ -79,15 +83,33 @@ public class TestInterceptor implements HandlerInterceptor {
                 if(cookie.getName().equals("currentUser")){
                     String userinfo=cookie.getValue();
                     String[] infos=userinfo.split(":");
+                    //登录前获取上一次登录时间
+                    ServiceResult ursr = userRegisterService.findByLoginName(infos[0]);
+                    UserRegister user = (UserRegister) ursr.getData();
+                    long last = 0;
+                    if(user!=null){
+                        last = user.getLastLoginTime().getTime();
+                    }
+                    //登录后上一次登录时间更新
                     ServiceResult sr= userRegisterService.login(infos[0],infos[1]);
                     if(sr.isSuccess()){
+                        //登录后获取最近的的登录时间
                         UserRegister ur = (UserRegister)sr.getData();
+                        long now = ur.getLastLoginTime().getTime();
+                        //获取UserInformation放入session
                         ServiceResult uisr = userInformationService.findById(ur.getId());
                         session.setAttribute("currentUser",uisr.getData());
+                        //更新coolie
                         cookie.setMaxAge(60*60*24*30);
+                        cookie.setPath("/");
                         httpServletResponse.addCookie(cookie);
-
-                        String ip=IpAddress.getIpAddr(httpServletRequest);
+                        //todo
+                        if(now-last>=1000*60*60){
+                            LoginRecord lr = new LoginRecord(ur);
+                            lr.setIp(IpAddress.getIpAddr(httpServletRequest));
+                            loginRecordService.add(lr);
+                            System.out.println("**********interceptor登录记录**********");
+                        }
                     }
                 }
             }
@@ -121,7 +143,7 @@ public class TestInterceptor implements HandlerInterceptor {
         if(servlet.indexOf("admin")>=0){
             //没有登录，不能访问，重定向到登录界面
             if(session.getAttribute("currentUser")==null){
-                httpServletResponse.sendRedirect("signin.html");
+                httpServletResponse.sendRedirect("/signin");
                 return false;
             }
             //已经登录则检查权限

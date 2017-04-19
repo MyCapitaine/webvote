@@ -18,8 +18,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.math.BigDecimal;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,7 +55,7 @@ public class DemoApplicationTests {
 	@Test
 	public void test10(){
 		UserRegister ur=new UserRegister();
-		ur.setLogin_name("aaa");
+		ur.setLoginName("aaa");
 		ur.setBindingEmail("578776370@qq.com");
 		ur.setLoginPassword("111");
 		ur.setRegisterTime(new Date());

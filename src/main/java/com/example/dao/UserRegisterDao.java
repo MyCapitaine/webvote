@@ -11,6 +11,6 @@ import javax.transaction.Transactional;
 @Transactional
 public interface UserRegisterDao extends JpaRepository<UserRegister, Integer> {
     //public User findOne(Integer id);
-    public UserRegister findByLoginName(String loginname);
-    public UserRegister findByBindingEmail(String bindemail);
+    UserRegister findByLoginName(String loginname);
+    UserRegister findByBindingEmail(String bindemail);
 }

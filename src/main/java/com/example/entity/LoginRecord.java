@@ -25,6 +25,11 @@ public class LoginRecord {
     public LoginRecord() {
     }
 
+    public LoginRecord(UserRegister ur) {
+        this.userId = ur.getId();
+        this.loginTime = ur.getLastLoginTime();
+    }
+
     public int getId() {
         return id;
     }

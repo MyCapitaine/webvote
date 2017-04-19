@@ -50,8 +50,8 @@
 				
 				<div class="uns_box" >
 					<ul class="menu">
-						<li style="display: list-item;"><a href="home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
-						<li ><a href="signout"> 退出</a></li>
+						<li style="display: list-item;"><a href="/home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+						<li ><a href="/signout"> 退出</a></li>
 					</ul>
 				</div>
 				
@@ -71,19 +71,19 @@
                     </li>
 
                     <li>
-                        <a href="#" id="coin">
+                        <a href="#" id="comment" class="canHover">
                             <i class="al-coin"></i>
                             <span>我的留言</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" id="record">
+                        <a href="#" id="vote" class="canHover">
                             <i class="al-jl"></i>
                             <span>我的投票</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/home/safe" id="site">
+                        <a href="/home/safe" id="safe" class="canHover">
                             <i class="al-aq"></i>
                             <span>账号安全</span>
                         </a>
@@ -181,7 +181,8 @@
                                 <label>注册时间:</label>
                             </div>
                             <div class="textValue">
-                                <label th:text="${currentUser.registerTime}">注册时间:</label>
+                                <label th:with="date=${currentUser.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}"
+                                >注册时间:</label>
                             </div>
                         </div>
                     </form>

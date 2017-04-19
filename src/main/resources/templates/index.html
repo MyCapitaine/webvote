@@ -48,7 +48,7 @@
         <p th:text="*{sex}">233</p>
         <p th:text="*{birthday}">233</p>
         <p th:text="*{bindingEmail}">233</p>
-        <p th:text="*{registerTime}">233</p>
+        <p th:with="date=${currentUser.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">233</p>
         <button type="button" class="btn btn-danger" id="delete">随机</button>
     </div>
 </body>

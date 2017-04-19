@@ -79,7 +79,7 @@ public class UserInformationServiceImpl implements UserInformationService {
     }
 
     @Override
-    public boolean isEmailBinded(String bindingEmail) {
+    public boolean isEmailBinding(String bindingEmail) {
         return (userInformationDao.findByBindingEmail(bindingEmail)!=null)?true:false;
     }
 

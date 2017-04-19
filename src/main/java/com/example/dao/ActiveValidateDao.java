@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface ActiveValidateDao extends JpaRepository<ActiveValidate, Integer> {
 
-    public List<ActiveValidate> findByValidator(String validate);
+    List<ActiveValidate> findByValidator(String validate);
 }

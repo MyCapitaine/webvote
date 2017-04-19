@@ -23,7 +23,12 @@ public class UserRegister {
     private String bindingEmail;//绑定邮箱
 
     @Temporal(TemporalType.TIMESTAMP)
+    //@Column(name = "register_time",nullable = false)
     private Date registerTime; // 注册时间，格式：yyyy-MM-dd HH:mm:ss
+
+    @Temporal(TemporalType.TIMESTAMP)
+    //@Column(name = "last_login_time",nullable = false)
+    private Date lastLoginTime; // 注册时间，格式：yyyy-MM-dd HH:mm:ss
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -66,9 +71,8 @@ public class UserRegister {
         return loginName;
     }
 
-    public void setLogin_name(String login_name) {
-
-        this.loginName = login_name;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public Date getRegisterTime() {
@@ -88,5 +92,11 @@ public class UserRegister {
         this.banned = banned;
     }
 
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
 
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
 }

@@ -8,5 +8,5 @@ import java.util.List;
  * Created by hasee on 2017/4/14.
  */
 public interface ResetPasswordValidateDao extends JpaRepository<ResetPasswordValidate, Integer> {
-    public List<ResetPasswordValidate> findByValidateCode(String validateCode);
+    List<ResetPasswordValidate> findByValidateCode(String validateCode);
 }

@@ -10,6 +10,8 @@ import com.example.vo.ModifyLoginPasswordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 
 /**
  * Created by hasee on 2017/3/29.
@@ -239,12 +241,9 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         sr.setSuccess(false);
         sr.setMessage("log in failed");
 
-//        List<UserRegister> urs=getURByName(login_name);
         UserRegister ur=getURByName(login_name);
-            //将实例的登录名和登录密码拼接后进行md5加密，将前者和cookie中的md5加密信息进行比较
-//        if(urs.size()>0){
+        //将实例的登录名和登录密码拼接后进行md5加密，将前者和cookie中的md5加密信息进行比较
         if(ur!=null){
-//            for(UserRegister ur :urs){
                 //todo 检测账号是否被封禁
                 if(!isBanned(ur)){
                     String info=ur.getLoginName()+ur.getLoginPassword();
@@ -256,6 +255,9 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                         return sr;
                     }
                     if(md5info.equals(md5pwd)){
+                        Date loginTime = new Date();
+                        ur.setLastLoginTime(loginTime);
+                        userRegisterDao.save(ur);
                         sr.setData(ur);
                         sr.setMessage("log in success");
                         sr.setSuccess(true);
@@ -267,7 +269,6 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                 else {
                     sr.setMessage("User is banned");
                 }
-//            }
         }
         else{
             sr.setMessage("User is not exist");
