@@ -49,8 +49,13 @@ $(document).ready(function(){
         $("body").attr("style","height:100%");
         $(".mask").show();
         $(".mask").on("click",function(){
-            $(".mask").hide();
+           // $(".mask").hide();
+            $(".mask").addClass("hidden");
             $(".mask").off("click");
+            setTimeout(function(){
+                $(".mask").removeClass("hidden");
+                $(".mask").hide();
+            },1500);
         });
     });
 

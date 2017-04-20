@@ -15,7 +15,7 @@ $(document).ready(function(){
             var data=page.content;
             var page_total=page.totalPages;
             if(page_index<=page_total){
-                dynamic_page(page_total,page_index);
+                dynamic_page(100,page_index);
                 dynamic_table(data);
             }
             else{
@@ -77,7 +77,7 @@ function dynamic_page(page_total,page_current){
         init:function(totalsubpageTmep,args){
             return (function(){
                 ms.fillHtml(totalsubpageTmep,args);
-                ms.bindEvent(totalsubpageTmep,args);
+                //ms.bindEvent(totalsubpageTmep,args);
             })();
         },
         //填充html
@@ -139,18 +139,23 @@ function dynamic_page(page_total,page_current){
                     totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >next</a></li>";
                     totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >foot</a></li>";
                 }
-                // totalsubpageTmep+='<div class="col-sm-2">';
-                // totalsubpageTmep+='<div class="input-group">';
-                // totalsubpageTmep+='<input type="text" class="form-control" placeholder="page"/>';
-                // totalsubpageTmep+='<span class="input-group-btn">';
-                // totalsubpageTmep+='<button class="btn btn-default" type="button" id="goto">GoTo</button>';
-                // //totalsubpageTmep+='<button class="btn btn-default" type="button" id="change">Change_page</button>';
-                // totalsubpageTmep+='</span></div></div>';
+                var direct='<div class="direct-wrapper">';
+                direct+='<div class="direct">';
+                direct+='<input class="direct-input" type="text"  placeholder="page"/>';
+                direct+='<span >';
+                direct+='<button class="direct-button" type="button" id="goto">GoTo</button>';
+                //totalsubpageTmep+='<button class="btn btn-default" type="button" id="change">Change_page</button>';
+                direct+='</span></div></div>';
+                $(".direct-wrapper").remove();
                 $(".pagination").html(totalsubpageTmep);
+                var page= $(".page-wrapper").html();
+                var page_wrapper=page+direct;
+                $(".page-wrapper").html(page_wrapper);
                 $("li").not(".h_p_n_f").each(function(){
                     if($(this).text()==args.currPage)
                         $(this).addClass("active");
                 });
+                ms.bindEvent($(".pagination"),args);
             })();
         },
         //绑定事件
@@ -186,32 +191,38 @@ function dynamic_page(page_total,page_current){
                 //
                 // });
                 //第几页
-                totalsubpageTmep.on("click","a.geraltTb_pager",function(event){
+                $(totalsubpageTmep).on("click",".geraltTb_pager",function(event){
+                    console.log("page click");
                     var current = parseInt($(this).text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
+                   // ms.bindEvent(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
                     changeURL($(".ali.active").text());
                     change_to_page($(".ali.active").text()-1);
                 });
                 //首页
                 totalsubpageTmep.on("click","#head",function(event){
+                    console.log("head click");
                     //var current = parseInt($(".active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":1,"totalPage":args.totalPage,"turndown":args.turndown});
                     change_to_page($(".ali.active").text()-1);
                 });
                 //上一页
                 totalsubpageTmep.on("click","#prev",function(event){
+                    console.log("prev click");
                     var current = parseInt($(".ali.active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current-1,"totalPage":args.totalPage,"turndown":args.turndown});
                     change_to_page($(".ali.active").text()-1);
                 });
                 //下一页
                 totalsubpageTmep.on("click","#next",function(){
+                    console.log("next click");
                     var current = parseInt($(".ali.active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current+1,"totalPage":args.totalPage,"turndown":args.turndown});
                     change_to_page($(".ali.active").text()-1);
                 });
                 //尾页
                 totalsubpageTmep.on("click","#foot",function(event){
+                    console.log("foot click");
                     //var current = parseInt($(".active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":args.totalPage,"totalPage":args.totalPage,"turndown":args.turndown});
                     change_to_page($(".ali.active").text()-1);

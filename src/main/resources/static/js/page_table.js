@@ -179,6 +179,7 @@ function dynamic_page(page_total,page_current){
         bindEvent:function(totalsubpageTmep,args){
             return (function(){
                 //删除操作
+                console.log("bind:"+$(totalsubpageTmep).html());
                 $("#delete").on("click",function(){
                     var ids=[];
                     $(":checked").not("#all").each(function(){
