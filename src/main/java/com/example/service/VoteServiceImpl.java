@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dao.VoteActivitiesDao;
@@ -16,6 +17,7 @@ import com.example.entity.VoteOptionsEntity;
 import com.example.entity.VotesEntity;
 import com.example.serviceInterface.VoteService;
 
+@Service
 public class VoteServiceImpl implements VoteService {
 	@Autowired
 	VotesDao votesDao;
