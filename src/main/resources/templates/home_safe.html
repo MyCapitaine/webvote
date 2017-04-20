@@ -72,7 +72,7 @@
                 <li>
                     <a href='javascript:void(0);' id="safe" title="账号安全" class="active">
                         <i class="al-aq"></i>
-                        <span>账号安全</span>
+                        <span>我的账号</span>
                     </a>
                 </li>
             </ul>
@@ -80,20 +80,43 @@
 
         <div class="security-right">
             <div class="title">
-                <span class="title-text">我的邮箱</span>
+                <span class="title-text">账号安全</span>
             </div>
             <div class="information">
-                <div class="row">
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="textName">
+                        <label>
+                            用<b style="width: 5px;display: inline-block;"></b>户<b style="width: 5px;display: inline-block;"></b>名:
+                        </label>
+                    </div>
+                    <div class="textValue">
+                        <label th:text="${userRegister.loginName}" class="encode">用户名:</label>
+                    </div>
+                    <div class="action">
+                        <a >找回用户名</a>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="textName">
+                        <label>我的密码:</label>
+                    </div>
+                    <div class="textValue">
+                        <label th:text="${userRegister.loginPassword}" class="encode">我的密码:</label>
+                    </div>
+                    <div class="action">
+                        <a >重置密码</a>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 20px;">
                     <div class="textName">
                         <label>绑定邮箱:</label>
                     </div>
                     <div class="textValue">
-                        <label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
+                        <label th:text="${currentUser.bindingEmail}" >绑定邮箱:</label>
                     </div>
                     <div class="action">
                         <a >修改绑定邮箱</a>
                     </div>
-
                 </div>
             </div>
 

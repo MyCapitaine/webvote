@@ -4,6 +4,7 @@ import com.example.entity.*;
 import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
+import com.example.util.Encrypt;
 import com.example.util.IpAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -98,7 +99,10 @@ public class TestInterceptor implements HandlerInterceptor {
                         long now = ur.getLastLoginTime().getTime();
                         //获取UserInformation放入session
                         ServiceResult uisr = userInformationService.findById(ur.getId());
-                        session.setAttribute("currentUser",uisr.getData());
+                        UserInformation ui = (UserInformation) uisr.getData();
+                        ui.setBindingEmail(Encrypt.encryptEmailPrefix(ui.getBindingEmail()));
+
+                        session.setAttribute("currentUser",ui);
                         //更新coolie
                         cookie.setMaxAge(60*60*24*30);
                         cookie.setPath("/");

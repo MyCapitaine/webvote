@@ -11,6 +11,7 @@ import com.example.serviceInterface.ActiveValidateService;
 import com.example.serviceInterface.SendEmail;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
+import com.example.util.Encrypt;
 import com.example.util.SendActiveValidateEmail;
 import com.example.util.SendEmailFactory;
 import com.example.vo.ModifyLoginPasswordVO;
@@ -41,6 +42,18 @@ public class DemoApplicationTests {
 	@Autowired
 	private LoginRecordDao loginRecordDao;
 
+	@Test
+	public void test14(){
+		System.out.println(Encrypt.encryptEmailPrefix("5@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("57@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("578@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("5787@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("57877@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("578776@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("5787763@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("57877637@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("578776370@qq.com"));
+	}
 	@Test
 	public void test13(){
 		for(int i=0;i<10;i++){

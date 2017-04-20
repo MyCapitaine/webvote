@@ -1,13 +1,11 @@
 package com.example.controller;
 
 import com.example.dao.LoginRecordDao;
-import com.example.entity.JsonResult;
-import com.example.entity.LoginRecord;
-import com.example.entity.ServiceResult;
-import com.example.entity.UserInformation;
+import com.example.entity.*;
 import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
+import com.example.util.Encrypt;
 import com.example.vo.ModifyInformationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -66,7 +64,6 @@ public class UserInformationController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println(date);
         ui.setBirthday(date);
 
         userInformationService.modify(ui);
@@ -79,7 +76,15 @@ public class UserInformationController {
     }
 
     @RequestMapping("/home/safe")
-    public String safe(ModelMap model,@RequestParam(value = "page_index",defaultValue = "1")int page_index){
+    public String safe(ModelMap model,@RequestParam(value = "page_index",defaultValue = "1")int page_index,
+                       @ModelAttribute(name = "currentUser")UserInformation ui){
+        ServiceResult sr = userRegisterService.findById(ui.getId());
+        UserRegister ur = (UserRegister) sr.getData();
+        ur.setBindingEmail(Encrypt.encryptEmailPrefix(ur.getBindingEmail()));
+        ur.setLoginName(Encrypt.encrypt(ur.getLoginName()));
+        ur.setLoginPassword(Encrypt.encrypt(ur.getLoginPassword()));
+
+        model.addAttribute("userRegister",ur);
         model.addAttribute("page_index",page_index);
         return "home_safe";
     }

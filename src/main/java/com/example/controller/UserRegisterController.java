@@ -9,10 +9,7 @@ package com.example.controller;
         import com.example.exception.UserInformationServiceException;
         import com.example.exception.UserRegisterServiceException;
         import com.example.serviceInterface.*;
-        import com.example.util.IpAddress;
-        import com.example.util.SendActiveValidateEmail;
-        import com.example.util.SendEmailFactory;
-        import com.example.util.SendResetPasswordEmail;
+        import com.example.util.*;
         import com.example.vo.LoginVO;
         import com.example.vo.RegisterVO;
 import com.example.vo.SetPasswordVO;
@@ -76,10 +73,21 @@ public class UserRegisterController {
         jr.setSuccess(false);
         //登录前获取上一次登录时间
         ServiceResult usersr = userRegisterService.findByLoginName(form.getLoginName());
-        UserRegister userr = (UserRegister) usersr.getData();
+        ServiceResult usersr2 = userRegisterService.findByBindEmail(form.getLoginName());
+        UserRegister userr=null;
         long last = 0;
-        if(userr!=null){
+        if(usersr.getData()!=null){
+            userr = (UserRegister) usersr.getData();
             last = userr.getLastLoginTime().getTime();
+        }
+        else if(usersr2.getData()!=null){
+            userr = (UserRegister) usersr2.getData();
+            last = userr.getLastLoginTime().getTime();
+        }
+        else{
+            jr.setMessage("User is not exist");
+            jr.setSuccess(false);
+            return jr;
         }
         //登录后上一次登录时间更新
         ServiceResult<?> ursr= userRegisterService.login(form.getLoginName(),form.getLoginPassword());
@@ -92,6 +100,7 @@ public class UserRegisterController {
             //获取UserInformation放入session
             ServiceResult<?> uisr = userInformationService.findById(ur.getId());
             UserInformation ui = (UserInformation)uisr.getData();
+            ui.setBindingEmail(Encrypt.encryptEmailPrefix(ui.getBindingEmail()));
             
             jr.setData(ui);
             jr.setMessage(ursr.getMessage());
@@ -117,7 +126,7 @@ public class UserRegisterController {
         return jr;
     }
 
-    /************************注册用户***************************/
+    /************************注册用户*****************  **********/
     //返回注册界面
     @RequestMapping("/signup")
     public String signup(){

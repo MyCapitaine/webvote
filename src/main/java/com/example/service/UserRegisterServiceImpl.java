@@ -228,8 +228,17 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     }
 
     /**
+     * getURByEmail 根据登录名查找userregister表中的信息
+     * @param bindingEmail 登录名
+     * @return 返回一个List<UserRegister>
+     */
+    @Override
+    public UserRegister getURByEmail(String bindingEmail) {
+        return userRegisterDao.findByBindingEmail(bindingEmail);
+    }
+    /**
      * login 登录功能的实现
-     * @param login_name cookie或表单中保存的登录名
+     * @param login_name cookie或表单中保存的登录名或者绑定邮箱
      * @param  md5pwd cookie或表单中保存的md5加密后的信息，加密前信息由登录名和登录密码拼接而成
      * @return 返回一个JsonResult
      * todo 检测账号是否被封禁
@@ -242,19 +251,26 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         sr.setMessage("log in failed");
 
         UserRegister ur=getURByName(login_name);
+        if(ur==null){
+            ur=getURByEmail(login_name);
+        }
         //将实例的登录名和登录密码拼接后进行md5加密，将前者和cookie中的md5加密信息进行比较
         if(ur!=null){
                 //todo 检测账号是否被封禁
                 if(!isBanned(ur)){
                     String info=ur.getLoginName()+ur.getLoginPassword();
+                    String info2 = ur.getBindingEmail()+ur.getLoginPassword();
                     String md5info= null;
+                    String md5info2= null;
                     try {
                         md5info = Code.MD5Encoder(info,"utf-8");
+                        md5info2 = Code.MD5Encoder(info2,"utf-8");
                     } catch (Exception e) {
                         sr.setMessage("Some errors occurred,wait a moment.");
                         return sr;
                     }
-                    if(md5info.equals(md5pwd)){
+                    if(md5info.equals(md5pwd)
+                            ||md5info2.equals(md5pwd)){
                         Date loginTime = new Date();
                         ur.setLastLoginTime(loginTime);
                         userRegisterDao.save(ur);
