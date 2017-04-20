@@ -15,7 +15,7 @@ $(document).ready(function(){
             var data=page.content;
             var page_total=page.totalPages;
             if(page_index<=page_total){
-                dynamic_page(100,page_index);
+                dynamic_page(page_total,page_index);
                 dynamic_table(data);
             }
             else{
