@@ -192,7 +192,6 @@ function dynamic_page(page_total,page_current){
                 // });
                 //第几页
                 $(totalsubpageTmep).on("click",".geraltTb_pager",function(event){
-                    console.log("page click");
                     var current = parseInt($(this).text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
                    // ms.bindEvent(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
@@ -201,34 +200,29 @@ function dynamic_page(page_total,page_current){
                 });
                 //首页
                 totalsubpageTmep.on("click","#head",function(event){
-                    console.log("head click");
                     //var current = parseInt($(".active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":1,"totalPage":args.totalPage,"turndown":args.turndown});
                     change_to_page($(".ali.active").text()-1);
                 });
                 //上一页
                 totalsubpageTmep.on("click","#prev",function(event){
-                    console.log("prev click");
                     var current = parseInt($(".ali.active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current-1,"totalPage":args.totalPage,"turndown":args.turndown});
                     change_to_page($(".ali.active").text()-1);
                 });
                 //下一页
                 totalsubpageTmep.on("click","#next",function(){
-                    console.log("next click");
                     var current = parseInt($(".ali.active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current+1,"totalPage":args.totalPage,"turndown":args.turndown});
                     change_to_page($(".ali.active").text()-1);
                 });
                 //尾页
                 totalsubpageTmep.on("click","#foot",function(event){
-                    console.log("foot click");
                     //var current = parseInt($(".active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":args.totalPage,"totalPage":args.totalPage,"turndown":args.turndown});
                     change_to_page($(".ali.active").text()-1);
                 });
                 //跳到xx页
-
                 $(document).keydown(function(event){
                     if(event.keyCode==13){
                         $(".btn").click();

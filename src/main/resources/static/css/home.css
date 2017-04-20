@@ -118,6 +118,8 @@ ul{
 }
 .active{
     background-color: #00a1d7;
+    cursor: default;
+    color:#fff !important;
 }
 /*右侧信息栏*/
 .security-right {
@@ -140,6 +142,24 @@ ul{
 	float: left;
 	margin: 15px 0 0 5px;
 	font-size:14px;
+}
+.tab{
+    float: left;
+    padding: 15px 15px 15px 5px;
+    cursor:pointer;
+}
+.tab-active{
+    color: #00a1d6;
+}
+.tab-border{
+    height: 50px;
+    position: absolute;
+    width: 66px;
+    z-index: 100;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #ddd;
+    border-radius: 6px 6px 0 0;
 }
 /*头像相关*/
 .portrait-wrapper{	

@@ -55,6 +55,8 @@ $(document).ready(function(){
             setTimeout(function(){
                 $(".mask").removeClass("hidden");
                 $(".mask").hide();
+                $("html").attr("style","");
+                $("body").attr("style","");
             },1500);
         });
     });

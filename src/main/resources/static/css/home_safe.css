@@ -36,10 +36,13 @@
 }
 
 /*分页相关*/
+.disable a{
+    color: grey !important;
+}
 .disable a:hover,.disable a:focus{
     cursor: default;
     background-color: #ffffff !important;
-    color: #337ab7 !important;
+    color: grey !important;
 }
 
 .page-wrapper{

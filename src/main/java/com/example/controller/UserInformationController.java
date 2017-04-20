@@ -34,7 +34,7 @@ public class UserInformationController {
 
     @RequestMapping("/home")
     public String home(ModelMap model){
-        return "home";
+        return "home_information";
     }
 
     //检测昵称是否被占用。被占用返回"false"
@@ -81,7 +81,7 @@ public class UserInformationController {
     @RequestMapping("/home/safe")
     public String safe(ModelMap model,@RequestParam(value = "page_index",defaultValue = "1")int page_index){
         model.addAttribute("page_index",page_index);
-        return "safe";
+        return "home_safe";
     }
 
     @RequestMapping("/home/record")
@@ -101,5 +101,16 @@ public class UserInformationController {
         return jr;
     }
 
+    @RequestMapping("/home/comment")
+    public String comment(ModelMap model,@RequestParam(value = "page_index",defaultValue = "1")int page_index){
+        model.addAttribute("page_index",page_index);
+        return "home_comment";
+    }
+
+    @RequestMapping("home/vote")
+    public String vote(ModelMap model,@RequestParam(value = "page_index",defaultValue = "1")int page_index){
+        model.addAttribute("page_index",page_index);
+        return "home_vote";
+    }
 
 }

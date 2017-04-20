@@ -30,6 +30,10 @@ public class SimpleController {
     public String index2(ModelMap model){
         return "index";
     }
+    @RequestMapping("/index/*")
+    public String index3(ModelMap model){
+        return "index";
+    }
 
     @RequestMapping("/page")
     public String page(ModelMap model, @RequestParam(value = "page_index",defaultValue = "1")int index){

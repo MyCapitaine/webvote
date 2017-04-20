@@ -2,21 +2,21 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <script src="../js/jquery.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
     <!--<link href="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet"/>-->
-    <link href="../css/bootstrap.css" rel="stylesheet"/>
-    <link href="../css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-    <script src="../js/bootstrap.js"></script>
-    <script src="../js/bootstrap-datetimepicker.js"></script>
-    <script src="../js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/bootstrap-datetimepicker.js"></script>
+    <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <title>Title</title>
 
 
-    <link href="../css/home.css" rel="stylesheet" type="text/css" />
-    <link href="../css/safe.css" rel="stylesheet" type="text/css" />
-    <script src="../js/date_format.js"></script>
-    <script src="../js/safe.js"></script>
+    <link href="/css/home.css" rel="stylesheet" type="text/css" />
+    <link href="/css/home_safe.css" rel="stylesheet" type="text/css" />
+    <script src="/js/date_format.js"></script>
+    <script src="/js/home_safe.js"></script>
 </head>
 <body>
 <script th:inline="javascript">
@@ -58,19 +58,19 @@
                 </li>
 
                 <li>
-                    <a href="#" id="comment" class="canHover">
+                    <a href="/home/comment" id="comment" class="canHover">
                         <i class="al-coin"></i>
                         <span>我的留言</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="vote" class="canHover">
+                    <a href="/home/vote" id="vote" class="canHover">
                         <i class="al-jl"></i>
                         <span>我的投票</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="safe" title="账号安全" class="active">
+                    <a href='javascript:void(0);' id="safe" title="账号安全" class="active">
                         <i class="al-aq"></i>
                         <span>账号安全</span>
                     </a>
