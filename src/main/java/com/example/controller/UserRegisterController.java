@@ -9,9 +9,7 @@ package com.example.controller;
         import com.example.exception.UserInformationServiceException;
         import com.example.exception.UserRegisterServiceException;
         import com.example.serviceInterface.*;
-        import com.example.util.SendActiveValidateEmail;
-        import com.example.util.SendEmailFactory;
-        import com.example.util.SendResetPasswordEmail;
+        import com.example.util.*;
         import com.example.vo.LoginVO;
         import com.example.vo.RegisterVO;
 import com.example.vo.SetPasswordVO;
@@ -21,9 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
         import org.springframework.web.bind.annotation.*;
+        import org.springframework.web.bind.support.SessionStatus;
 
 
         import javax.servlet.http.Cookie;
+        import javax.servlet.http.HttpServletRequest;
         import javax.servlet.http.HttpServletResponse;
         import javax.servlet.http.HttpSession;
         import java.util.Date;
@@ -41,7 +41,8 @@ public class UserRegisterController {
     private ResetPasswordValidateService resetPasswordValidateService;
     @Autowired
     private SetPasswordValidateService setPasswordValidateService;
-
+    @Autowired
+    private LoginRecordService loginRecordService;
 
 
     /************************用户登录***************************/
@@ -53,36 +54,65 @@ public class UserRegisterController {
 
     //退出登录，返回message界面
     @RequestMapping("/signout")
-    public String signout(ModelMap model){//SessionStatus sessionStatus,,@ModelAttribute(value = "previousPage")String previous
-        //model.addAttribute("redirectTo",previous);
+    public String signout(ModelMap model,SessionStatus sessionStatus){//SessionStatus sessionStatus,,@ModelAttribute(value = "previousPage")String previous
         model.addAttribute("message","退出登录");
-        //sessionStatus.setComplete();
+        sessionStatus.setComplete();
+
         return "message";
     }
 
     //登录验证
     @RequestMapping("/login")
     @ResponseBody
-    public JsonResult<UserInformation> login(LoginVO form, ModelMap model,HttpSession session,HttpServletResponse httpServletResponse){
-        System.out.println("loginName: "+form.getLoginName()+" pwd: "+form.getLoginPassword());
+    public JsonResult<UserInformation> login(LoginVO form, ModelMap model, HttpSession session,
+                                             HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         JsonResult<UserInformation> jr=new JsonResult<UserInformation>();
         jr.setData(null);
         jr.setMessage("log in failed");
         jr.setSuccess(false);
-
+        //登录前获取上一次登录时间
+        ServiceResult usersr = userRegisterService.findByLoginName(form.getLoginName());
+        ServiceResult usersr2 = userRegisterService.findByBindEmail(form.getLoginName());
+        UserRegister userr=null;
+        long last = 0;
+        if(usersr.getData()!=null){
+            userr = (UserRegister) usersr.getData();
+            last = userr.getLastLoginTime().getTime();
+        }
+        else if(usersr2.getData()!=null){
+            userr = (UserRegister) usersr2.getData();
+            last = userr.getLastLoginTime().getTime();
+        }
+        else{
+            jr.setMessage("User is not exist");
+            jr.setSuccess(false);
+            return jr;
+        }
+        //登录后上一次登录时间更新
         ServiceResult<?> ursr= userRegisterService.login(form.getLoginName(),form.getLoginPassword());
         jr.setMessage(ursr.getMessage());
         jr.setSuccess(ursr.isSuccess());
         if(ursr.isSuccess()){
+            //登录后获取最近的的登录时间
             UserRegister ur = (UserRegister)ursr.getData();
+            long now = ur.getLastLoginTime().getTime();
+            //获取UserInformation放入session
             ServiceResult<?> uisr = userInformationService.findById(ur.getId());
             UserInformation ui = (UserInformation)uisr.getData();
+            ui.setBindingEmail(Encrypt.encryptEmailPrefix(ui.getBindingEmail()));
             
             jr.setData(ui);
             jr.setMessage(ursr.getMessage());
             jr.setSuccess(ursr.isSuccess());
             model.addAttribute("currentUser",ui);
-            
+            //todo login record
+            if(now-last>=1000*60*60){
+                LoginRecord lr = new LoginRecord(ur);
+                lr.setIp(IpAddress.getIpAddr(httpServletRequest));
+                loginRecordService.add(lr);
+                System.out.println("***********controller登录记录**********");
+            }
+            //remember me 利用cookie实现自动登录
             if(form.getRemember()){
                 String cu=form.getLoginName()+":"+form.getLoginPassword();
                 Cookie cookie=new Cookie("currentUser",cu);
@@ -90,12 +120,11 @@ public class UserRegisterController {
                 cookie.setPath("/");
                 httpServletResponse.addCookie(cookie);
             }
-            
         }
         return jr;
     }
 
-    /************************注册用户***************************/
+    /************************注册用户*****************  **********/
     //返回注册界面
     @RequestMapping("/signup")
     public String signup(){
@@ -123,7 +152,8 @@ public class UserRegisterController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public JsonResult<UserInformation> register(RegisterVO form , ModelMap model){
+    public JsonResult<UserInformation> register(RegisterVO form , ModelMap model,HttpServletRequest httpServletRequest){
+        Date registerTime = new Date();
         JsonResult<UserInformation> js = new JsonResult<UserInformation>();
         js.setData(null);
         js.setMessage("register failed");
@@ -132,8 +162,9 @@ public class UserRegisterController {
         UserRegister ur = new UserRegister();
         ur.setLoginPassword(form.getLoginPassword());
         ur.setBindingEmail(form.getBindingEmail());
-        ur.setLogin_name(form.getLoginName());
-        ur.setRegisterTime(new Date());
+        ur.setLoginName(form.getLoginName());
+        ur.setRegisterTime(registerTime);
+        ur.setLastLoginTime(registerTime);
 
         try{
             ServiceResult<UserRegister> ursr = userRegisterService.register(ur);
@@ -157,6 +188,9 @@ public class UserRegisterController {
             js.setMessage("register success");
             js.setSuccess(true);
             js.setData(ui);
+            LoginRecord lr = new LoginRecord(ur);
+            lr.setIp(IpAddress.getIpAddr(httpServletRequest));
+            loginRecordService.add(lr);
         }
         catch (UserRegisterServiceException e) {
             js.setMessage(e.getMessage());
@@ -330,7 +364,6 @@ public class UserRegisterController {
     	
     	ServiceResult<SetPasswordValidate> spvsr = setPasswordValidateService.validate(id, validateCode);
     	if(spvsr.isSuccess()){
-    		System.out.println("validate success");
     		SetPasswordValidate spv = (SetPasswordValidate) spvsr.getData();
     		ServiceResult<UserRegister> ursr = userRegisterService.findById(spv.getId());
     		UserRegister ur = (UserRegister) ursr.getData();
@@ -344,7 +377,6 @@ public class UserRegisterController {
     		model.addAttribute("message","重置密码成功，请登录");
     	}
     	else{
-    		System.out.println("validate failed");
     		model.addAttribute("redirectTo","forgetPassword");
     		model.addAttribute("message","验证错误，请重新发送邮件");
     	}

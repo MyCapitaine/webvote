@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
  * Created by hasee on 2017/4/19.
  */
 public interface LoginRecordDao extends JpaRepository<LoginRecord, Integer> {
-    @Query(" from LoginRecord lr where lr.userId=?1 ")
+    @Query(" from LoginRecord lr where lr.userId=?1 order by loginTime desc")
     Page findByUserId(int id, Pageable page);
 
 

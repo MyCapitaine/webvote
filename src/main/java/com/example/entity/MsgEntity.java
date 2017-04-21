@@ -22,7 +22,7 @@ public class MsgEntity {
 	@Column(name = "vid", nullable = false)
 	private int vid;
 	
-	@Column(name = "inner", nullable = false)
+	@Column(name = "inner_", nullable = false)
 	private String inner;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -80,9 +80,8 @@ public class MsgEntity {
 
 	public void setBanned(int banned) {
 		this.banned = banned;
-	} 
-    
-    
-    
-	
+	}
+
+	public MsgEntity() {
+	}
 }

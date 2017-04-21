@@ -10,16 +10,16 @@ import com.example.exception.UserInformationServiceException;
  */
 
 public interface UserInformationService {
-    public ServiceResult register(UserInformation ui) throws UserInformationServiceException;
+    ServiceResult register(UserInformation ui) throws UserInformationServiceException;
 
-    public ServiceResult delete(UserRegister ur);
+    ServiceResult delete(UserRegister ur);
 
-    public boolean isNickNameUsed(String nickName);
-    public boolean isNickNameUsed(int id,String nickName);
-    public boolean isEmailBinded(String bindingEmail);
-    public ServiceResult modify(UserInformation ui);
+    boolean isNickNameUsed(String nickName);
+    boolean isNickNameUsed(int id,String nickName);
+    boolean isEmailBinding(String bindingEmail);
+    ServiceResult modify(UserInformation ui);
 
-    public ServiceResult findById(int id);
-    public ServiceResult findByNickName(String name);
+    ServiceResult findById(int id);
+    ServiceResult findByNickName(String name);
 
 }

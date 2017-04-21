@@ -178,7 +178,7 @@ function signup(validate) {
             url : "/register",
             type : "post",
             data : {
-                loginName : $("#loginName").val(),
+                loginName : $.trim($("#loginName").val()),
                 loginPassword : $("#password").val(),
                 nickName:$("#nickName").val(),
                 bindingEmail : $("#email").val()

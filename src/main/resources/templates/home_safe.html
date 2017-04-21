@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <script src="/js/jquery.min.js"></script>
+    <!--<link href="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet"/>-->
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/bootstrap-datetimepicker.js"></script>
+    <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <title>Title</title>
+
+
+    <link href="/css/home.css" rel="stylesheet" type="text/css" />
+    <link href="/css/home_safe.css" rel="stylesheet" type="text/css" />
+    <script src="/js/date_format.js"></script>
+    <script src="/js/home_safe.js"></script>
+</head>
+<body>
+<script th:inline="javascript">
+    var id = [[${currentUser.id}]];
+    var page_index = [[${page_index}]];
+</script>
+<div class="z_top_container">
+    <div class="z_top b-header-blur-black">
+        <div class="z_header">
+            <div class="z_top_nav">
+                <ul>
+                    <li class="home">
+
+                        <a href="/"><span>网投</span><span>主站</span></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="uns_box" >
+                <ul class="menu">
+                    <li style="display: list-item;"><a href="/home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                    <li ><a href="/signout"> 退出</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="information_container">
+    <div class="security_content">
+        <div class="security-left">
+            <ul class="child-list">
+                <li>
+                    <a href="/home" id="home" title="首页" class="canHover">
+                        <i ></i>
+                        <span>首<b style="width: 28px;display: inline-block;"></b>页</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/home/comment" id="comment" class="canHover">
+                        <i class="al-coin"></i>
+                        <span>我的留言</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/home/vote" id="vote" class="canHover">
+                        <i class="al-jl"></i>
+                        <span>我的投票</span>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript:void(0);' id="safe" title="账号安全" class="active">
+                        <i class="al-aq"></i>
+                        <span>我的账号</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="security-right">
+            <div class="title">
+                <span class="title-text">账号安全</span>
+            </div>
+            <div class="information">
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="textName">
+                        <label>
+                            用<b style="width: 5px;display: inline-block;"></b>户<b style="width: 5px;display: inline-block;"></b>名:
+                        </label>
+                    </div>
+                    <div class="textValue">
+                        <label th:text="${userRegister.loginName}" class="encode">用户名:</label>
+                    </div>
+                    <div class="action">
+                        <a >找回用户名</a>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="textName">
+                        <label>我的密码:</label>
+                    </div>
+                    <div class="textValue">
+                        <label th:text="${userRegister.loginPassword}" class="encode">我的密码:</label>
+                    </div>
+                    <div class="action">
+                        <a >重置密码</a>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="textName">
+                        <label>绑定邮箱:</label>
+                    </div>
+                    <div class="textValue">
+                        <label th:text="${currentUser.bindingEmail}" >绑定邮箱:</label>
+                    </div>
+                    <div class="action">
+                        <a >修改绑定邮箱</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="title">
+                <span class="title-text">登录信息</span>
+            </div>
+            <div class="information">
+                <form class="information-form">
+                    <div class="wrapper-padding">
+                        <div class="table-wrapper">
+                            <table class="table-normal" id="login_log_table">
+                                <thead>
+                                <tr>
+                                    <td style="width: 36%"><div>时间</div></td>
+                                    <td style="width: 30%"><div>IP</div></td>
+                                    <td style="width: 34%"><div>地理位置</div></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!--<tr>-->
+                                    <!--<td><div>2017-04-19 13:52:38</div></td>-->
+                                    <!--<td><div>218.94.159.98</div></td>-->
+                                    <!--<td><div>中国江苏南京电信</div></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><div>2017-04-19 13:52:38</div></td>-->
+                                    <!--<td><div>218.94.159.98</div></td>-->
+                                    <!--<td><div>中国江苏南京电信</div></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><div>2017-04-19 13:52:38</div></td>-->
+                                    <!--<td><div>218.94.159.98</div></td>-->
+                                    <!--<td><div>中国江苏南京电信</div></td>-->
+                                <!--</tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </form>
+
+                <div class="img-wrapper" style="display: none">
+
+                    <div class="error-wrapper">
+                        <div class="error-img">
+                            <img  class="portrait-img" src="/images/red_yellow.jpg"/>
+                            <div class="texttip">
+                                <p>点击查看原图</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="page-wrapper">
+
+                    <div class="page">
+                        <ul class="pagination" >
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div >
+    <div class="mask" style="display: none">
+        <span><img src="/images/red_yellow.jpg"/></span>
+    </div>
+</div>
+</body>
+</html>

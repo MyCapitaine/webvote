@@ -16,7 +16,9 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "vote_activities")
 public class VoteActivitiesEntity {
-	
+	public VoteActivitiesEntity() {
+	}
+
 	@Id
 	private int id;
 	

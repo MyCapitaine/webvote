@@ -108,6 +108,7 @@ function dynamic_page(page_total,page_current){
         //填充html
         fillHtml:function(totalsubpageTmep,args){
               return (function(){
+                  console.log("index:"+args.currPage);
                 totalsubpageTmep="";
                 /************************START*********************/
                 if(args.currPage > 1){
@@ -159,13 +160,14 @@ function dynamic_page(page_total,page_current){
                     totalsubpageTmep += "<li class='ali' id='next'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >next</a></li>";
                     totalsubpageTmep += "<li class='ali' id='foot'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >foot</a></li>";
                 }
-                totalsubpageTmep+='<div class="col-sm-2">';
-                totalsubpageTmep+='<div class="input-group">';
-                totalsubpageTmep+='<input type="text" class="form-control" placeholder="page"/>';
-                totalsubpageTmep+='<span class="input-group-btn">';
-                totalsubpageTmep+='<button class="btn btn-default" type="button" id="goto">GoTo</button>';
-                //totalsubpageTmep+='<button class="btn btn-default" type="button" id="change">Change_page</button>';
-                totalsubpageTmep+='</span></div></div>';
+                // totalsubpageTmep+='<div class="col-sm-2">';
+                // totalsubpageTmep+='<div class="input-group">';
+                // totalsubpageTmep+='<input type="text" class="form-control" placeholder="page"/>';
+                // totalsubpageTmep+='<span class="input-group-btn">';
+                // totalsubpageTmep+='<button class="btn btn-default" type="button" id="goto">GoTo</button>';
+                // //totalsubpageTmep+='<button class="btn btn-default" type="button" id="change">Change_page</button>';
+                // totalsubpageTmep+='</span></div></div>';
+                  console.log(totalsubpageTmep);
                 $(".pagination").html(totalsubpageTmep);
                 $("li").not(".h_p_n_f").each(function(){
                     if($(this).text()==args.currPage)
@@ -177,6 +179,7 @@ function dynamic_page(page_total,page_current){
         bindEvent:function(totalsubpageTmep,args){
             return (function(){
                 //删除操作
+                console.log("bind:"+$(totalsubpageTmep).html());
                 $("#delete").on("click",function(){
                     var ids=[];
                     $(":checked").not("#all").each(function(){
@@ -407,7 +410,7 @@ function dynamic_page(page_total,page_current){
 
 function changeURL(page_index){
     var stateObj = { foo: "bar" };
-    history.pushState(stateObj, "page 2", "page?page_index="+page_index);
+    history.pushState(stateObj, "page2", "page?page_index="+page_index);
 }
 
 //换页

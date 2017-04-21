@@ -18,7 +18,10 @@ import javax.persistence.TemporalType;
 public class VotesEntity {
 	@Id
 	private int id;
-	
+
+	public VotesEntity() {
+	}
+
 	@Column(name = "uid", nullable = false)
 	private int uid;
 	

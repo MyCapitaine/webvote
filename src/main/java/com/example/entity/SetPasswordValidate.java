@@ -13,7 +13,7 @@ public class SetPasswordValidate {
 	@Id
     private int id;
 
-    @Column(name="validator",nullable = false,unique = true)
+    @Column(name="validator",nullable = false)
     private String validateCode;
 
     public SetPasswordValidate() {

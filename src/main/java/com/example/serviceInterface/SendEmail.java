@@ -6,5 +6,5 @@ import com.example.exception.SendEmailException;
  * Created by hasee on 2017/4/14.
  */
 public interface SendEmail {
-    public void send(String to,String url) throws SendEmailException;
+    void send(String to,String url) throws SendEmailException;
 }

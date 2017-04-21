@@ -5,8 +5,8 @@ import com.example.entity.ServiceResult;
 import com.example.entity.SetPasswordValidate;
 
 public interface SetPasswordValidateService {
-	public ServiceResult<SetPasswordValidate> validate(int id,String validateCode);
-    public ServiceResult<SetPasswordValidate> add(SetPasswordValidate spv);
-    public void delete(int id);
+	ServiceResult<SetPasswordValidate> validate(int id,String validateCode);
+    ServiceResult<SetPasswordValidate> add(SetPasswordValidate spv);
+    void delete(int id);
 
 }

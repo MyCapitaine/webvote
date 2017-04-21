@@ -1,0 +1,95 @@
+/*登录信息表*/
+.wrapper-padding{
+    padding:0px 30px;
+}
+.table-wrapper{
+    margin: 10px auto 20px;
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-radius: 2px;
+
+    overflow: hidden;
+}
+.table-normal{
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+}
+.table-normal thead tr td {
+    text-align: center;
+    background: #f5f5f5;
+    height: 42px;
+    border-left: #ddd solid 1px;
+    border-bottom: 1px solid #ddd;
+
+}
+.table-normal tbody tr {
+    border-top: 1px solid #ddd;
+}
+.table-normal tbody tr td {
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    border-left: #ddd solid 1px;
+}
+
+/*分页相关*/
+.disable a{
+    color: grey !important;
+}
+.disable a:hover,.disable a:focus{
+    cursor: default;
+    background-color: #ffffff !important;
+    color: grey !important;
+}
+
+.page-wrapper{
+    padding: 0 34px;
+    position: absolute;
+    width: 92%;
+    left: 0;
+    top: 90%;
+}
+.page{
+    float: left;
+}
+.direct-wrapper{
+    display: inline-block;
+    margin-left: 20px;
+}
+.direct{
+    margin: 20px 0;
+}
+.direct-input{
+    height: 28px;
+    width: 70px;
+}
+.direct-button{
+    height: 34px;
+}
+
+/*页码参数错误相关*/
+.img-wrapper{
+    width:820px;
+    margin:100px auto 20px auto;
+}
+.error-wrapper{
+    margin:20px auto 20px auto;
+    border: 1px solid #e5e9ef;
+    border-radius: 200px;
+    background-color: #4C4A43;
+    width: 400px;
+    height: 400px;
+    position: relative;
+}
+.error-img, .error-img img {
+    border-radius: 200px;
+    display: block;
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    cursor: pointer;
+    z-index: 100;
+}

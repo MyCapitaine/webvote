@@ -101,7 +101,7 @@ function login(validate) {
 				}
 				else if(data.message=="User is not exist"){
                     var label=$("label[for='loginName']");
-                    label.html("用户不存在");
+                    label.html("用户不存在或者邮箱错误");
                     label.show();
 				}
                 else if(data.message=="User is banned"){

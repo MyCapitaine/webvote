@@ -1,11 +1,7 @@
 package com.example.entity;
 
 import com.example.vo.ModifyInformationVO;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -18,6 +14,7 @@ public class UserInformation {
     @Id
     private int id;//用户id
 
+    @Temporal(TemporalType.DATE)
     @Column(name="birthday",nullable = false)
     private Date birthday;//出生日期
 

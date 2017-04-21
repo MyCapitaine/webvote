@@ -25,10 +25,85 @@ public class SimpleController {
     public String index(ModelMap model){
         return "index";
     }
-
     @RequestMapping("/index")
     public String index2(ModelMap model){
         return "index";
+    }
+
+//    @RequestMapping("/search")
+//    public String search(){
+//        return "search_index";
+//    }
+//    @RequestMapping("/searchVote")
+//    public String searchVote(ModelMap model,String keyword){
+//        //没有输入关键字，返回搜索首页
+//        if(keyword.equals("")){
+//            return "redirect:search";
+//        }
+//        //有关键字。默认搜索投票
+//        else{
+//            model.addAttribute("searchType","vote");
+//            return "search_result";
+//        }
+//    }
+//    @RequestMapping("/searchUser")
+//    public String searchUser(ModelMap model,String keyword){
+//        //没有输入关键字，返回搜索首页
+//        if(keyword.equals("")){
+//            return "redirect:search";
+//        }
+//        //有关键字,搜索用户并返回结果
+//        else{
+//            model.addAttribute("searchType","user");
+//            return "search_result";
+//        }
+//    }
+
+    @RequestMapping("/search")
+    public String search(@RequestParam(name = "searchType",defaultValue = "vote")String searchType,
+                         @RequestParam(name = "keyword",defaultValue = "")String keyword,
+                         @RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
+                         ModelMap model){
+        if(keyword.equals("")){
+            return "search_index";
+        }
+        model.addAttribute("keyword",keyword);
+        if(searchType.equals("user")){
+            //todo
+            model.addAttribute("searchType","user");
+            model.addAttribute("searchResult","result");
+            return "search_result";
+        }
+        //todo
+        model.addAttribute("searchType","vote");
+        model.addAttribute("searchResult","result");
+        return "search_result";
+    }
+
+    @RequestMapping("/searchVote")
+    public String searchVote(ModelMap model,String keyword){
+        //没有输入关键字，返回搜索首页
+        if(keyword.equals("")){
+            return "redirect:search";
+        }
+        //有关键字。默认搜索投票
+        else{
+            model.addAttribute("searchType","vote");
+            return "search_result";
+        }
+    }
+
+    @RequestMapping("/searchUser")
+    public String searchUser(ModelMap model,String keyword){
+        //没有输入关键字，返回搜索首页
+        if(keyword.equals("")){
+            return "redirect:search";
+        }
+        //有关键字,搜索用户并返回结果
+        else{
+            model.addAttribute("searchType","user");
+            return "search_result";
+        }
     }
 
     @RequestMapping("/page")

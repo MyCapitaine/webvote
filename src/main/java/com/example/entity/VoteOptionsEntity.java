@@ -14,7 +14,10 @@ import javax.persistence.Table;
 public class VoteOptionsEntity {
 	@Id
 	private int id;
-	
+
+	public VoteOptionsEntity() {
+	}
+
 	@Column(name = "vid", nullable = false)
 	private int vid;
 	

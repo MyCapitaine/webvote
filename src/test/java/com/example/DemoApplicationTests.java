@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.dao.LoginRecordDao;
 import com.example.dao.UserRegisterDao;
 import com.example.entity.*;
 import com.example.exception.ActiveValidateServiceException;
@@ -10,6 +11,7 @@ import com.example.serviceInterface.ActiveValidateService;
 import com.example.serviceInterface.SendEmail;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
+import com.example.util.Encrypt;
 import com.example.util.SendActiveValidateEmail;
 import com.example.util.SendEmailFactory;
 import com.example.vo.ModifyLoginPasswordVO;
@@ -17,12 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.math.BigDecimal;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,6 +39,31 @@ public class DemoApplicationTests {
 	@Autowired
 	private ActiveValidateService activeActiveValidateService;
 
+	@Autowired
+	private LoginRecordDao loginRecordDao;
+
+	@Test
+	public void test14(){
+		System.out.println(Encrypt.encryptEmailPrefix("5@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("57@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("578@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("5787@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("57877@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("578776@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("5787763@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("57877637@qq.com"));
+        System.out.println(Encrypt.encryptEmailPrefix("578776370@qq.com"));
+	}
+	@Test
+	public void test13(){
+		for(int i=0;i<10;i++){
+			LoginRecord lr =new LoginRecord();
+			lr.setIp("192.168.64.91");
+			lr.setLoginTime(new Date());
+			lr.setUserId(1);
+			loginRecordDao.save(lr);
+		}
+	}
 	@Test
     public void test12(){
         System.out.println(userRegisterDao.findByLoginName("name0"));
@@ -60,7 +82,7 @@ public class DemoApplicationTests {
 	@Test
 	public void test10(){
 		UserRegister ur=new UserRegister();
-		ur.setLogin_name("aaa");
+		ur.setLoginName("aaa");
 		ur.setBindingEmail("578776370@qq.com");
 		ur.setLoginPassword("111");
 		ur.setRegisterTime(new Date());
