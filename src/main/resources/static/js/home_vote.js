@@ -9,10 +9,13 @@ $(document).ready(function(){
 
 });
 
+
+
 function joinVote(){
     $("#join").on("click",function(){
         rightShift();
         type="join";
+        getJoinedVote();
     });
 }
 
@@ -21,6 +24,10 @@ function publishVote(){
         leftShift();
         type="publish";
     });
+}
+
+function getJoinedVote(){
+
 }
 
 function rightShift(){

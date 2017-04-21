@@ -87,7 +87,7 @@ public class VoteServiceImpl implements VoteService {
 	@Override
 	public ServiceResult<VoteActivitiesEntity> isIpVoted(String ip) {
 		ServiceResult<VoteActivitiesEntity> sr = new ServiceResult<VoteActivitiesEntity>();
-		VoteActivitiesEntity va = voteActivitiesDao.findbyIp();
+		VoteActivitiesEntity va = voteActivitiesDao.findByIp(ip);
 		sr.setData(va);
 		sr.setSuccess(va != null);
 		return sr;
