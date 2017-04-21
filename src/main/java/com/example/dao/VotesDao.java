@@ -29,7 +29,7 @@ public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
 	 * 查询封禁列表
 	 */
 	@Query(" from VotesEntity v where v.banned=1")
-	Page findBanList(Pageable page);
+	List<VotesEntity> findBanList();
 
 //    @Query(" from VotesEntity lr where banned=1")
 //    Page findCommentById(Pageable page);

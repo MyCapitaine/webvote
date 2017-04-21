@@ -33,21 +33,15 @@ function changeURL(page_index){
 
 //换页
 function change_to_page(page_index){
+    $.get("/home/record",
+        {
+            page_index:page_index
+        },
+        function(data){
+            //sessionStorage.setItem("page_index="+page_index,JSON.stringify(data.data.content));
+            dynamic_table(data.data.content);
+        });
     $(":checkbox").prop("checked", false);
-    if(sessionStorage.getItem("page_index="+page_index)){
-        var data=sessionStorage.getItem("page_index="+page_index);
-        dynamic_table(JSON.parse(data));
-    }
-    else{
-        $.get("/home/record",
-            {
-                page_index:page_index
-            },
-            function(data){
-                sessionStorage.setItem("page_index="+page_index,JSON.stringify(data.data.content));
-                dynamic_table(data.data.content);
-            });
-    }
 }
 
 function dynamic_table(data){

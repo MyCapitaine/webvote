@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import com.example.dao.LoginRecordDao;
 import com.example.entity.*;
 import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
