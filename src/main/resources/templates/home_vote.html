@@ -92,29 +92,12 @@
 
                 </div>
             </div>
-            <div class="information">
-                <div class="row">
-                    <div class="textName">
-                        <label>绑定邮箱:</label>
-                    </div>
-                    <div class="textValue">
-                        <label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
-                    </div>
-                    <div class="action">
-                        <a >修改绑定邮箱</a>
-                    </div>
 
-                </div>
-            </div>
-
-            <div class="title">
-                <span class="title-text">登录信息</span>
-            </div>
-            <div class="information">
-                <form class="information-form">
+            <div class="information" >
+                <form class="information-form" id="publish-vote">
                     <div class="wrapper-padding">
                         <div class="table-wrapper">
-                            <table class="table-normal" id="login_log_table">
+                            <table class="table-normal" >
                                 <thead>
                                 <tr>
                                     <td style="width: 36%"><div>时间</div></td>
@@ -129,6 +112,27 @@
                     </div>
 
                 </form>
+
+                <form class="information-form" id="join-vote" style="display: none">
+                    <div class="wrapper-padding">
+                        <div class="table-wrapper">
+                            <table class="table-normal" >
+                                <thead>
+                                <tr>
+                                    <td style="width: 36%"><div>时间</div></td>
+                                    <td style="width: 30%"><div>IP</div></td>
+                                    <td style="width: 34%"><div>地理位置</div></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </form>
+
+
 
                 <div class="img-wrapper" style="display: none">
 

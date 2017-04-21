@@ -67,6 +67,7 @@ public class UserInformationController {
         ui.setBirthday(date);
 
         userInformationService.modify(ui);
+        ui.setBindingEmail(Encrypt.encryptEmailPrefix(ui.getBindingEmail()));
         model.addAttribute("currentUser",ui);
         jr.setData(ui);
         jr.setMessage("modify success");

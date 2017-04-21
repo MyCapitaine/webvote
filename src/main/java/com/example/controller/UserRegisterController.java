@@ -55,7 +55,6 @@ public class UserRegisterController {
     //退出登录，返回message界面
     @RequestMapping("/signout")
     public String signout(ModelMap model,SessionStatus sessionStatus){//SessionStatus sessionStatus,,@ModelAttribute(value = "previousPage")String previous
-        //model.addAttribute("redirectTo",previous);
         model.addAttribute("message","退出登录");
         sessionStatus.setComplete();
 
@@ -121,7 +120,6 @@ public class UserRegisterController {
                 cookie.setPath("/");
                 httpServletResponse.addCookie(cookie);
             }
-            
         }
         return jr;
     }
@@ -366,7 +364,6 @@ public class UserRegisterController {
     	
     	ServiceResult<SetPasswordValidate> spvsr = setPasswordValidateService.validate(id, validateCode);
     	if(spvsr.isSuccess()){
-    		System.out.println("validate success");
     		SetPasswordValidate spv = (SetPasswordValidate) spvsr.getData();
     		ServiceResult<UserRegister> ursr = userRegisterService.findById(spv.getId());
     		UserRegister ur = (UserRegister) ursr.getData();
@@ -380,7 +377,6 @@ public class UserRegisterController {
     		model.addAttribute("message","重置密码成功，请登录");
     	}
     	else{
-    		System.out.println("validate failed");
     		model.addAttribute("redirectTo","forgetPassword");
     		model.addAttribute("message","验证错误，请重新发送邮件");
     	}

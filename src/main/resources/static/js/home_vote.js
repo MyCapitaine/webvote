@@ -1,15 +1,27 @@
 /**
  * Created by hasee on 2017/4/20.
  */
+var type="publish";
+
 $(document).ready(function(){
+    joinVote();
+    $("#join-vote").hide();
+
+});
+
+function joinVote(){
     $("#join").on("click",function(){
         rightShift();
+        type="join";
     });
+}
 
+function publishVote(){
     $("#publish").on("click",function(){
-        leftShift()
+        leftShift();
+        type="publish";
     });
-});
+}
 
 function rightShift(){
     $("#publish").off("click");
@@ -17,9 +29,7 @@ function rightShift(){
     $(".tab-border").addClass("right-shift");
     $("#publish").removeClass("tab-active");
     setTimeout(function(){
-        $("#publish").on("click",function(){
-            leftShift();
-        });
+        publishVote();
         $("#publish").css("cursor","pointer");
         $("#join").addClass("tab-active");
         $(".tab-border").css("left","95px");
@@ -33,9 +43,7 @@ function leftShift(){
     $(".tab-border").addClass("left-shift");
     $("#join").removeClass("tab-active");
     setTimeout(function(){
-        $("#join").on("click",function(){
-            rightShift();
-        });
+        joinVote();
         $("#join").css("cursor","pointer");
         $("#publish").addClass("tab-active");
         $(".tab-border").css("left","29px");
