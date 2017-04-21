@@ -43,6 +43,35 @@ public class DemoApplicationTests {
 	private LoginRecordDao loginRecordDao;
 
 	@Test
+	public void test15(){
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run()
+			{
+				try
+				{
+					int i=0;
+					while(i<10){
+						LoginRecord lr =new LoginRecord();
+						lr.setIp("192.168.64.91");
+						lr.setLoginTime(new Date());
+						lr.setUserId(1);
+						loginRecordDao.save(lr);
+						i++;
+						int time = (int) (Math.random() * 10);
+						Thread.sleep(1000*time);
+					}
+
+				}
+				catch (InterruptedException e)
+				{
+				}
+			}
+		});
+		t.start();
+	}
+
+	@Test
 	public void test14(){
 		System.out.println(Encrypt.encryptEmailPrefix("5@qq.com"));
         System.out.println(Encrypt.encryptEmailPrefix("57@qq.com"));
