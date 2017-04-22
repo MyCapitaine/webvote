@@ -122,7 +122,7 @@ public class TestInterceptor implements HandlerInterceptor {
         //如果已经登录，则不再访问登录界面、请求登录服务或者访问注册界面
         if(servlet.indexOf("signin")>=0||servlet.indexOf("signup")>=0){
             if(session.getAttribute("currentUser")!=null){
-                session.setAttribute("message","已经登录");
+                session.setAttribute("/message","已经登录");
                 session.setAttribute("redirectTo",session.getAttribute("previousPage"));
                 httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest,httpServletResponse);
                 return false;
@@ -134,7 +134,7 @@ public class TestInterceptor implements HandlerInterceptor {
 
         }
         //个人中心需要登录后才能访问
-        if(servlet.indexOf("home")>=0){
+        if(servlet.indexOf("home")>=0||servlet.indexOf("bindEmail")>=0){
             if(session.getAttribute("currentUser")==null){
                 httpServletResponse.sendRedirect("/signin");
                 return false;
@@ -155,7 +155,7 @@ public class TestInterceptor implements HandlerInterceptor {
                 UserRegister ur= (UserRegister) session.getAttribute("currentUser");
                 //没有权限，不能访问
                 if(ur.getBanned()==1){
-                    httpServletResponse.sendRedirect("index.html");
+                    httpServletResponse.sendRedirect("/index");
                     return false;
                 }
                 else{

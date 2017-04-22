@@ -57,7 +57,7 @@ a.link,.go-regist a,.loginbox label a{color:#006DA7; cursor:pointer; line-height
 .tipsResults a{color:#5277A4;}
 .loginbox .autosuggest{position:absolute;left:0;top:54px;z-index:1000;}
 .loginbox .autosuggest li{width:320px;padding:5px 5px;border-bottom:1px solid #CCCCCC;}
-.login-btn{display:block;background:url(../images/bg.png) repeat-x left top;width:330px;text-align:center;height:35px;line-height:35px;color:white;font-size:16px;border-radius:3px;border:1px solid #215A8D;}
+.login-btn{display:block;background:url(../images/bg.png) repeat-x left top;width:300px;text-align:center;height:35px;line-height:35px;color:white;font-size:16px;border-radius:3px;border:1px solid #215A8D;}
 
 
 .input-text-user,.input-text-password{
@@ -70,8 +70,8 @@ a.link,.go-regist a,.loginbox label a{color:#006DA7; cursor:pointer; line-height
     line-height: 36px;
 }
 
-.input-text-user.error{background:#FFD2D2 url(../images/img.png) no-repeat 0px top;border-width:3px;}
-.input-text-password.error{background:#FFD2D2 url(../images/img.png) no-repeat 0px -50px;border-width:3px;}
+.input-text-user.error{border-width:3px;}
+.input-text-password.error{border-width:3px;}
 
 #footer{position:relative;z-index:100;width:100%;min-width:1280px;height:60px;padding-top:10px;line-height:20px;color:#A9AFB7;border-top:1px solid #CCCCCC;text-align:center;}
 #footer .copyright{text-align:left;border-left:1px solid #D2DDF4;padding:10px 0 10px 15px;margin-left:15px;vertical-align:top;}

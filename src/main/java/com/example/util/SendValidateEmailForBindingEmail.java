@@ -13,14 +13,14 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by hasee on 2017/4/14.
  */
-public class SendActiveValidateEmail implements SendEmail {
+public class SendValidateEmailForBindingEmail implements SendEmail {
 
-    private static String getContent(String to, String validator){
+    private static String getContent(String to, String url){
         StringBuffer  content=new StringBuffer ("您好：");
         content.append(to+"!<br>");
-        content.append("请点击下面的链接来激活您的账号（如果链接不能点击，请复制粘贴到浏览器地址栏）<br>");
-        content.append("http://localhost:8080/activeValidate?token=");
-        content.append(validator);
+        content.append("请点击下面的链接来绑定您的账号和邮箱（如果链接不能点击，请复制粘贴到浏览器地址栏）<br>");
+        content.append("http://localhost:8080/bindingEmailValidate?");
+        content.append(url);
         return content.toString();
     }
 
@@ -30,7 +30,7 @@ public class SendActiveValidateEmail implements SendEmail {
             MimeMessage message = new MimeMessage(EmailSession.getSession());
             message.setFrom(new InternetAddress(EmailSession.getFrom(),"网投", "UTF-8"));
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
-            message.setSubject("您注册的账号已创建，请激活");
+            message.setSubject("账号邮箱绑定确认");
             message.setContent(getContent(to,url) , "text/html;charset=utf-8");
             Transport.send(message);
         }catch (MessagingException me) {

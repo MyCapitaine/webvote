@@ -36,7 +36,7 @@ public class UserRegisterController {
     @Autowired
     private UserInformationService userInformationService;
     @Autowired
-    private ActiveValidateService activeValidateService;
+    private BindingEmailValidateService bindingEmailValidateService;
     @Autowired
     private ResetPasswordValidateService resetPasswordValidateService;
     @Autowired
@@ -145,10 +145,6 @@ public class UserRegisterController {
         return !userRegisterService.isLoginNameUsed(loginName)+"";
     }
 
-    //同上，绑定邮箱是否被占用，被占用则返回"false"
-    @RequestMapping("/isBindingEmailUsed")
-    @ResponseBody
-    public String isBindingEmailUsed(String bindingEmail){return !userRegisterService.isEmailBinding(bindingEmail)+"";}
 
     @RequestMapping("/register")
     @ResponseBody
@@ -175,16 +171,17 @@ public class UserRegisterController {
             ServiceResult<?> uisr = userInformationService.register(ui);
             ui = (UserInformation) uisr.getData();
 
-            ServiceResult<?> avsr = activeValidateService.add(ur);
-            ActiveValidate av = (ActiveValidate)avsr.getData();
-            String validator = av.getValidator() ;
-
-            SendEmail se = SendEmailFactory.getInstance(SendActiveValidateEmail.class);
-            se.send(av.getBindingEmail(),validator);
+//            ServiceResult<?> avsr = bindingEmailValidateService.add(ur);
+//            BindingEmailValidate av = (BindingEmailValidate)avsr.getData();
+//            String validator = av.getValidator() ;
+//
+//            SendEmail se = SendEmailFactory.getInstance(SendValidateEmailForBindingEmail.class);
+//            se.send(av.getBindingEmail(),validator);
 
             model.addAttribute("currentUser",ui);
             model.addAttribute("redirectTo","index");
-            model.addAttribute("message","注册成功，请在72小时内查看邮件激活！");
+            model.addAttribute("message","注册成功！");
+//            model.addAttribute("message","注册成功，请在72小时内查看邮件激活！");
             js.setMessage("register success");
             js.setSuccess(true);
             js.setData(ui);
@@ -200,18 +197,6 @@ public class UserRegisterController {
             userRegisterService.delete(ur);
             js.setMessage(e.getMessage());
         }
-        catch (ActiveValidateServiceException e){
-            userRegisterService.delete(ur);
-            userInformationService.delete(ur);
-            js.setMessage(e.getMessage());
-        }
-        catch(SendEmailException e){
-            userRegisterService.delete(ur);
-            userInformationService.delete(ur);
-            activeValidateService.delete(ur);
-            js.setMessage(e.getMessage());
-        }
-
 
 //        ServiceResult ursr = userRegisterService.register(ur);
 //        ur = (UserRegister) ursr.getData();
@@ -226,7 +211,7 @@ public class UserRegisterController {
 //            js.setSuccess(uisr.isSuccess());
 //            //注册用户信息成功
 //            if(uisr.isSuccess()){
-//                ServiceResult avsr = activeValidateService.add(ur);
+//                ServiceResult avsr = bindingEmailValidateService.add(ur);
 //                js.setMessage(avsr.getMessage());
 //                js.setSuccess(avsr.isSuccess());
 //                if(avsr.isSuccess()){
@@ -244,31 +229,89 @@ public class UserRegisterController {
         return js;
     }
 
-    @RequestMapping(value="/activeValidate")
-    public String activeValidate(String token,ModelMap model){
-        model.addAttribute("validate",token);
-        ServiceResult<?> avsr= activeValidateService.validate(token);
+
+
+    /************************绑定邮箱***************************/
+    @RequestMapping("/bindEmail")
+    public String bindEmail(Model model){
+        return "bind_email";
+    }
+
+    //同上，绑定邮箱是否被占用，被占用则返回"false"
+    @RequestMapping("/isBindingEmailUsed")
+    @ResponseBody
+    public String isBindingEmailUsed(String bindingEmail){return !userRegisterService.isEmailBinding(bindingEmail)+"";}
+
+    @RequestMapping("sendEmailForBindingEmail")
+    @ResponseBody
+    public JsonResult sendEmailForBindingEmail(int id,String email,ModelMap model){
+        JsonResult jr = new JsonResult();
+        jr.setMessage("failed");
+        jr.setSuccess(false);
+
+        try {
+            ServiceResult sr = bindingEmailValidateService.add(id,email);
+            BindingEmailValidate bev = (BindingEmailValidate) sr.getData();
+            String validateCode = bev.getValidator();
+
+            StringBuilder url = new StringBuilder("token=");
+            url.append(validateCode);
+            url.append("&id=");
+            url.append(id);
+
+            SendEmail se = SendEmailFactory.getInstance(SendValidateEmailForBindingEmail.class);
+            se.send(email,url.toString());
+
+            model.addAttribute("redirectTo","index");
+            model.addAttribute("message","邮件发送成功，请在3分钟内查看邮件完成绑定操作");
+
+            jr.setMessage("Send email to binding email success");
+            jr.setSuccess(true);
+
+        } catch (ActiveValidateServiceException e) {
+            jr.setMessage(e.getMessage());
+        } catch (SendEmailException e) {
+            jr.setMessage(e.getMessage());
+        }
+
+        return jr;
+    }
+
+    @RequestMapping(value="/bindingEmailValidate")
+    public String activeValidate(@RequestParam(value = "token")String validateCode,int id,ModelMap model){
+        System.out.println("code:"+validateCode+"id:"+id);
+        model.addAttribute("validate",validateCode);
+        ServiceResult<?> avsr= bindingEmailValidateService.validate(id,validateCode);
         if(avsr.isSuccess()){
-            ActiveValidate av = (ActiveValidate)avsr.getData();
+            BindingEmailValidate av = (BindingEmailValidate)avsr.getData();
+
+            ServiceResult ursr = userRegisterService.findById(av.getId());
+            UserRegister ur = (UserRegister) ursr.getData();
+            ur.setBindingEmail(av.getBindingEmail());
+            userRegisterService.modify(ur);
+
             ServiceResult<?> uisr = userInformationService.findById(av.getId());
             UserInformation ui = (UserInformation)uisr.getData();
+            ui.setBindingEmail(av.getBindingEmail());
+            userInformationService.modify(ui);
+
             model.addAttribute("currentUser",ui);
-            model.addAttribute("message","成功激活，将跳转到首页");
+            model.addAttribute("message","绑定成功，将跳转到首页");
             model.addAttribute("redirectTo","/index");
-            return "/message";
         }
-        else if(avsr.getMessage().equals("已经激活")){
-            model.addAttribute("message","已经激活，请登录");
-            model.addAttribute("previousPage","index");
-            model.addAttribute("redirectTo","/signin");
-            return "/message";
+        else if(avsr.getMessage().equals("link overdue")){
+            model.addAttribute("message","连接过期，请重新发送邮件");
+            //model.addAttribute("previousPage","index");
+            model.addAttribute("redirectTo","/bindEmail");
+
         }
-        else{
-            model.addAttribute("message","验证码已过期！请查看新邮件激活");
-            model.addAttribute("redirectTo","/index");
-            return "/message";
+        else if(avsr.getMessage().equals("link lose efficacy")){
+            model.addAttribute("redirectTo","/bindEmail");
+            model.addAttribute("message","链接失效，请重新发送邮件");
         }
+        return "/message";
     }
+
 
 
     /************************找回密码***************************/
@@ -311,7 +354,7 @@ public class UserRegisterController {
                 SendEmail se = SendEmailFactory.getInstance(SendResetPasswordEmail.class);
                 se.send(email,url.toString());
 
-                model.addAttribute("redirectTo","index");
+                model.addAttribute("redirectTo","/index");
                 model.addAttribute("message","邮件发送成功，请在3分钟内查看邮件完成重置密码操作");
 
                 jr.setMessage("Send email to reset password success");
@@ -341,11 +384,11 @@ public class UserRegisterController {
             return "resetPassword";
         }
         else if(rpvsr.getMessage().equals("link overdue")){
-        	modelMap.addAttribute("redirectTo","forgetPassword");
+        	modelMap.addAttribute("redirectTo","/forgetPassword");
         	modelMap.addAttribute("message","链接过期");
         }
         else if(rpvsr.getMessage().equals("link lose efficacy")){
-        	modelMap.addAttribute("redirectTo","forgetPassword");
+        	modelMap.addAttribute("redirectTo","/forgetPassword");
         	modelMap.addAttribute("message","链接已使用");
         }
         return "message";
@@ -373,11 +416,11 @@ public class UserRegisterController {
     		jr.setMessage("reset success");
     		jr.setSuccess(true);
     		
-    		model.addAttribute("redirectTo","signin");
+    		model.addAttribute("redirectTo","/signin");
     		model.addAttribute("message","重置密码成功，请登录");
     	}
     	else{
-    		model.addAttribute("redirectTo","forgetPassword");
+    		model.addAttribute("redirectTo","/forgetPassword");
     		model.addAttribute("message","验证错误，请重新发送邮件");
     	}
     	

@@ -1,8 +1,11 @@
 /**
+ * Created by hasee on 2017/4/22.
+ */
+/**
  * Created by hasee on 2017/4/14.
  */
 $(document).ready(function(){
-	$(".loading").hide();
+    $(".loading").hide();
 
     if ($("#email").val()) {
         $("#email").prev().fadeOut();
@@ -17,16 +20,16 @@ $(document).ready(function(){
     });
 
     var validate = $("#signupForm").validate({
-    	
-    	
-    	submitHandler: function(form) {
-    	},
+
+
+        submitHandler: function(form) {
+        },
         rules : {
             email : {
                 required : true,
                 email : true,
                 remote : {
-                    url : "/isEmailBinding",
+                    url : "/isBindingEmailUsed",
                     type : "POST",
                     data : {
                         bindingEmail:function () {
@@ -40,58 +43,52 @@ $(document).ready(function(){
             email : {
                 required : "请输入邮箱",
                 email : "邮箱格式不正确",
-                remote : "邮箱未绑定"
+                remote : "邮箱已被占用"
             }
         }
     });
 
-//    $("#submit").bind("click", function() {
-//    	$(this).unbind('click');
-//        //resetPassword(validate);
-//    	setTimeout(function(){
-//    		
-//    	},1500);
-//    });
-    
+
     $("#submit").bind('click',function(){
-    	clickSlow(validate);
+        clickSlow(validate);
     });
-    
+
     $("body").each(function() {
-		$(this).keydown(function() {
-			if (event.keyCode == 13) {
-				resetPassword(validate);
-			}
-		});
-	});
-    
+        $(this).keydown(function() {
+            if (event.keyCode == 13) {
+                resetPassword(validate);
+            }
+        });
+    });
+
 });
 
 function clickSlow(validate){
-	$(this).unbind('click');
+    $(this).unbind('click');
     resetPassword(validate);
-	setTimeout(function(){
-		$(this).bind('click',clickSlow);
-	},1500);
+    setTimeout(function(){
+        $(this).bind('click',clickSlow);
+    },1500);
 }
 
 function resetPassword(validate){
 
     if(validate.form()){
-    	$.ajax({
-			url : "/sendResetPasswordEmail",
-			type : "post",
-			data : {
-				email:$("#email").val()
-			},
-			dataType : "json",
-			beforeSend : function() {
-				$('.loading').show();	
-			},
-			success : function(result){
-				$('.loading').hide();
+        $.ajax({
+            url : "/sendEmailForBindingEmail",
+            type : "post",
+            data : {
+                id:id,
+                email:$("#email").val()
+            },
+            dataType : "json",
+            beforeSend : function() {
+                $('.loading').show();
+            },
+            success : function(result){
+                $('.loading').hide();
                 if(result.success){
-                    location.href="message";
+                    location.href="/message";
                 }
                 else{
                     var label=$("label[for='email']");
@@ -99,6 +96,6 @@ function resetPassword(validate){
                     label.show();
                 }
             }
-		});
+        });
     }
 }

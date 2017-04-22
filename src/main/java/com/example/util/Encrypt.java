@@ -36,6 +36,10 @@ public class Encrypt {
 
     public static String encryptEmailPrefix(String email){
 
+        if(email==null){
+            return null;
+        }
+
         String prefix="";
         String suffix="@";
         String result="";

@@ -3,17 +3,12 @@ package com.example;
 import com.example.dao.LoginRecordDao;
 import com.example.dao.UserRegisterDao;
 import com.example.entity.*;
-import com.example.exception.ActiveValidateServiceException;
-import com.example.exception.SendEmailException;
 import com.example.exception.UserInformationServiceException;
 import com.example.exception.UserRegisterServiceException;
-import com.example.serviceInterface.ActiveValidateService;
-import com.example.serviceInterface.SendEmail;
+import com.example.serviceInterface.BindingEmailValidateService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
 import com.example.util.Encrypt;
-import com.example.util.SendActiveValidateEmail;
-import com.example.util.SendEmailFactory;
 import com.example.vo.ModifyLoginPasswordVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +32,7 @@ public class DemoApplicationTests {
 	@Autowired
 	private UserInformationService userInformationService;
 	@Autowired
-	private ActiveValidateService activeActiveValidateService;
+	private BindingEmailValidateService activeBindingEmailValidateService;
 
 	@Autowired
 	private LoginRecordDao loginRecordDao;
@@ -132,14 +127,14 @@ public class DemoApplicationTests {
 			js.setMessage(uisr.getMessage());
 			js.setSuccess(uisr.isSuccess());
 
-			ServiceResult avsr = activeActiveValidateService.add(ur);
-            ActiveValidate av = (ActiveValidate)avsr.getData();
-			String validator = av.getValidator() ;
-			js.setMessage(avsr.getMessage());
-			js.setSuccess(avsr.isSuccess());
-
-			SendEmail se = SendEmailFactory.getInstance(SendActiveValidateEmail.class);
-			se.send(ur.getBindingEmail(),validator);
+//			ServiceResult avsr = activeBindingEmailValidateService.add(ur);
+//            BindingEmailValidate av = (BindingEmailValidate)avsr.getData();
+//			String validator = av.getValidator() ;
+//			js.setMessage(avsr.getMessage());
+//			js.setSuccess(avsr.isSuccess());
+//
+//			SendEmail se = SendEmailFactory.getInstance(SendValidateEmailForBindingEmail.class);
+//			se.send(ur.getBindingEmail(),validator);
 
 			js.setData(ui);
 
@@ -149,16 +144,6 @@ public class DemoApplicationTests {
 		}
 		catch (UserInformationServiceException e){
 			userRegisterService.delete(ur);
-		}
-		catch (ActiveValidateServiceException e){
-			userRegisterService.delete(ur);
-			userInformationService.delete(ur);
-		}
-		catch(SendEmailException e){
-			userRegisterService.delete(ur);
-			userInformationService.delete(ur);
-			activeActiveValidateService.delete(ur);
-			js.setMessage(e.getMessage());
 		}
 
 		System.out.println(js) ;
@@ -185,23 +170,5 @@ public class DemoApplicationTests {
 		userRegisterDao.save(uu);
 	}
 
-	@Test
-	public void test6(){
-//		String to="578776370@qq.com";
-//		String to="lzs105@sina.com";
-//		String to="lzs105@163.com";
-		String to="1@qq.com";
-		StringBuffer  content=new StringBuffer ("您好：");
-		content.append(to+"!<br>");
-		content.append("请点击下面的链接来激活您的账号（如果不能跳转，请复制粘贴到浏览器地址栏）<br>");
-		//content.append("http://localhost:8080/validate?token=pass");
-		content.append("http://www.qq.com");
-		try {
-            SendEmail se = SendEmailFactory.getInstance(SendActiveValidateEmail.class);
-            se.send(to,content.toString());
-		} catch (SendEmailException e) {
-			e.printStackTrace();
-		}
-	}
 
 }

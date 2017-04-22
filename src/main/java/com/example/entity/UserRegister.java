@@ -19,7 +19,7 @@ public class UserRegister {
     @Column(name = "login_pwd",nullable = false)
     private String loginPassword;//登录密码
 
-    @Column(name = "binding_mail",nullable = false,unique = true)
+    @Column(name = "binding_mail",unique = true)
     private String bindingEmail;//绑定邮箱
 
     @Temporal(TemporalType.TIMESTAMP)
