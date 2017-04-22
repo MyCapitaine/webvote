@@ -62,7 +62,7 @@
     color: grey !important;
 }
 
-.page-wrapper{
+.publish-page-wrapper,.join-page-wrapper{
     padding: 0 34px;
     position: absolute;
     width: 92%;
@@ -72,7 +72,8 @@
 .page{
     float: left;
 }
-.direct-wrapper{
+
+.join-page-direct-wrapper , .publish-page-direct-wrapper{
     display: inline-block;
     margin-left: 20px;
 }

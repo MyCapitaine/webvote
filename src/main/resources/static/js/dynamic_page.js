@@ -20,81 +20,84 @@ $.fn.dynamic_page = function(page_total,page_current){
         fillHtml:function(totalsubpageTmep,args){
             return (function(){
                 var dp=totalsubpageTmep;
-                var cn=$(dp).attr("class");
+                var cn=$(dp).attr("class").split(" ")[0];
                 totalsubpageTmep="";
                 /************************START*********************/
-                if(args.currPage > 1){
-                    totalsubpageTmep += "<li class='ali' id='head'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >head</a></li>";
-                    totalsubpageTmep += "<li class='ali' id='prev'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >prev</a></li>";
-                }else{
-                    totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >head</a></li>";
-                    totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >prev</a></li>";
-                }
+                if(args.totalPage>1){
+                    if(args.currPage > 1){
+                        totalsubpageTmep += "<li class='ali' id='head'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >head</a></li>";
+                        totalsubpageTmep += "<li class='ali' id='prev'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >prev</a></li>";
+                    }else{
+                        totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >head</a></li>";
+                        totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >prev</a></li>";
+                    }
 
-                // 页码大于等于4的时候，添加第一个页码元素
-                if(args.currPage!=1 && args.currPage>=4 && args.totalPage!=4) {
-                    totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+1+"</a></li>";
-                }
-                /* 当前页码>4, 并且<=总页码，总页码>5，添加“···”*/
-                if(args.currPage-2>2 && args.currPage<=args.totalPage && args.totalPage>5) {
-                    totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_' data-go='' >...</a></li>";
-                }
-                /* 当前页码的前两页 */
-                var start = args.currPage-2;
-                /* 当前页码的后两页 */
-                var end = args.currPage+2;
+                    // 页码大于等于4的时候，添加第一个页码元素
+                    if(args.currPage!=1 && args.currPage>=4 && args.totalPage!=4) {
+                        totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+1+"</a></li>";
+                    }
+                    /* 当前页码>4, 并且<=总页码，总页码>5，添加“···”*/
+                    if(args.currPage-2>2 && args.currPage<=args.totalPage && args.totalPage>5) {
+                        totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_' data-go='' >...</a></li>";
+                    }
+                    /* 当前页码的前两页 */
+                    var start = args.currPage-2;
+                    /* 当前页码的后两页 */
+                    var end = args.currPage+2;
 
-                if((start>1 && args.currPage<4) || args.currPage==1) {
-                    end++;
-                }
-                if(args.currPage>args.totalPage-4 && args.currPage>=args.totalPage) {
-                    start--;
-                }
+                    if((start>1 && args.currPage<4) || args.currPage==1) {
+                        end++;
+                    }
+                    if(args.currPage>args.totalPage-4 && args.currPage>=args.totalPage) {
+                        start--;
+                    }
 
-                for(; start<=end; start++) {
-                    if(start<=args.totalPage && start>=1) {
-                        if(start != args.currPage) {
-                            totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+start+"</a></li>";
-                        }else{
-                            totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+start+"</a></li>";
+                    for(; start<=end; start++) {
+                        if(start<=args.totalPage && start>=1) {
+                            if(start != args.currPage) {
+                                totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+start+"</a></li>";
+                            }else{
+                                totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+start+"</a></li>";
+                            }
                         }
                     }
-                }
 
-                if(args.currPage+2<args.totalPage-1 && args.currPage>=1 && args.totalPage>5) {
-                    totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_' data-go='' >...</a></li>";
-                }
+                    if(args.currPage+2<args.totalPage-1 && args.currPage>=1 && args.totalPage>5) {
+                        totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_' data-go='' >...</a></li>";
+                    }
 
-                if(args.currPage!=args.totalPage && args.currPage<args.totalPage-2 && args.totalPage!=4) {
-                    totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' id='total' >"+args.totalPage+"</a></li>";
-                }
+                    if(args.currPage!=args.totalPage && args.currPage<args.totalPage-2 && args.totalPage!=4) {
+                        totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' id='total' >"+args.totalPage+"</a></li>";
+                    }
 
-                if(args.currPage < args.totalPage){
-                    totalsubpageTmep += "<li class='ali' id='next'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >next</a></li>";
-                    totalsubpageTmep += "<li class='ali' id='foot'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >foot</a></li>";
+                    if(args.currPage < args.totalPage){
+                        totalsubpageTmep += "<li class='ali' id='next'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >next</a></li>";
+                        totalsubpageTmep += "<li class='ali' id='foot'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >foot</a></li>";
+                    }
+                    else{
+                        totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >next</a></li>";
+                        totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >foot</a></li>";
+                    }
+                    var direct='<div class="'+cn+'-direct-wrapper">';
+                    direct+='<div class="direct">';
+                    direct+='<input class="direct-input" type="text"  placeholder="page"/>';
+                    direct+='<span >';
+                    direct+='<button class="direct-button" type="button" id="goto">GoTo</button>';
+                    //totalsubpageTmep+='<button class="btn btn-default" type="button" id="change">Change_page</button>';
+                    direct+='</span></div></div>';
+                    $("."+cn+"-direct-wrapper").remove();
+                    $(dp).html(totalsubpageTmep);
+                    var page= $("."+cn+"-wrapper").html();
+                    var page_wrapper=page+direct;
+                    console.log(page_wrapper);
+                    $("."+cn+"-wrapper").html(page_wrapper);
+                    $("."+cn+"-wrapper"+" li").not(".h_p_n_f").each(function(){
+                        if($(this).text()==args.currPage)
+                            $(this).addClass("active");
+                    });
+                    p=$("."+cn);
+                    ms.bindEvent($(p),args);
                 }
-                else{
-                    totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >next</a></li>";
-                    totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >foot</a></li>";
-                }
-                var direct='<div class="'+cn+'-direct-wrapper">';
-                direct+='<div class="direct">';
-                direct+='<input class="direct-input" type="text"  placeholder="page"/>';
-                direct+='<span >';
-                direct+='<button class="direct-button" type="button" id="goto">GoTo</button>';
-                //totalsubpageTmep+='<button class="btn btn-default" type="button" id="change">Change_page</button>';
-                direct+='</span></div></div>';
-                $("."+cn+"-direct-wrapper").remove();
-                $(dp).html(totalsubpageTmep);
-                var page= $("."+cn+"-wrapper").html();
-                var page_wrapper=page+direct;
-                $("."+cn+"-wrapper").html(page_wrapper);
-                $("."+cn+"-wrapper"+" li").not(".h_p_n_f").each(function(){
-                    if($(this).text()==args.currPage)
-                        $(this).addClass("active");
-                });
-                p=$("."+cn);
-                ms.bindEvent($(p),args);
             })();
         },
         //绑定事件
