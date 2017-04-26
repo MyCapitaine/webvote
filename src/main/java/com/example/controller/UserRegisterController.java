@@ -3,30 +3,27 @@ package com.example.controller;
 /**
  * Created by hasee on 2017/3/6.
  */
-        import com.example.entity.*;
-        import com.example.exception.ActiveValidateServiceException;
-        import com.example.exception.SendEmailException;
-        import com.example.exception.UserInformationServiceException;
-        import com.example.exception.UserRegisterServiceException;
-        import com.example.serviceInterface.*;
-        import com.example.util.*;
-        import com.example.vo.LoginVO;
-        import com.example.vo.RegisterVO;
+import com.example.entity.*;
+import com.example.exception.ActiveValidateServiceException;
+import com.example.exception.SendEmailException;
+import com.example.exception.UserInformationServiceException;
+import com.example.exception.UserRegisterServiceException;
+import com.example.serviceInterface.*;
+import com.example.util.*;
+import com.example.vo.LoginVO;
+import com.example.vo.RegisterVO;
 import com.example.vo.SetPasswordVO;
-
 import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-        import org.springframework.web.bind.annotation.*;
-        import org.springframework.web.bind.support.SessionStatus;
-
-
-        import javax.servlet.http.Cookie;
-        import javax.servlet.http.HttpServletRequest;
-        import javax.servlet.http.HttpServletResponse;
-        import javax.servlet.http.HttpSession;
-        import java.util.Date;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @Controller
 @SessionAttributes({"currentUser","message","redirectTo","previousPage"})//
