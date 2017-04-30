@@ -74,7 +74,7 @@ public class BindingEmailValidateServiceImpl implements BindingEmailValidateServ
         return sr;
     }
 
-    public void delete(int id){
+    private void delete(int id){
         if(bindingEmailValidateDao.findOne(id)!=null)
             bindingEmailValidateDao.delete(id);
     }

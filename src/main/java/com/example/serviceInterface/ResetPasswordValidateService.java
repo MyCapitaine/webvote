@@ -10,5 +10,5 @@ import com.example.exception.ActiveValidateServiceException;
 public interface ResetPasswordValidateService {
     ServiceResult<?> validate(int id,String validatCode);
     ServiceResult<?> add(UserRegister ur) throws ActiveValidateServiceException;
-    void delete(int id);
+    //void delete(int id);
 }

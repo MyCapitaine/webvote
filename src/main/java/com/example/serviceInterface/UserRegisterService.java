@@ -23,8 +23,8 @@ public interface UserRegisterService {
     ServiceResult<UserRegister> modifyBindingEmail(UserRegister ur);
 
     boolean isBanned(UserRegister ur);
-    UserRegister getURByName(String login_name);
-    UserRegister getURByEmail(String bindingEmail);
+    //UserRegister getURByName(String login_name);
+    //UserRegister getURByEmail(String bindingEmail);
     ServiceResult<UserRegister> login(String login_name, String md5);
 
     ServiceResult<UserRegister> findByLoginName(String login_name);

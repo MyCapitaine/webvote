@@ -75,8 +75,8 @@ public class ResetPasswordValidateServiceImpl implements ResetPasswordValidateSe
         return sr;
     }
 
-    @Override
-    public void delete(int id) {
+    //@Override
+    private void delete(int id) {
         ResetPasswordValidate rpv = resetPasswordValidateDao.findOne(id);
         if(rpv!=null){
             resetPasswordValidateDao.delete(id);

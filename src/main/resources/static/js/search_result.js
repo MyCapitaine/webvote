@@ -1,19 +1,28 @@
 /**
  * Created by hasee on 2017/4/21.
  */
-var searchType="vote";
+
+//var keyword;
 
 $(document).ready(function(){
-    vote();
-    $("#join-vote").hide();
-
+    //keyword=$("#search-keyword").val();
+    if(searchType=="vote"){
+        vote();
+        //$("#join-vote").hide();
+    }
+    else{
+        user();
+        rightShift();
+        changeURLForSearchUser(0);
+    }
 });
 
 function vote(){
     $("#user").on("click",function(){
         rightShift();
         searchType="user";
-        getJoinedVote();
+        changeURLForSearchUser(0);
+        //getJoinedVote();
     });
 }
 
@@ -21,6 +30,7 @@ function user(){
     $("#vote").on("click",function(){
         leftShift();
         type="vote";
+        changeURLForSearchVote(0);
     });
 }
 
@@ -54,4 +64,12 @@ function leftShift(){
         $(".tab-border").css("margin-left","150px");
         $(".tab-border").removeClass("left-shift");
     },500);
+}
+
+function changeURLForSearchUser(page_index){
+    history.pushState("","","/search?searchType="+searchType+"&keyword="+keyword+"&pageIndex="+page_index);
+}
+
+function changeURLForSearchVote(page_index){
+    history.pushState("","","/search?searchType="+searchType+"&keyword="+keyword+"&pageIndex="+page_index);
 }

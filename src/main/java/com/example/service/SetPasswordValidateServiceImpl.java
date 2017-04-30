@@ -50,8 +50,8 @@ public class SetPasswordValidateServiceImpl implements SetPasswordValidateServic
 		return sr;
 	}
 
-	@Override
-	public void delete(int id) {
+	//@Override
+	private void delete(int id) {
 		// TODO Auto-generated method stub
 		SetPasswordValidate spv = setPasswordValidateDao.findOne(id);
 		if(spv!=null){

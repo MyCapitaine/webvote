@@ -10,5 +10,5 @@ import com.example.exception.ActiveValidateServiceException;
 public interface BindingEmailValidateService {
     ServiceResult validate(int id, String validator);
     ServiceResult add(int id, String email) throws ActiveValidateServiceException;
-    void delete(int id);
+    //void delete(int id);
 }

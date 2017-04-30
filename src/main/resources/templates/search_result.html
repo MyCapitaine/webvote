@@ -13,6 +13,11 @@
     <script type="text/javascript" src="/js/search_result.js"></script>
 </head>
 <body>
+<script th:inline="javascript">
+    var keyword = [[${keyword}]];
+    var searchType = [[${searchType}]];
+</script>
+
     <div class="z_top_container">
         <div class="z_top b-header-blur-black">
             <div class="z_header">
@@ -115,10 +120,14 @@
                             </ul>
                         </div>
                     </div>
-
                 </div>
+
+
+
             </div>
         </div>
+
+
         <div class="result">
 
         </div>

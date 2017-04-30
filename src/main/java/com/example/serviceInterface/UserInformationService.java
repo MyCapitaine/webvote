@@ -12,11 +12,11 @@ import com.example.exception.UserInformationServiceException;
 public interface UserInformationService {
     ServiceResult register(UserInformation ui) throws UserInformationServiceException;
 
-    ServiceResult delete(UserRegister ur);
+    //ServiceResult delete(UserRegister ur);
 
     boolean isNickNameUsed(String nickName);
     boolean isNickNameUsed(int id,String nickName);
-    boolean isEmailBinding(String bindingEmail);
+    //boolean isEmailBinding(String bindingEmail);
     ServiceResult modify(UserInformation ui);
 
     ServiceResult findById(int id);
