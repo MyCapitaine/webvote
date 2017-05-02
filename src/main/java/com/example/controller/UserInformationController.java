@@ -5,6 +5,7 @@ import com.example.entity.*;
 import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
+import com.example.util.Code;
 import com.example.util.Encrypt;
 import com.example.vo.ModifyInformationVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,10 +51,35 @@ public class UserInformationController {
     @RequestMapping("/home/modifyPortrait")
     @ResponseBody
     public JsonResult modifyPortrait(@RequestParam("file") MultipartFile file,
-                                     @RequestParam("id") int id){
-        System.out.println(file.getOriginalFilename());
+                                     @RequestParam("id") int id,
+                                     ModelMap model){
+        JsonResult jr = new JsonResult();
+        System.out.println(file.getOriginalFilename().lastIndexOf("."));
+        System.out.println(file.getOriginalFilename().split("\\.")[0]);
         System.out.println(id);
-        return new JsonResult();
+        if(!file.isEmpty()){
+            try{
+                String fileName = file.getOriginalFilename();
+                String[] fix = fileName.split("\\.");
+                String codeFileName = Code.MD5Encoder(fix[0],"utf-8");
+                String path = "F:/images/" +codeFileName+"."+fix[1];
+                file.transferTo(new File(path));
+
+                String portrait = "/portrait/"+codeFileName+"."+fix[1];
+                ServiceResult uisr = userInformationService.findById(id);
+                UserInformation ui = (UserInformation) uisr.getData();
+                ui.setPortrait(portrait);
+                userInformationService.modify(ui);
+
+                model.addAttribute("currentUser",ui);
+                jr.setData(ui);
+                jr.setSuccess(true);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        return jr;
     }
 
     @RequestMapping("/home/modify")

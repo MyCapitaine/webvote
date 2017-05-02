@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import javax.servlet.MultipartConfigElement;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -23,6 +24,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         return factory.createMultipartConfig();
     }
 
+
     @Bean
     public HandlerInterceptor getMyInterceptor(){
         return new TestInterceptor();
@@ -35,4 +37,10 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         registry.addInterceptor(getMyInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/portrait/**").addResourceLocations("file:F:/images/");
+        super.addResourceHandlers(registry);
+    }
+
 }

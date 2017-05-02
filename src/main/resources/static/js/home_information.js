@@ -9,6 +9,12 @@ $(document).ready(function(){
         autoclose:true //选择日期后自动关闭
     });
 
+    $(".upload").hide();
+    $(".change_portrait").on("click",function(){
+        $(".change_portrait-wrapper").hide();
+        $(".upload").show();
+    });
+
     $(".a-upload").on("change","input[type='file']",function(){
         var filePath=$(this).val();
         if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1){
@@ -95,10 +101,14 @@ function upload(){
         data:form,
         processData:false,
         contentType:false,
-        success:function(data){
+        success:function(result){
             //window.clearInterval(timer);
-            console.log("upload over..");
             alert("上传成功");
+            var data = result.data;
+            var src = data.portrait;
+            $(".portrait-img").attr("src",src);
+            $(".change_portrait-wrapper").show();
+            $(".upload").hide();
         },
         error:function(e){
             alert("错误！！");
