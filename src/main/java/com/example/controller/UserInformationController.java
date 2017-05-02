@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,6 +43,15 @@ public class UserInformationController {
     @ResponseBody
     public String isNickNameUsed(int id,String nickName){
         return !userInformationService.isNickNameUsed(id, nickName)+"";
+    }
+
+    @RequestMapping("/home/modifyPortrait")
+    @ResponseBody
+    public JsonResult modifyPortrait(@RequestParam("file") MultipartFile file,
+                                     @RequestParam("id") int id){
+        System.out.println(file.getOriginalFilename());
+        System.out.println(id);
+        return new JsonResult();
     }
 
     @RequestMapping("/home/modify")

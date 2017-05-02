@@ -31,7 +31,43 @@
     <link href="/css/home.css" rel="stylesheet" type="text/css" />
     <script src="/js/home_information.js"></script>
     <script src="/js/jquery.validate.js"></script>
+    <style>
+        .a-upload {
+            padding: 4px 10px;
+            height: 20px;
+            line-height: 20px;
+            position: relative;
+            cursor: pointer;
+            color: #888;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1
+        }
 
+        .a-upload  input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            cursor: pointer
+        }
+
+        .a-upload:hover {
+            color: #444;
+            background: #eee;
+            border-color: #ccc;
+            text-decoration: none
+        }
+        .showFileName{
+            cursor: default;
+        }
+    </style>
 </head>
 <body>
 <script th:inline="javascript">
@@ -99,14 +135,35 @@
 
                     </div>
                 </div>
-                <div class="portrait-wrapper" >
-                    <div class="portrait">
-                        <img  class="portrait-img" src="/images/red_yellow.jpg"/>
-                        <div class="texttip">
-                            <p>点击查看原图</p>
+
+                <div>
+                    <div class="portrait-wrapper" >
+                        <div class="portrait">
+                            <img  class="portrait-img" th:src="${currentUser.portrait}"/>
+                            <div class="texttip">
+                                <p>点击查看原图</p>
+                            </div>
                         </div>
                     </div>
+                    <div style=" position: relative; z-index: 100;  width: 134px;margin: 0 auto">
+                        <!--<a href="javascript:void(0);" class="a-upload">-->
+                            <!--<input type="file" name="file" id="file" />点击这里上传头像-->
+                        <!--</a>-->
 
+                        <form action="/home/modifyPortrait" method="post" enctype="multipart/form-data" class="upload" name="fileForm">
+                            <a href="javascript:void(0);" class="a-upload">
+                                <input type="file" name="file" id="file" />点击这里上传头像
+                            </a>
+                            <!--<input type="text" name="id" id="id" style="display: none" th:value="${currentUser.id}"/>-->
+                            <p class="showFileName">支持JPG、PNG等格式，图片需小于2M</p>
+                        </form>
+                        <!--<a href="javascript:void(0);" class="showFileName" ></a>-->
+                        <!--<form action="/uploadPortrait" method="post" enctype="multipart/form-data">-->
+                            <!--<input type="file" name="file"/>-->
+                            <!--<p>支持JPG、PNG等格式，图片需小于2M</p>-->
+                            <!--<input type="submit" value="提交"/>-->
+                        <!--</form>-->
+                    </div>
                 </div>
 
                 <div class="title">
