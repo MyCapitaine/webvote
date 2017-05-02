@@ -68,6 +68,7 @@ public class SimpleController {
             return "search_index";
         }
         model.addAttribute("keyword",keyword);
+        model.addAttribute("pageIndex",pageIndex);
         if(searchType.equals("user")){
             //todo
             model.addAttribute("searchType","user");
@@ -81,29 +82,13 @@ public class SimpleController {
     }
 
     @RequestMapping("/searchVote")
-    public String searchVote(ModelMap model,String keyword){
-        //没有输入关键字，返回搜索首页
-        if(keyword.equals("")){
-            return "redirect:search";
-        }
-        //有关键字。默认搜索投票
-        else{
-            model.addAttribute("searchType","vote");
-            return "search_result";
-        }
+    public JsonResult searchVote(ModelMap model,String keyword,int pageIndex){
+        return new JsonResult();
     }
 
     @RequestMapping("/searchUser")
-    public String searchUser(ModelMap model,String keyword){
-        //没有输入关键字，返回搜索首页
-        if(keyword.equals("")){
-            return "redirect:search";
-        }
-        //有关键字,搜索用户并返回结果
-        else{
-            model.addAttribute("searchType","user");
-            return "search_result";
-        }
+    public JsonResult searchUser(ModelMap model,String keyword,int pageIndex){
+        return new JsonResult();
     }
 
     @RequestMapping("/page")

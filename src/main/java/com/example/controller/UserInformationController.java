@@ -92,9 +92,9 @@ public class UserInformationController {
         return "home_safe";
     }
 
-    @RequestMapping("/home/record")
+    @RequestMapping("/home/loginRecord")
     @ResponseBody
-    public JsonResult record(@ModelAttribute(value = "currentUser")UserInformation ui,int page_index){
+    public JsonResult loginRecord(@ModelAttribute(value = "currentUser")UserInformation ui,int page_index){
         int page_size= 5;
         JsonResult jr = new JsonResult();
         jr.setMessage("failed");

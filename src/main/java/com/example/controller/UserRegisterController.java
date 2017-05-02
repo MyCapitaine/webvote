@@ -61,7 +61,7 @@ public class UserRegisterController {
     //登录验证
     @RequestMapping("/login")
     @ResponseBody
-    public JsonResult<UserInformation> login(LoginVO form, ModelMap model, HttpSession session,
+    public JsonResult<UserInformation> login(LoginVO form, ModelMap model,
                                              HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         JsonResult<UserInformation> jr=new JsonResult<UserInformation>();
         jr.setData(null);
@@ -102,7 +102,6 @@ public class UserRegisterController {
             jr.setMessage(ursr.getMessage());
             jr.setSuccess(ursr.isSuccess());
             model.addAttribute("currentUser",ui);
-            //todo login record
             if(now-last>=1000*60*60){
                 LoginRecord lr = new LoginRecord(ur);
                 lr.setIp(IpAddress.getIpAddr(httpServletRequest));
@@ -239,7 +238,7 @@ public class UserRegisterController {
     @ResponseBody
     public String isBindingEmailUsed(String bindingEmail){return !userRegisterService.isEmailBinding(bindingEmail)+"";}
 
-    @RequestMapping("sendEmailForBindingEmail")
+    @RequestMapping("/sendEmailForBindingEmail")
     @ResponseBody
     public JsonResult sendEmailForBindingEmail(int id,String email,ModelMap model){
         JsonResult jr = new JsonResult();
