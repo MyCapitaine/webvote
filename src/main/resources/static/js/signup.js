@@ -38,20 +38,20 @@ $(document).ready(function() {
                     }
                 },
             },
-            email : {
-                required : true,
-                email : true,
-                remote:{
-                    url:"/isBindingEmailUsed",
-                    type:"POST",
-                    data: {
-                        bindingEmail:function () {
-                            console.log($("#email").val());
-                            return $("#email").val();
-                        }
-                    }
-                },
-            },
+            // email : {
+            //     required : true,
+            //     email : true,
+            //     remote:{
+            //         url:"/isBindingEmailUsed",
+            //         type:"POST",
+            //         data: {
+            //             bindingEmail:function () {
+            //                 console.log($("#email").val());
+            //                 return $("#email").val();
+            //             }
+            //         }
+            //     },
+            // },
             password : {
                 required : true,
                 minlength : 4,
@@ -74,11 +74,11 @@ $(document).ready(function() {
                 required : "请输入用户名",
                 remote:"用户名已被占用"
             },
-            email : {
-                required : "请输入绑定邮箱",
-                email : "邮箱格式不正确",
-                remote:"邮箱已被占用"
-            },
+            // email : {
+            //     required : "请输入绑定邮箱",
+            //     email : "邮箱格式不正确",
+            //     remote:"邮箱已被占用"
+            // },
             password : {
                 required : "请输入密码",
                 minlength : "密码不少于4位",
@@ -181,7 +181,7 @@ function signup(validate) {
                 loginName : $.trim($("#loginName").val()),
                 loginPassword : $("#password").val(),
                 nickName:$("#nickName").val(),
-                bindingEmail : $("#email").val()
+                //bindingEmail : $("#email").val()
             },
             dataType : "json",
             beforeSend : function() {

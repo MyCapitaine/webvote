@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <script src="../js/jquery.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
     <!--<link href="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet"/>-->
     <link href="/css/bootstrap.css" rel="stylesheet"/>
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
@@ -17,7 +17,8 @@
     <link href="/css/home_safe.css" rel="stylesheet" type="text/css" />
     <link href="/css/home_vote.css" rel="stylesheet" type="text/css" />
     <script src="/js/date_format.js"></script>
-    <script src="/js/home_safe.js"></script>
+    <!--<script src="/js/home_safe.js"></script>-->
+    <script src="/js/dynamic_page.js"></script>
     <script src="/js/home_vote.js"></script>
 </head>
 <body>
@@ -74,7 +75,7 @@
                 <li>
                     <a href="/home/safe" id="safe" title="账号安全" class="canHover">
                         <i class="al-aq"></i>
-                        <span>账号安全</span>
+                        <span>我的账号</span>
                     </a>
                 </li>
             </ul>
@@ -93,8 +94,8 @@
                 </div>
             </div>
 
-            <div class="information" >
-                <form class="information-form" id="publish-vote">
+            <div class="information" id="publish-vote">
+                <form class="information-form" >
                     <div class="wrapper-padding">
                         <div class="table-wrapper">
                             <table class="table-normal" >
@@ -110,29 +111,7 @@
                             </table>
                         </div>
                     </div>
-
                 </form>
-
-                <form class="information-form" id="join-vote" style="display: none">
-                    <div class="wrapper-padding">
-                        <div class="table-wrapper">
-                            <table class="table-normal" >
-                                <thead>
-                                <tr>
-                                    <td style="width: 36%"><div>时间</div></td>
-                                    <td style="width: 30%"><div>IP</div></td>
-                                    <td style="width: 34%"><div>地理位置</div></td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </form>
-
-
 
                 <div class="img-wrapper" style="display: none">
 
@@ -146,15 +125,58 @@
 
                     </div>
                 </div>
-                <div class="page-wrapper">
+                <div class="publish-page-wrapper">
 
                     <div class="page">
-                        <ul class="pagination" >
+                        <ul class="publish-page pagination" >
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="information" id="join-vote">
+                <form class="information-form" >
+                    <div class="wrapper-padding">
+                        <div class="table-wrapper">
+                            <table class="table-normal" >
+                                <thead>
+                                <tr>
+                                    <td style="width: 36%"><div>IP</div></td>
+                                    <td style="width: 30%"><div>时间</div></td>
+                                    <td style="width: 34%"><div>地理位置</div></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="img-wrapper" style="display: none">
+
+                    <div class="error-wrapper">
+                        <div class="error-img">
+                            <img  class="portrait-img" src="/images/red_yellow.jpg"/>
+                            <div class="texttip">
+                                <p>点击查看原图</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="join-page-wrapper">
+
+                    <div class="page">
+                        <ul class="join-page pagination" >
                         </ul>
                     </div>
                 </div>
 
             </div>
+
         </div>
     </div>
 </div>

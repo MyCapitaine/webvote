@@ -36,7 +36,7 @@ public class UserInformation {
     @Column(name="experience",nullable = false)
     private int experience;//经验值，初始为0
 
-    @Column(name="binding_email",nullable = false,unique = true)
+    @Column(name="binding_email",unique = true)
     private String bindingEmail;//绑定邮箱
 
     @Column(name="register_time",nullable = false)

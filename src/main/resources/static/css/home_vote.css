@@ -33,3 +33,57 @@
     from {left:95px;}
     to {left:29px;}
 }
+
+.join-page{
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+.join-page li{
+    display: inline;
+}
+.publish-page{
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+.publish-page li{
+    display: inline;
+}
+/*分页相关*/
+.disable a{
+    color: grey !important;
+}
+.disable a:hover,.disable a:focus{
+    cursor: default;
+    background-color: #ffffff !important;
+    color: grey !important;
+}
+
+.publish-page-wrapper,.join-page-wrapper{
+    padding: 0 34px;
+    position: absolute;
+    width: 92%;
+    left: 0;
+    top: 90%;
+}
+.page{
+    float: left;
+}
+
+.join-page-direct-wrapper , .publish-page-direct-wrapper{
+    display: inline-block;
+    margin-left: 20px;
+}
+.direct{
+    margin: 20px 0;
+}
+.direct-input{
+    height: 28px;
+    width: 70px;
+}
+.direct-button{
+    height: 34px;
+}

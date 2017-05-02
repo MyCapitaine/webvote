@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.dao.LoginRecordDao;
 import com.example.entity.*;
 import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
@@ -7,6 +8,7 @@ import com.example.serviceInterface.UserRegisterService;
 import com.example.util.Encrypt;
 import com.example.vo.ModifyInformationVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -66,6 +68,7 @@ public class UserInformationController {
         ui.setBirthday(date);
 
         userInformationService.modify(ui);
+
         ui.setBindingEmail(Encrypt.encryptEmailPrefix(ui.getBindingEmail()));
         model.addAttribute("currentUser",ui);
         jr.setData(ui);
@@ -92,7 +95,7 @@ public class UserInformationController {
     @RequestMapping("/home/record")
     @ResponseBody
     public JsonResult record(@ModelAttribute(value = "currentUser")UserInformation ui,int page_index){
-        int page_size= 10;
+        int page_size= 5;
         JsonResult jr = new JsonResult();
         jr.setMessage("failed");
         jr.setSuccess(false);
@@ -116,6 +119,33 @@ public class UserInformationController {
     public String vote(ModelMap model,@RequestParam(value = "page_index",defaultValue = "1")int page_index){
         model.addAttribute("page_index",page_index);
         return "home_vote";
+    }
+
+    @Autowired
+    LoginRecordDao loginRecordDao;
+    @RequestMapping("home/joinVote")
+    @ResponseBody
+    public JsonResult joinVote(@ModelAttribute(value = "currentUser")UserInformation ui,int page_index){
+        int page_size=5;
+        JsonResult jr=new JsonResult();
+        Pageable page = new PageRequest(page_index, page_size);
+        Page result = loginRecordDao.findByUserId(ui.getId(),page);
+        jr.setData(result);
+        jr.setSuccess(true);
+        jr.setMessage("");
+        return jr;
+    }
+
+    @RequestMapping("home/publishVote")
+    @ResponseBody
+    public JsonResult publishVote(@ModelAttribute(value = "currentUser")UserInformation ui,int page_index){
+        int page_size=5;
+        JsonResult jr=new JsonResult();
+        Pageable page = new PageRequest(page_index, page_size);
+        Page result = loginRecordDao.findByUserId2(ui.getId(),page);
+        jr.setData(result);
+        jr.setSuccess(true);
+        return jr;
     }
 
 }

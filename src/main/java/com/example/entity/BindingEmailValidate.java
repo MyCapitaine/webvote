@@ -11,25 +11,25 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "active_validate")
-public class ActiveValidate {
+public class BindingEmailValidate {
     @Id
     private int id;
 
     @Column(name = "binding_mail",nullable = false)
     private String bindingEmail;//绑定邮箱
 
-    @Column(name="validator",nullable = false,unique = true)
+    @Column(name="validator",nullable = false)
     private String validator;//验证码
 
     @Column(name="deadline",nullable = false)
-    private Date deadline;//默认有效期三天
+    private Date deadline;//默认有效期三分钟
 
-    public ActiveValidate() {
+    public BindingEmailValidate() {
     }
 
-    public ActiveValidate(UserRegister ur) {
+    public BindingEmailValidate(UserRegister ur) {
         this.id=ur.getId();
-        long time=ur.getRegisterTime().getTime()+1000*60*60*24*3;
+        long time=ur.getRegisterTime().getTime()+1000*60*3;
         this.deadline=new Date(time);
         this.bindingEmail = ur.getBindingEmail();
     }

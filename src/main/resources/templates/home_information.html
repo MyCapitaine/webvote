@@ -86,7 +86,7 @@
                     <li>
                         <a href="/home/safe" id="safe" class="canHover">
                             <i class="al-aq"></i>
-                            <span>账号安全</span>
+                            <span>我的账号</span>
                         </a>
                     </li>
                 </ul>
@@ -169,11 +169,22 @@
                             <div class="textName">
                                 <label>绑定邮箱:</label>
                             </div>
-                            <div class="textValue">
-                                <label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
+                            <div th:if="${currentUser.bindingEmail} ne null">
+                                <div class="textValue">
+                                    <label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
+                                </div>
+                                <div class="action">
+                                    <a >修改绑定邮箱</a>
+                                </div>
                             </div>
-                            <div class="action">
-                                <a >修改绑定邮箱</a>
+
+                            <div th:if="${currentUser.bindingEmail} eq null">
+                                <div class="textValue">
+                                    <label >尚未绑定</label>
+                                </div>
+                                <div class="action">
+                                    <a href="/bindEmail" target="_blank">现在去绑定邮箱</a>
+                                </div>
                             </div>
 
                         </div>

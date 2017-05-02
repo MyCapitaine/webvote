@@ -14,6 +14,8 @@ public interface LoginRecordDao extends JpaRepository<LoginRecord, Integer> {
     @Query(" from LoginRecord lr where lr.userId=?1 order by loginTime desc")
     Page findByUserId(int id, Pageable page);
 
+    @Query(" from LoginRecord lr where lr.userId=?1 order by loginTime asc")
+    Page findByUserId2(int id, Pageable page);
 
     @Query(" from LoginRecord lr where lr.id=:id ")
     Page findCommentById(int id, Pageable page);

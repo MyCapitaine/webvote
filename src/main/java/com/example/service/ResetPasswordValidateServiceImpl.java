@@ -1,7 +1,6 @@
 package com.example.service;
 
 import com.example.dao.ResetPasswordValidateDao;
-import com.example.entity.ActiveValidate;
 import com.example.entity.ResetPasswordValidate;
 import com.example.entity.ServiceResult;
 import com.example.entity.UserRegister;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by hasee on 2017/4/14.
@@ -77,8 +75,8 @@ public class ResetPasswordValidateServiceImpl implements ResetPasswordValidateSe
         return sr;
     }
 
-    @Override
-    public void delete(int id) {
+    //@Override
+    private void delete(int id) {
         ResetPasswordValidate rpv = resetPasswordValidateDao.findOne(id);
         if(rpv!=null){
             resetPasswordValidateDao.delete(id);

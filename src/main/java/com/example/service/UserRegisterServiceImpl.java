@@ -222,8 +222,8 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      * @param login_name 登录名
      * @return 返回一个List<UserRegister>
      */
-    @Override
-    public UserRegister getURByName(String login_name) {
+    //@Override
+    private UserRegister getURByName(String login_name) {
         return userRegisterDao.findByLoginName(login_name);
     }
 
@@ -232,8 +232,8 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      * @param bindingEmail 登录名
      * @return 返回一个List<UserRegister>
      */
-    @Override
-    public UserRegister getURByEmail(String bindingEmail) {
+    //@Override
+    private UserRegister getURByEmail(String bindingEmail) {
         return userRegisterDao.findByBindingEmail(bindingEmail);
     }
     /**

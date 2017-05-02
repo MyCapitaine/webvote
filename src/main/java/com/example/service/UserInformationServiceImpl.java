@@ -41,21 +41,21 @@ public class UserInformationServiceImpl implements UserInformationService {
     }
 
 
-    @Override
-    public ServiceResult delete(UserRegister ur) {
-
-        ServiceResult sr = new ServiceResult();
-        sr.setData(null);
-        sr.setMessage("UserInformation delete failed");
-        sr.setSuccess(false);
-
-        if(userInformationDao.findOne(ur.getId())!=null){
-            userInformationDao.delete(ur.getId());
-            sr.setMessage("UserInformation delete success");
-            sr.setSuccess(true);
-        }
-        return null;
-    }
+//    @Override
+//    public ServiceResult delete(UserRegister ur) {
+//
+//        ServiceResult sr = new ServiceResult();
+//        sr.setData(null);
+//        sr.setMessage("UserInformation delete failed");
+//        sr.setSuccess(false);
+//
+//        if(userInformationDao.findOne(ur.getId())!=null){
+//            userInformationDao.delete(ur.getId());
+//            sr.setMessage("UserInformation delete success");
+//            sr.setSuccess(true);
+//        }
+//        return null;
+//    }
 
     //注册时检测昵称是否被占用
     @Override
@@ -78,10 +78,10 @@ public class UserInformationServiceImpl implements UserInformationService {
         }
     }
 
-    @Override
-    public boolean isEmailBinding(String bindingEmail) {
-        return (userInformationDao.findByBindingEmail(bindingEmail)!=null)?true:false;
-    }
+//    @Override
+//    public boolean isEmailBinding(String bindingEmail) {
+//        return (userInformationDao.findByBindingEmail(bindingEmail)!=null)?true:false;
+//    }
 
     @Override
     public ServiceResult modify(UserInformation ui) {
