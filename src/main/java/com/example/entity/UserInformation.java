@@ -21,7 +21,7 @@ public class UserInformation {
     @Column(name="nick_name",nullable = false,unique = true)
     private String nickName;//用户昵称
 
-    @Column(name="portrait")
+    @Column(name="portrait",nullable = true)
     private String portrait;//头像url路径，默认：
 
     @Column(name="sign",nullable = false)
