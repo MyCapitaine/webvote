@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
+    <title>登录</title>
     <!--<link rel="shortcut icon" href="/images/favicon.ico" />-->
     <!--<link href="style/style.css" rel="stylesheet" type="text/css" />-->
     <link href="/css/my.css" rel="stylesheet" type="text/css" />
@@ -60,13 +60,13 @@
 
                     <div class="uns_box" >
                         <ul class="menu" th:if="${currentUser} eq null">
-                            <li ><a href="signin"> 登录</a></li>
-                            <li ><a href="signup" >注册</a></li>
+                            <li ><a href="/signin"> 登录</a></li>
+                            <li ><a href="/signup" >注册</a></li>
 
                         </ul>
                         <ul class="menu" th:unless="${currentUser} eq null">
-                            <li style="display: list-item;"><a href="home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
-                            <li ><a href="signout"> 退出</a></li>
+                            <li style="display: list-item;"><a href="/home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                            <li ><a href="/signout"> 退出</a></li>
                         </ul>
                     </div>
 
@@ -100,7 +100,7 @@
                             <label >
                                 <input class="remember" type="checkbox" checked="checked"/>记住我
                             </label>
-                            <a href="forgetPassword" class="link" style="position: absolute;right: 2px;line-height: 20px;height: 20px;">忘记密码</a>
+                            <a href="/forgetPassword" class="link" style="position: absolute;right: 2px;line-height: 20px;height: 20px;">忘记密码</a>
                         </div>
                     </div>
 
@@ -109,7 +109,7 @@
                     </div>
                     <div class="go-regist">
                         还没有账号？
-                        <a href="signup">现在注册</a>
+                        <a href="/signup">现在注册</a>
                     </div>
                     <div id="txtLoginIDTip">
                     </div>

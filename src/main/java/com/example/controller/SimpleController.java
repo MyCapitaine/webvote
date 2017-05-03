@@ -19,7 +19,7 @@ import org.springframework.data.domain.Pageable;
  * Created by hasee on 2017/3/4.
  */
 @Controller
-@SessionAttributes({"currentUser","message","redirectTo","previousPage"})//
+@SessionAttributes({"currentUser","message","redirectTo","previousPage","UserInformation"})//
 public class SimpleController {
     @RequestMapping("/")
     public String index(ModelMap model){

@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
+    <title>我的投票</title>
+
     <script src="/js/jquery.min.js"></script>
     <!--<link href="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet"/>-->
     <link href="/css/bootstrap.css" rel="stylesheet"/>
@@ -10,7 +12,7 @@
     <script src="/js/bootstrap.js"></script>
     <script src="/js/bootstrap-datetimepicker.js"></script>
     <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
-    <title>Title</title>
+
 
 
     <link href="/css/home.css" rel="stylesheet" type="text/css" />
@@ -40,7 +42,7 @@
 
             <div class="uns_box" >
                 <ul class="menu">
-                    <li style="display: list-item;"><a href="/home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                    <li style="display: list-item;"><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
                     <li ><a href="/signout"> 退出</a></li>
                 </ul>
             </div>

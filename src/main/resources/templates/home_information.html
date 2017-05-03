@@ -2,9 +2,11 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
+    <title>个人中心</title>
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>test</title>
+
 
     <script src="/js/jquery.min.js"></script>
     <!--<link href="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet"/>-->
@@ -90,7 +92,7 @@
 				
 				<div class="uns_box" >
 					<ul class="menu">
-						<li style="display: list-item;"><a href="/home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+						<li style="display: list-item;"><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
 						<li ><a href="/signout"> 退出</a></li>
 					</ul>
 				</div>
@@ -142,9 +144,9 @@
                 <div>
                     <div class="portrait-wrapper" >
                         <div class="portrait">
-                            <img th:if="${currentUser.portrait} ne null"  class="portrait-img" th:src="${currentUser.portrait}"/>
+                            <img th:if="${UserInformation.portrait} ne null"  class="portrait-img" th:src="${UserInformation.portrait}"/>
                             <!--<img class="portrait-img" src="/portrait/red_yellow.jpg"/>-->
-                            <img th:if="${currentUser.portrait} eq null" class="portrait-img" src="/images/default_portrait.jpg"/>
+                            <img th:if="${UserInformation.portrait} eq null" class="portrait-img" src="/images/default_portrait.jpg"/>
                             <div class="texttip">
                                 <p>点击查看原图</p>
                             </div>
@@ -174,13 +176,13 @@
                             <div class="textName">
                                 <label for="nickName">昵<b style="width: 24px;display: inline-block;"></b>称:</label>
                             </div>
-                            <input type="text" th:value="${currentUser.nickName}" id="nickName" name="nickName"/>
+                            <input type="text" th:value="${UserInformation.nickName}" id="nickName" name="nickName"/>
                         </div>
                         <div class="row">
                             <div class="textName">
                                 <label for="sign">个性签名:</label>
                             </div>
-                            <textarea cols="30" rows="10"  th:field="${currentUser.sign}" id="sign" name="sign"/>
+                            <textarea cols="30" rows="10"  th:field="${UserInformation.sign}" id="sign" name="sign"/>
 
                         </div>
                         <div class="row">
@@ -189,17 +191,17 @@
                                 <!--for="sex"-->
                             </div>
                             <div class="textValue">
-                                <ul th:if="${currentUser.sex} eq 男">
+                                <ul th:if="${UserInformation.sex} eq 男">
                                     <li class="selected">男</li>
                                     <li class="canHover">女</li>
                                     <li class="canHover">未知</li>
                                 </ul>
-                                <ul th:if="${currentUser.sex} eq 女">
+                                <ul th:if="${UserInformation.sex} eq 女">
                                     <li class="canHover">男</li>
                                     <li class="selected">女</li>
                                     <li class="canHover">未知</li>
                                 </ul>
-                                <ul th:if="${currentUser.sex} eq 未知">
+                                <ul th:if="${UserInformation.sex} eq 未知">
                                     <li class="canHover">男</li>
                                     <li class="canHover">女</li>
                                     <li class="selected">未知</li>
@@ -212,7 +214,7 @@
                             </div>
                             <div class='input-group date' id='datetimepicker1' style="width:120px" >
 
-                                <input th:with="date=${currentUser.birthday}" th:value="${#dates.format(date, 'yyyy-MM-dd')}"
+                                <input th:with="date=${UserInformation.birthday}" th:value="${#dates.format(date, 'yyyy-MM-dd')}"
                                        type='text' class="form-control" style="padding-top: 1px;padding-bottom: 1px"
                                        id="birthday" name="birthday" readonly="readonly"
                                 />
@@ -225,16 +227,16 @@
                             <div class="textName">
                                 <label>绑定邮箱:</label>
                             </div>
-                            <div th:if="${currentUser.bindingEmail} ne null">
+                            <div th:if="${UserInformation.bindingEmail} ne null">
                                 <div class="textValue">
-                                    <label th:text="${currentUser.bindingEmail}">绑定邮箱:</label>
+                                    <label th:text="${UserInformation.bindingEmail}">绑定邮箱:</label>
                                 </div>
                                 <div class="action">
-                                    <a >修改绑定邮箱</a>
+                                    <a href="/home/resetBE">修改绑定邮箱</a>
                                 </div>
                             </div>
 
-                            <div th:if="${currentUser.bindingEmail} eq null">
+                            <div th:if="${UserInformation.bindingEmail} eq null">
                                 <div class="textValue">
                                     <label >尚未绑定</label>
                                 </div>
@@ -249,7 +251,7 @@
                                 <label>注册时间:</label>
                             </div>
                             <div class="textValue">
-                                <label th:with="date=${currentUser.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}"
+                                <label th:with="date=${UserInformation.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}"
                                 >注册时间:</label>
                             </div>
                         </div>
@@ -268,8 +270,8 @@
     <div >
         <div class="mask" style="display: none">
             <span>
-                <img th:if="${currentUser.portrait} ne null"  class="portrait-img" th:src="${currentUser.portrait}"/>
-                <img th:if="${currentUser.portrait} eq null" class="portrait-img" src="/images/default_portrait.jpg"/>
+                <img th:if="${UserInformation.portrait} ne null"  class="portrait-img" th:src="${UserInformation.portrait}"/>
+                <img th:if="${UserInformation.portrait} eq null" class="portrait-img" src="/images/default_portrait.jpg"/>
                 <!--<img src="/images/red_yellow.jpg"/>-->
             </span>
         </div>

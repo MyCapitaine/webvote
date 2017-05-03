@@ -93,7 +93,7 @@ function login(validate) {
 				console.log(data);
 				if (data.success) {
 				    if(previousPage==null){
-                        location.href="index";
+                        location.href="/index";
                     }
 				    else{
                         location.href=""+previousPage;

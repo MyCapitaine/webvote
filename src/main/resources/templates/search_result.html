@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>搜索结果</title>
 
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <!--<link href="/css/home.css" rel="stylesheet" type="text/css" />-->
@@ -32,13 +32,13 @@
 
                 <div class="uns_box" >
                     <ul class="menu" th:if="${currentUser} eq null">
-                        <li ><a href="signin"> 登录</a></li>
-                        <li ><a href="signup" >注册</a></li>
+                        <li ><a href="/signin"> 登录</a></li>
+                        <li ><a href="/signup" >注册</a></li>
 
                     </ul>
                     <ul class="menu" th:unless="${currentUser} eq null">
-                        <li style="display: list-item;"><a href="home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
-                        <li ><a href="signout"> 退出</a></li>
+                        <li style="display: list-item;"><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                        <li ><a href="/signout"> 退出</a></li>
                     </ul>
                 </div>
 

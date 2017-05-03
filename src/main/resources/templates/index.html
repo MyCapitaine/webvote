@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>首页</title>
     <!--<link href="style/style.css" rel="stylesheet" type="text/css" />-->
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="/css/home.css" rel="stylesheet" type="text/css" />
@@ -26,13 +26,13 @@
 
                 <div class="uns_box" >
                     <ul class="menu" th:if="${currentUser} eq null">
-                        <li ><a href="signin"> 登录</a></li>
-                        <li ><a href="signup" >注册</a></li>
+                        <li ><a href="/signin"> 登录</a></li>
+                        <li ><a href="/signup" >注册</a></li>
 
                     </ul>
                     <ul class="menu" th:unless="${currentUser} eq null">
-                        <li style="display: list-item;"><a href="home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
-                        <li ><a href="signout"> 退出</a></li>
+                        <li style="display: list-item;"><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                        <li ><a href="/signout"> 退出</a></li>
                     </ul>
                 </div>
 
@@ -50,14 +50,14 @@
     </div>
 
 
-    <div th:fragment="random" th:object="${currentUser}" th:if="${currentUser}!=null"
+    <div th:fragment="random" th:object="${UserInformation}" th:if="${UserInformation}!=null"
         style="width: 980px;margin:0 auto">
         <p th:text="*{id}" >3333</p>
         <p th:text="*{sign}" >3333</p>
         <p th:text="*{sex}">233</p>
         <p th:text="*{birthday}">233</p>
         <p th:text="*{bindingEmail}">233</p>
-        <p th:with="date=${currentUser.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">233</p>
+        <p th:with="date=${UserInformation.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">233</p>
         <button type="button" class="btn btn-danger" id="delete">随机</button>
     </div>
 </body>
