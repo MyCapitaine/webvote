@@ -60,10 +60,10 @@ public class UserRegisterServiceImpl implements UserRegisterService {
             sr.setMessage("Login name has been used.");
             throw new UserRegisterServiceException("Login name has been used.");
         }
-        else if(isEmailBinding(ur.getBindingEmail())){//userRegisterDao.findByBindingEmail(ur.getBindingEmail()).size()!=0
-            sr.setMessage("Email has been binding");
-            throw new UserRegisterServiceException("Email has been binding");
-        }
+//        else if(isEmailBinding(ur.getBindingEmail())){//userRegisterDao.findByBindingEmail(ur.getBindingEmail()).size()!=0
+//            sr.setMessage("Email has been binding");
+//            throw new UserRegisterServiceException("Email has been binding");
+//        }
         else{
             try{
                 //写入注册表
