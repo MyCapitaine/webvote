@@ -28,7 +28,7 @@ public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
 	/**
 	 * 查询封禁列表
 	 */
-	@Query(" from VotesEntity v where v.banned=1")
+	@Query(" from VotesEntity where banned = 1")
 	List<VotesEntity> findBanList();
 
 //    @Query(" from VotesEntity lr where banned=1")
@@ -36,7 +36,7 @@ public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
 	/**
 	 * 查询投票是否被封禁
 	 */
-	@Query("select v.banned from VotesEntity  v where v.id = ?1")
+	@Query("select v.banned from VotesEntity v where v.id = ?1")
 	int isBanned(int id);
 	/**
 	 * 封禁投票
@@ -53,12 +53,11 @@ public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
 	@Query("update VotesEntity set banned = 0 where id = ?1")
 	int unban(int id);
 	/**
-	 * 更新
+	 * 更新投票
 	 */
 	@Modifying
     @Transactional
-	@Query(value = "update VotesEntity v set v.vname = ?2, v.vinfo = ?3, v.createTime = ?4, v.deadLine = ?5, v.resultAuthority = ?6 where v.id = ?1")
-	int updateVotes(int id, String vname, String vinfo, Date createTime, Date deadLine, int resultAuthority);
-	
-	
+	@Query(value = "update VotesEntity v set v.vname = ?2, v.vinfo = ?3, v.beginTime = ?4, v.deadLine = ?5, v.resultAuthority = ?6 where v.id = ?1")
+	int updateVotes(int id, String vname, String vinfo, Date beginTime, Date deadLine, int resultAuthority);
+
 }

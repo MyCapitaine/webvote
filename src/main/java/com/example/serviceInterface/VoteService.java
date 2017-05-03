@@ -47,15 +47,6 @@ public interface VoteService {
 	 */
 	ServiceResult<List<VotesEntity>> findBanList();
 	/**
-	 * 游客投票
-	 */
-	boolean voteActivity(VoteActivitiesEntity va);
-	/**
-	 * 游客是否已进行过投票
-	 * 以及投的是什么
-	 */
-	ServiceResult<VoteActivitiesEntity> isIpVoted(String ip);
-	/**
 	 * 投票更新
 	 */
 	int updateVote(VoteActivitiesEntity va);

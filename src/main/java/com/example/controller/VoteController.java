@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.serviceInterface.VoteService;
 /**
- * 
+ * 投票控制器
  * @author MyCapitaine
  *
  */
@@ -22,71 +22,68 @@ public class VoteController {
 	/**
 	 * 投票发布页面
 	 */
-	@RequestMapping(value = "/votepublish", method = RequestMethod.GET)
-	public String votePublishPage(ModelMap modelMap) {
-		return null;
+	@RequestMapping(value = "/addvote", method = RequestMethod.GET)
+	public String addVotePage(ModelMap modelMap) {
+		return "add_vote";
 	}
 	/**
 	 * 投票发布处理
 	 */
-	@RequestMapping(value = "/votepublish", method = RequestMethod.POST)
-	public String votePublish() {
+	@RequestMapping(value = "/addvote", method = RequestMethod.POST)
+	public String addVote() {
+		
+		
 		return null;
 	}
 	/**
-	 * 投票管理页面
+	 * 用户(发布的所有)投票概览
 	 */
-	@RequestMapping(value = "/votemanage/*", method = RequestMethod.GET)
-	public String voteManagePage() {
-		return null;
-	}
-	/**
-	 * 投票管理处理
-	 */
-	@RequestMapping(value = "/votemanage/*", method = RequestMethod.POST)
-	public String voteManage() {
-		return null;
+	@RequestMapping("/votesoverview/*")
+	public String voteOverview() {
+		
+		
+		return "votesoverview";
 	}
 	/**
 	 * 投票页面
 	 */
-	@RequestMapping(value = "/voteactivity/*", method = RequestMethod.GET)
+	@RequestMapping(value = "/votepage/*", method = RequestMethod.GET)
 	public String votePage() {
 		return null;
 	}
 	/**
 	 * 投票处理
 	 */
-	@RequestMapping(value = "/voteactivity/*", method = RequestMethod.POST)
-	public String vote() {
+	@RequestMapping(value = "/dovote/*", method = RequestMethod.POST)
+	public String doVote() {
 		return null;
 	}
 	/**
 	 * 投票更新处理
 	 */
-	@RequestMapping(value = "/voteactivity/*", method = RequestMethod.PUT)
-	public String voteUpd() {
+	@RequestMapping(value = "/updatevote/*", method = RequestMethod.POST)
+	public String updVote() {
 		return null;
 	}
 	/**
-	 * 投票封禁管理页面
+	 * 删除投票
 	 */
-	@RequestMapping("/banmanage")
-	public String voteBanManagePage() {
+	@RequestMapping(value = "/deletevote/*", method = RequestMethod.GET)
+	public String delVote() {
 		return null;
 	}
 	/**
 	 * 投票封禁处理
 	 */
-	@RequestMapping("/banaction/*")
-	public String voteBanManage() {
+	@RequestMapping("/banvote/*")
+	public String banVote() {
 		return null;
 	}
 	/**
 	 * 投票解封处理
 	 */
-	@RequestMapping("/unbanaction/*")
-	public String voteUnbanManage() {
+	@RequestMapping("/unbanvote/*")
+	public String unbanvote() {
 		return null;
 	}
 	
