@@ -16,7 +16,11 @@ import com.example.entity.VoteActivitiesEntity;
 import com.example.entity.VoteOptionsEntity;
 import com.example.entity.VotesEntity;
 import com.example.serviceInterface.VoteService;
-
+/**
+ * 投票接口实现
+ * @author MyCapitaine
+ *
+ */
 @Service
 public class VoteServiceImpl implements VoteService {
 	@Autowired
@@ -76,20 +80,6 @@ public class VoteServiceImpl implements VoteService {
 		List<VotesEntity> ves = votesDao.findBanList();
 		sr.setData(ves);
 		sr.setSuccess(ves != null);
-		return sr;
-	}
-
-	@Override
-	public boolean voteActivity(VoteActivitiesEntity va) {
-		return voteActivitiesDao.save(va) != null;
-	}
-
-	@Override
-	public ServiceResult<VoteActivitiesEntity> isIpVoted(String ip) {
-		ServiceResult<VoteActivitiesEntity> sr = new ServiceResult<VoteActivitiesEntity>();
-		VoteActivitiesEntity va = voteActivitiesDao.findByIp(ip);
-		sr.setData(va);
-		sr.setSuccess(va != null);
 		return sr;
 	}
 

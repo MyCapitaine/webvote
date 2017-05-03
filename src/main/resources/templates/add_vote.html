@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8" />
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<title>投票发布页</title>
+		<script src="js/jquery.min.js"></script>
+	    <link href="css/bootstrap.css" rel="stylesheet"/>
+	    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+	    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+	    <script src="js/bootstrap.js"></script>
+	    <script src="js/bootstrap-datetimepicker.js"></script>
+	    <script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+	    <script  type="text/javascript">
+	    	$(document).ready(function(){
+	    		$("#submit").click(function(){
+	    			alert();
+	    			
+	    			$.post(
+	    				"",
+	    				{
+	    					
+	    				}
+	    			);
+	    		});
+	    		
+	    		$(#add).click(function(){
+	    			$(this).before('<div><input type="text" class="option" /><input type="button" value="删除选项" class="del" /></div>\n');
+	    		});
+	    		
+	    		$(.del).click(function(){
+	    			$(this).parent().remove();
+	    		});
+	    		
+	    	});
+	    	
+	    	
+	    	
+	    	
+	    </script>
+	</head>
+	<body>
+		<form method="post">
+			<input type="hidden" name="uid" th:value="${currentUser.id}" />
+			投票名:<input type="text" name="vname" /><br/>
+			投票简介:<input type="text" name="vinfo" /><br/>
+			开始时间:<input type="date" name="begintime" /><br/>
+			截止时间:<input type="date" name="deadline" /><br/>
+			结果权限:<br/>
+			<input type="radio" name="resultauthority" value="0"/>仅自己可见<br/>
+			<input type="radio" name="resultauthority" value="1"/>所有人可见<br/>
+			投票选项:
+			<div><input type="text" class="option" /></div>
+			
+			<input type="button" value="添加选项" id="add" /><br/>
+			<input type="submit" value="提交" id="submit" />
+			
+			
+			
+		</form>
+	</body>
+</html>

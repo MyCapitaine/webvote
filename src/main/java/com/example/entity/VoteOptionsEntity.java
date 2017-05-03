@@ -21,8 +21,8 @@ public class VoteOptionsEntity {
 	@Column(name = "vid", nullable = false)
 	private int vid;
 	
-	@Column(name = "text", nullable = false)
-	private String text;
+	@Column(name = "optiontext", nullable = false)
+	private String optionText;
 
 	public int getId() {
 		return id;
@@ -40,12 +40,13 @@ public class VoteOptionsEntity {
 		this.vid = vid;
 	}
 
-	public String getText() {
-		return text;
+	public String getOptionText() {
+		return optionText;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setOptionText(String optionText) {
+		this.optionText = optionText;
 	}
-	
+
+
 }
