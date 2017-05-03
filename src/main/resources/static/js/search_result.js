@@ -29,7 +29,7 @@ function vote(){
 function user(){
     $("#vote").on("click",function(){
         leftShift();
-        type="vote";
+        searchType="vote";
         changeURLForSearchVote(0);
     });
 }

@@ -201,7 +201,7 @@ var ms = $(document).getMS();
 var mms;
 $(document).ready(function(){
     $.ajax({
-        url : "/home/record",
+        url : "/home/loginRecord",
         type : "post",
         data : {
             page_index:page_index-1,
@@ -234,7 +234,7 @@ function changeURL(page_index){
 
 //换页
 function change_to_page(page_index){
-    $.get("/home/record",
+    $.get("/home/loginRecord",
         {
             page_index:page_index
         },

@@ -6,6 +6,7 @@ import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
 import com.example.util.Encrypt;
 import com.example.util.IpAddress;
+import com.example.vo.UserInformationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -79,6 +80,9 @@ public class TestInterceptor implements HandlerInterceptor {
         }
 
         //自动登录
+        /*
+
+         */
         if (session.getAttribute("currentUser") == null && cookies != null){
             for (Cookie cookie:cookies){
                 if (cookie.getName().equals("currentUser")){
@@ -100,10 +104,11 @@ public class TestInterceptor implements HandlerInterceptor {
                         //获取UserInformation放入session
                         ServiceResult uisr = userInformationService.findById(ur.getId());
                         UserInformation ui = (UserInformation) uisr.getData();
+                        UserInformationVO uivo = new UserInformationVO(ui);
+                        //uivo.setBindingEmail(Encrypt.encryptEmailPrefix(uivo.getBindingEmail()));
 
-                        ui.setBindingEmail(Encrypt.encryptEmailPrefix(ui.getBindingEmail()));
-
-                        session.setAttribute("currentUser", ui);
+                        session.setAttribute("currentUser", ur);
+                        session.setAttribute("UserInformation",uivo);
                         //更新coolie
                         cookie.setMaxAge(60 * 60 * 24 * 30);
                         cookie.setPath("/");
@@ -115,6 +120,7 @@ public class TestInterceptor implements HandlerInterceptor {
                             loginRecordService.add(lr);
                             System.out.println("**********interceptor登录记录**********");
                         }
+                        return true;
                     }
                 }
             }
@@ -123,7 +129,7 @@ public class TestInterceptor implements HandlerInterceptor {
         //如果已经登录，则不再访问登录界面、请求登录服务或者访问注册界面
         if(servlet.indexOf("signin")>=0||servlet.indexOf("signup")>=0){
             if(session.getAttribute("currentUser")!=null){
-                session.setAttribute("/message","已经登录");
+                session.setAttribute("message","已经登录");
                 session.setAttribute("redirectTo",session.getAttribute("previousPage"));
                 httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest,httpServletResponse);
                 return false;
@@ -137,7 +143,10 @@ public class TestInterceptor implements HandlerInterceptor {
         //个人中心需要登录后才能访问
         if(servlet.indexOf("home")>=0||servlet.indexOf("bindEmail")>=0){
             if(session.getAttribute("currentUser")==null){
-                httpServletResponse.sendRedirect("/signin");
+                session.setAttribute("message","请先登录");
+                session.setAttribute("redirectTo","/signin");
+                httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest,httpServletResponse);
+                //httpServletResponse.sendRedirect("/signin");
                 return false;
             }
             else {

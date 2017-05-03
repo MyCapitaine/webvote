@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
+    <title>注册</title>
     <!--<link rel="shortcut icon" href="/images/favicon.ico" />-->
     <!--<link href="style/style.css" rel="stylesheet" type="text/css" />-->
     <link href="/css/my.css" rel="stylesheet" type="text/css" />
@@ -60,13 +60,13 @@
 
                 <div class="uns_box" >
                     <ul class="menu" th:if="${currentUser} eq null">
-                        <li ><a href="signin"> 登录</a></li>
-                        <li ><a href="signup" >注册</a></li>
+                        <li ><a href="/signin"> 登录</a></li>
+                        <li ><a href="/signup" >注册</a></li>
 
                     </ul>
                     <ul class="menu" th:unless="${currentUser} eq null">
-                        <li style="display: list-item;"><a href="home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
-                        <li ><a href="signout"> 退出</a></li>
+                        <li style="display: list-item;"><a href="/home" th:with="str=${currentUser.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                        <li ><a href="/signout"> 退出</a></li>
                     </ul>
                 </div>
 
@@ -121,7 +121,7 @@
 
                 <div class="go-regist">
                    	 已经有账号？
-                    <a href="signin">现在登陆</a>
+                    <a href="/signin">现在登陆</a>
                 </div>
                 <div id="txtLoginIDTip">
                 </div>
@@ -133,7 +133,7 @@
 
     <div id="footer">
         <div class="dblock">
-            <!--<div class="inline-block"><img src="../images/logo-gray.png"/></div>-->
+
             <div class="inline-block">webvote</div>
             <div class="inline-block ">
                 <!--<p><a href="#">关于我们</a> | <a href="#">微博</a> | <a href="#">隐私政策</a> | <a href="#">人员招聘</a></p>-->

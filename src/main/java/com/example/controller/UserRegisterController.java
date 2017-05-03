@@ -13,6 +13,7 @@ import com.example.util.*;
 import com.example.vo.LoginVO;
 import com.example.vo.RegisterVO;
 import com.example.vo.SetPasswordVO;
+import com.example.vo.UserInformationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @Controller
-@SessionAttributes({"currentUser","message","redirectTo","previousPage"})//
+@SessionAttributes({"currentUser","message","redirectTo","previousPage","UserInformation"})//
 public class UserRegisterController {
     @Autowired
     private UserRegisterService userRegisterService;
@@ -61,7 +62,7 @@ public class UserRegisterController {
     //登录验证
     @RequestMapping("/login")
     @ResponseBody
-    public JsonResult<UserInformation> login(LoginVO form, ModelMap model, HttpSession session,
+    public JsonResult<UserInformation> login(LoginVO form, ModelMap model,
                                              HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         JsonResult<UserInformation> jr=new JsonResult<UserInformation>();
         jr.setData(null);
@@ -96,13 +97,14 @@ public class UserRegisterController {
             //获取UserInformation放入session
             ServiceResult<?> uisr = userInformationService.findById(ur.getId());
             UserInformation ui = (UserInformation)uisr.getData();
-            ui.setBindingEmail(Encrypt.encryptEmailPrefix(ui.getBindingEmail()));
-            
+            UserInformationVO uivo = new UserInformationVO(ui);
+            //uivo.setBindingEmail(Encrypt.encryptEmailPrefix(uivo.getBindingEmail()));
+
             jr.setData(ui);
             jr.setMessage(ursr.getMessage());
             jr.setSuccess(ursr.isSuccess());
-            model.addAttribute("currentUser",ui);
-            //todo login record
+            model.addAttribute("currentUser",ur);
+            model.addAttribute("UserInformation",uivo);
             if(now-last>=1000*60*60){
                 LoginRecord lr = new LoginRecord(ur);
                 lr.setIp(IpAddress.getIpAddr(httpServletRequest));
@@ -167,6 +169,7 @@ public class UserRegisterController {
             ui.setNickName(form.getNickName());
             ServiceResult<?> uisr = userInformationService.register(ui);
             ui = (UserInformation) uisr.getData();
+            UserInformationVO uivo = new UserInformationVO(ui);
 
 //            ServiceResult<?> avsr = bindingEmailValidateService.add(ur);
 //            BindingEmailValidate av = (BindingEmailValidate)avsr.getData();
@@ -175,7 +178,8 @@ public class UserRegisterController {
 //            SendEmail se = SendEmailFactory.getInstance(SendValidateEmailForBindingEmail.class);
 //            se.send(av.getBindingEmail(),validator);
 
-            model.addAttribute("currentUser",ui);
+            model.addAttribute("currentUser",ur);
+            model.addAttribute("UserInformation",uivo);
             model.addAttribute("redirectTo","index");
             model.addAttribute("message","注册成功！");
 //            model.addAttribute("message","注册成功，请在72小时内查看邮件激活！");
@@ -226,8 +230,6 @@ public class UserRegisterController {
         return js;
     }
 
-
-
     /************************绑定邮箱***************************/
     @RequestMapping("/bindEmail")
     public String bindEmail(Model model){
@@ -239,7 +241,7 @@ public class UserRegisterController {
     @ResponseBody
     public String isBindingEmailUsed(String bindingEmail){return !userRegisterService.isEmailBinding(bindingEmail)+"";}
 
-    @RequestMapping("sendEmailForBindingEmail")
+    @RequestMapping("/sendEmailForBindingEmail")
     @ResponseBody
     public JsonResult sendEmailForBindingEmail(int id,String email,ModelMap model){
         JsonResult jr = new JsonResult();
@@ -292,7 +294,9 @@ public class UserRegisterController {
             ui.setBindingEmail(av.getBindingEmail());
             userInformationService.modify(ui);
 
-            model.addAttribute("currentUser",ui);
+            UserInformationVO uivo = new UserInformationVO(ui);
+            model.addAttribute("currentUser",ur);
+            model.addAttribute("UserInformation",uivo);
             model.addAttribute("message","绑定成功，将跳转到首页");
             model.addAttribute("redirectTo","/index");
         }
@@ -423,6 +427,4 @@ public class UserRegisterController {
     	
     	return jr;
     }
-    
-
 }

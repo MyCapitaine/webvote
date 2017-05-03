@@ -256,6 +256,29 @@ li{
 .texttip p{
 	margin-top: 2px;
 }
+/*修改头像*/
+.change_portrait{
+    display: block;
+    background: url(../images/bg.png) repeat-x left top;
+    width: 150px;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    color: white;
+    font-size: 16px;
+    border-radius: 3px;
+    border: 1px solid #215A8D;
+    opacity: 0.75;
+    padding: 0;
+}
+.portrait-wrapper .btnArea{
+    width: 150px;
+    padding: 0;
+    margin: 15px auto 5px auto;
+    height: 36px;
+}
+
+
 /*点击查看头像原图相关*/
 .mask img{
     animation : show 1.5s;
@@ -386,15 +409,15 @@ a.canHover:hover{
 }
 /*信息界面保存按钮相关*/
 .btnArea{
-	width: 150px;
+	width: 200px;
 	padding:0;
 	margin:15px auto 5px auto;
 	height: 36px;
 	}
-.submit-btn {
+.submit-btn{
     display: block;
     background: url(../images/bg.png) repeat-x left top;
-    width: 150px;
+    width: 200px;
     text-align: center;
     height: 35px;
     line-height: 35px;
@@ -403,6 +426,7 @@ a.canHover:hover{
     border-radius: 3px;
     border: 1px solid #215A8D;
     opacity: 0.75;
+    padding: 0;
 }
 .submit-btn:hover{
 	text-decoration:none; 

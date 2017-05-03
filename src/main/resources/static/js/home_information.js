@@ -9,6 +9,27 @@ $(document).ready(function(){
         autoclose:true //选择日期后自动关闭
     });
 
+    $(".upload").hide();
+    $(".change_portrait").on("click",function(){
+        $(".change_portrait-wrapper").hide();
+        $(".upload").show();
+    });
+
+    $(".a-upload").on("change","input[type='file']",function(){
+        var filePath=$(this).val();
+        if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1){
+            var arr=filePath.split('\\');
+            var fileName=arr[arr.length-1];
+            $(".showFileName").html(fileName);
+            //$(".upload").submit();
+            upload();
+        }else{
+            // $(".showFileName").html("");
+            $(".showFileName").html("您未上传文件，或者您上传文件类型有误！").show();
+            return false
+        }
+    })
+
     var validate = $(".information-form").validate({
         submitHandler: function(form) {
         },
@@ -70,6 +91,31 @@ $(document).ready(function(){
     });
 
 })
+
+function upload(){
+    var form=new FormData($(".upload")[0]);
+    form.append("id",id);
+    $.ajax({
+        url:"/home/modifyPortrait",
+        type:"post",
+        data:form,
+        processData:false,
+        contentType:false,
+        success:function(result){
+            //window.clearInterval(timer);
+            alert("上传成功");
+            var data = result.data;
+            var src = data.portrait;
+            $(".portrait-img").attr("src",src);
+            $(".change_portrait-wrapper").show();
+            $(".upload").hide();
+        },
+        error:function(e){
+            alert("错误！！");
+            //window.clearInterval(timer);
+        }
+    });
+}
 
 function sex(li){
     console.log($(li).text());
