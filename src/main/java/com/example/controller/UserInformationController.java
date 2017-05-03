@@ -17,8 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,7 +55,13 @@ public class UserInformationController {
                 String fileName = file.getOriginalFilename();
                 String[] fix = fileName.split("\\.");
                 String codeFileName = Code.MD5Encoder(fix[0],"utf-8");
+
+                File direction = new  File("F:/images/");
+                if(!direction.exists()){
+                    direction.mkdir();
+                }
                 String path = "F:/images/" +codeFileName+"."+fix[1];
+
                 file.transferTo(new File(path));
 
                 String portrait = "/portrait/"+codeFileName+"."+fix[1];
@@ -99,15 +103,16 @@ public class UserInformationController {
         ui.setNickName(form.getNickName());
         ui.setSign(form.getSign());
         ui.setSex(form.getSex());
-        String time = form.getBirthday();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        Date date=null;
-        try {
-            date = sdf.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        ui.setBirthday(date);
+        ui.setBirthday(form.getBirthday());
+//        String time = form.getBirthday();
+//        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+//        Date date=null;
+//        try {
+//            date = sdf.parse(time);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        ui.setBirthday(date);
         userInformationService.modify(ui);
 
         UserInformationVO uivo = new UserInformationVO(ui);

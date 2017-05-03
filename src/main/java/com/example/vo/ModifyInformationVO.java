@@ -1,5 +1,7 @@
 package com.example.vo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -10,7 +12,8 @@ public class ModifyInformationVO {
     private String nickName;
     private String sex;
     private String sign;
-    private String birthday;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date birthday;
 
     public ModifyInformationVO() {
     }
@@ -39,11 +42,11 @@ public class ModifyInformationVO {
         this.sign = sign;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
