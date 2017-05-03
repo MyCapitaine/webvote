@@ -15,15 +15,18 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "msgs")
-public class MsgEntity {
+public class MsgsEntity {
+
+	public MsgsEntity() {
+	}
 	@Id
 	private int id;
 	
 	@Column(name = "vid", nullable = false)
 	private int vid;
 	
-	@Column(name = "inner_", nullable = false)
-	private String inner;
+	@Column(name = "msgtext", nullable = false)
+	private String msgText;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date msgTime;
@@ -33,7 +36,7 @@ public class MsgEntity {
 	
     @Column(name = "banned", nullable = false, length = 1)
     private int banned = 0;
-
+    
 	public int getId() {
 		return id;
 	}
@@ -50,12 +53,12 @@ public class MsgEntity {
 		this.vid = vid;
 	}
 
-	public String getInner() {
-		return inner;
+	public String getMsgText() {
+		return msgText;
 	}
 
-	public void setInner(String inner) {
-		this.inner = inner;
+	public void setMsgText(String msgText) {
+		this.msgText = msgText;
 	}
 
 	public Date getMsgTime() {
@@ -82,6 +85,4 @@ public class MsgEntity {
 		this.banned = banned;
 	}
 
-	public MsgEntity() {
-	}
 }
