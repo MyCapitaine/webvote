@@ -93,37 +93,9 @@
         //绑定事件
         bindEvent:function(totalsubpageTmep,args){
             return (function(){
-                //删除操作
-                // $("#delete").on("click",function(){
-                //     var ids=[];
-                //     $(":checked").not("#all").each(function(){
-                //         ids.push($(this).val());
-                //     });
-                //     if(ids.length>0){
-                //         console.log("before delete total: "+args.totalPage+"current: "+args.currPage);
-                //         $.get("/delete",
-                //             {
-                //                 id_array:ids.toString(),
-                //                 page_index:$(".active").text()
-                //             },
-                //             function(data){
-                //                 if(data.success){
-                //                     sessionStorage.clear();
-                //                     args.totalPage=data.data.totalPages;
-                //                     args.currPage=$(".active").text();
-                //                     if(args.currPage>args.totalPage)
-                //                         args.currPage=args.totalPage;
-                //                     var page_index=args.currPage-1>0?args.currPage-1:0;
-                //                     ms.fillHtml(totalsubpageTmep,{"currPage":args.currPage,"totalPage":args.totalPage,"turndown":args.turndown});
-                //                     change_to_page(page_index);
-                //                 }
-                //             }
-                //         );
-                //     }
-                //
-                // });
                 //第几页
                 $(totalsubpageTmep).on("click",".geraltTb_pager",function(event){
+                    console.log("click");
                     var current = parseInt($(this).text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
                     // ms.bindEvent(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
@@ -132,7 +104,6 @@
                 });
                 //首页
                 $(totalsubpageTmep).on("click","#head",function(event){
-                    //var current = parseInt($(".active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":1,"totalPage":args.totalPage,"turndown":args.turndown});
                     changeURL(1);
                     changeToPage(0);
@@ -164,7 +135,7 @@
                         $(".btn").click();
                     }
                 });
-                $(totalsubpageTmep).on("click","#goto",function(event){
+                $(".direct").on("click","#goto",function(event){
                     var current = parseInt($(".form-control").val());
                     if(!isNaN(current)){
                         if(current>=1&&current<=args.totalPage){

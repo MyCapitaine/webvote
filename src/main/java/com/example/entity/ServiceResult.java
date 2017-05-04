@@ -21,7 +21,7 @@ public class ServiceResult<T> implements Serializable{
      */
     private boolean success;
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 

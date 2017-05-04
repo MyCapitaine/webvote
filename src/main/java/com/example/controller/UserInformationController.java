@@ -97,8 +97,8 @@ public class UserInformationController {
         jr.setSuccess(false);
         jr.setMessage("modify failed");
 
-        ServiceResult uisr = userInformationService.findById(form.getId());
-        UserInformation ui = (UserInformation) uisr.getData();
+        ServiceResult<UserInformation> uisr = userInformationService.findById(form.getId());
+        UserInformation ui =  uisr.getData();
 
         ui.setNickName(form.getNickName());
         ui.setSign(form.getSign());

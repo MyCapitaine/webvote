@@ -94,35 +94,6 @@
         //绑定事件
         bindEvent:function(totalsubpageTmep,args){
             return (function(){
-                //删除操作
-                // $("#delete").on("click",function(){
-                //     var ids=[];
-                //     $(":checked").not("#all").each(function(){
-                //         ids.push($(this).val());
-                //     });
-                //     if(ids.length>0){
-                //         console.log("before delete total: "+args.totalPage+"current: "+args.currPage);
-                //         $.get("/delete",
-                //             {
-                //                 id_array:ids.toString(),
-                //                 page_index:$(".active").text()
-                //             },
-                //             function(data){
-                //                 if(data.success){
-                //                     sessionStorage.clear();
-                //                     args.totalPage=data.data.totalPages;
-                //                     args.currPage=$(".active").text();
-                //                     if(args.currPage>args.totalPage)
-                //                         args.currPage=args.totalPage;
-                //                     var page_index=args.currPage-1>0?args.currPage-1:0;
-                //                     ms.fillHtml(totalsubpageTmep,{"currPage":args.currPage,"totalPage":args.totalPage,"turndown":args.turndown});
-                //                     change_to_page(page_index);
-                //                 }
-                //             }
-                //         );
-                //     }
-                //
-                // });
                 //第几页
                 $(totalsubpageTmep).on("click",".geraltTb_pager",function(event){
                     var current = parseInt($(this).text());

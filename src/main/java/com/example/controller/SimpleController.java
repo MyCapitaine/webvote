@@ -2,13 +2,13 @@ package com.example.controller;
 
 import com.example.dao.UserRegisterDao;
 import com.example.entity.JsonResult;
+import com.example.entity.LoginRecord;
+import com.example.entity.ServiceResult;
 import com.example.entity.UserRegister;
+import com.example.serviceInterface.LoginRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
@@ -21,12 +21,27 @@ import org.springframework.data.domain.Pageable;
 @Controller
 @SessionAttributes({"currentUser","message","redirectTo","previousPage","UserInformation"})//
 public class SimpleController {
+    @Autowired
+    LoginRecordService loginRecordService;
     @RequestMapping("/")
-    public String index(ModelMap model){
+    public String index(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
+                        ModelMap model){
+        model.addAttribute("pageIndex",pageIndex);
         return "index";
     }
-    @RequestMapping("/index")
-    public String index2(ModelMap model){
+    /*首页第几页*/
+    @RequestMapping("/voteList")
+    @ResponseBody JsonResult getVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
+                                      ModelMap model){
+        /*获取投票列表分页*/
+        return new JsonResult();
+    }
+
+
+    /*用于根据投票id获取投票信息*/
+    @RequestMapping("/{vid}")
+    public String vote(@PathVariable("vid") int id, ModelMap model){
+        model.addAttribute("pageIndex",id);
         return "index";
     }
 
@@ -60,7 +75,7 @@ public class SimpleController {
 //    }
 
     @RequestMapping("/search")
-    public String search(@RequestParam(name = "searchType",defaultValue = "vote")String searchType,
+    public String search(@RequestParam(name = "searchType",defaultValue = "Vote")String searchType,
                          @RequestParam(name = "keyword",defaultValue = "")String keyword,
                          @RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
                          ModelMap model){
@@ -69,46 +84,41 @@ public class SimpleController {
         }
         model.addAttribute("keyword",keyword);
         model.addAttribute("pageIndex",pageIndex);
-        if(searchType.equals("user")){
-            //todo
-            model.addAttribute("searchType","user");
+        if(searchType.equals("User")){
+            model.addAttribute("searchType",searchType);
             model.addAttribute("searchResult","result");
-            model.addAttribute("pageIndex",pageIndex);
             return "search_result";
 //            return "search_user";
         }
-        //todo
-        model.addAttribute("searchType","vote");
+        model.addAttribute("searchType",searchType);
         model.addAttribute("searchResult","result");
         return "search_result";
 //        return "search_vote";
     }
 
     @RequestMapping("/searchVote")
-    public JsonResult searchVote(ModelMap model,String keyword,int pageIndex){
-        return new JsonResult();
+    @ResponseBody
+    public JsonResult searchVote(ModelMap model,String keyword,
+                                 @RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex){
+        int page_size=5;
+        Pageable pageable =new PageRequest(pageIndex, page_size);
+        ServiceResult lrsr = loginRecordService.find(1,pageable);
+        return new JsonResult(lrsr.getData());
     }
 
     @RequestMapping("/searchUser")
-    public JsonResult searchUser(ModelMap model,String keyword,int pageIndex){
-        return new JsonResult();
-    }
-
-    @RequestMapping("/page")
-    public String page(ModelMap model, @RequestParam(value = "page_index",defaultValue = "1")int index){
-        model.addAttribute("page_index",index);
-        return "page";
+    @ResponseBody
+    public JsonResult searchUser(ModelMap model,String keyword,
+                                 @RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex){
+        int page_size=5;
+        Pageable pageable =new PageRequest(pageIndex, page_size);
+        ServiceResult lrsr = loginRecordService.find(1,pageable);
+        return new JsonResult(lrsr.getData());
     }
 
     @RequestMapping("/find")
     public String find(){
         return "find";
-    }
-
-
-    @RequestMapping("/random")
-    public String random( ModelMap model){
-        return "random";
     }
 
     //message界面
@@ -117,6 +127,12 @@ public class SimpleController {
         return "message";
     }
 
+
+    @RequestMapping("/page")
+    public String page(ModelMap model, @RequestParam(value = "page_index",defaultValue = "1")int index){
+        model.addAttribute("page_index",index);
+        return "page";
+    }
     @Autowired
     UserRegisterDao userRegisterDao;
     @RequestMapping("/initPage")
