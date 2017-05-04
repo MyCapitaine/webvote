@@ -1,0 +1,106 @@
+/*搜索框*/
+.nav-search .nav-search-submit {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    min-width: 0;
+    cursor: pointer;
+    height: 32px;
+    background: url(/images/search.png) 0px 0px no-repeat;
+    background-size:80% 80%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+.nav-search {
+    position: relative;
+    float: right;
+    height: 32px;
+    margin: 10px 12px 5px 0;
+}
+.nav-search #nav_searchform {
+    display: block;
+    background-color: #fff;
+    border-radius: 16px;
+    padding-right: 30px;
+    height: 30px;
+    transition: .2s border-color;
+    border: 1px solid #ccd0d7;
+}
+.nav-search .nav-search-keyword {
+    float: left;
+    width: 178px;
+    color: #99a2aa;
+    font-size: 12px;
+    overflow: hidden;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 0 0 10px;
+    border: 0;
+    box-shadow: none;
+    background-color: transparent;
+    transition: .2s width;
+}
+.nav-search input,.nav-search button{
+    outline:none;
+
+}
+
+/*发布按钮和分页*/
+.publish-wrapper{
+    display: inline-block;
+    float: left;
+    height: 34px;
+    line-height: 34px;
+    padding-top: 20px;
+}
+.publish-vote{
+    display: block;
+    background: url(../images/bg.png) repeat-x left top;
+    width: 120px;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    color: white;
+    font-size: 16px;
+    border-radius: 3px;
+    border: 1px solid #215A8D;
+    opacity: 0.75;
+    padding: 0;
+}
+.disable a{
+    color: grey !important;
+}
+.disable a:hover,.disable a:focus{
+    cursor: default;
+    background-color: #ffffff !important;
+    color: grey !important;
+}
+
+.page-wrapper{
+    /*padding: 0 34px;*/
+    /*width: 92%;*/
+    left: 0;
+    top: 90%;
+}
+.page{
+    float: right;
+}
+.direct-wrapper{
+    float: right;
+    display: inline-block;
+    margin-left: 20px;
+}
+.direct{
+    margin: 20px 0;
+}
+.direct-input{
+    height: 28px;
+    width: 70px;
+}
+.direct-button{
+    height: 34px;
+}
+/**/

@@ -12,7 +12,16 @@ $(document).ready(function(){
     initPublishVote();
 
     joinVote();
-    $("#join-vote").hide();
+    publishVote();
+    if(type=="publish"){
+        $("#join-vote").hide();
+    }
+    else{
+        $("#publish").removeClass("tab-active")
+        $("#join").addClass("tab-active");
+        $(".tab-border").css("left","95px");
+        $("#publish-vote").hide();
+    }
 });
 
 function joinVote(){

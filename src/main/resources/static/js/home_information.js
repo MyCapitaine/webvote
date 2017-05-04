@@ -93,28 +93,37 @@ $(document).ready(function(){
 })
 
 function upload(){
-    var form=new FormData($(".upload")[0]);
-    form.append("id",id);
-    $.ajax({
-        url:"/home/modifyPortrait",
-        type:"post",
-        data:form,
-        processData:false,
-        contentType:false,
-        success:function(result){
-            //window.clearInterval(timer);
-            alert("上传成功");
-            var data = result.data;
-            var src = data.portrait;
-            $(".portrait-img").attr("src",src);
-            $(".change_portrait-wrapper").show();
-            $(".upload").hide();
-        },
-        error:function(e){
-            alert("错误！！");
-            //window.clearInterval(timer);
-        }
-    });
+    var size = $("#file")[0].files[0].size;
+    size = Math.ceil(size/1024);
+    console.log(size);
+    if(size>2000){
+        alert("太大了，塞不下！")
+    }
+    else{
+        var form=new FormData($(".upload")[0]);
+        form.append("id",id);
+        $.ajax({
+            url:"/home/modifyPortrait",
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(result){
+                //window.clearInterval(timer);
+                alert("上传成功");
+                var data = result.data;
+                var src = data.portrait;
+                $(".portrait-img").attr("src",src);
+                $(".change_portrait-wrapper").show();
+                $(".upload").hide();
+            },
+            error:function(e){
+                alert("错误！！");
+                //window.clearInterval(timer);
+            }
+        });
+    }
+
 }
 
 function sex(li){

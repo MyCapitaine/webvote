@@ -46,7 +46,7 @@ public class UserInformationVO {
         this.level=ui.getLevel();
         this.experience=ui.getExperience();
         this.portrait=ui.getPortrait();
-        this.birthday=ui.getRegisterTime();
+        this.birthday=ui.getBirthday();
         this.sex=ui.getSex();
         this.nickName=ui.getNickName();
     }

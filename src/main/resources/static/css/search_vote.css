@@ -40,43 +40,12 @@
     cursor: pointer;
     opacity: 1;
 }
-/*分页相关*/
-.disable a{
-    color: grey !important;
-}
-.disable a:hover,.disable a:focus{
-    cursor: default;
-    background-color: #ffffff !important;
-    color: grey !important;
-}
-.page-wrapper{
-    position: absolute;
-    width: 92%;
-    left: 456px;
-    top: 90%;
-}
-.page{
-    float: left;
-}
-.direct-wrapper{
-    display: inline-block;
-    margin-left: 20px;
-}
-.direct{
-    margin: 20px 0;
-}
-.direct-input{
-    height: 28px;
-    width: 70px;
-}
-.direct-button{
-    height: 34px;
-}
 /*结果栏*/
 .result-wrapper{
     width: 980px;
     margin:20px auto;
 }
+
 .security_content {
     width: 980px;
     height: 100%;
@@ -129,20 +98,4 @@
 }
 .tab-active{
     color: #00a1d6;
-}
-.right-shift{
-    animation:right-shift 0.5s;
-}
-@keyframes right-shift
-{
-    from {margin-left: 150px;}
-    to {margin-left:430px;}
-}
-.left-shift{
-    animation:left-shift 0.5s;
-}
-@keyframes left-shift
-{
-    from {margin-left:430px;}
-    to {margin-left: 150px;}
 }

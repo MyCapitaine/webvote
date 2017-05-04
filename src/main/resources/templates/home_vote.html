@@ -16,16 +16,17 @@
 
 
     <link href="/css/home.css" rel="stylesheet" type="text/css" />
+    <link href="/css/top.css" rel="stylesheet" type="text/css" />
     <link href="/css/home_safe.css" rel="stylesheet" type="text/css" />
     <link href="/css/home_vote.css" rel="stylesheet" type="text/css" />
     <script src="/js/date_format.js"></script>
-    <!--<script src="/js/home_safe.js"></script>-->
     <script src="/js/dynamic_page.js"></script>
     <script src="/js/home_vote.js"></script>
 </head>
 <body>
 <script th:inline="javascript">
     var id = [[${currentUser.id}]];
+    var type = [[${type}]];
     var page_index = [[${page_index}]];
 </script>
 <div class="z_top_container">

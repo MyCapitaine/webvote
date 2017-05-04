@@ -73,12 +73,15 @@ public class SimpleController {
             //todo
             model.addAttribute("searchType","user");
             model.addAttribute("searchResult","result");
+            model.addAttribute("pageIndex",pageIndex);
             return "search_result";
+//            return "search_user";
         }
         //todo
         model.addAttribute("searchType","vote");
         model.addAttribute("searchResult","result");
         return "search_result";
+//        return "search_vote";
     }
 
     @RequestMapping("/searchVote")
