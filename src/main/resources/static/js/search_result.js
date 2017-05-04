@@ -1,28 +1,31 @@
 /**
  * Created by hasee on 2017/4/21.
  */
-
-//var keyword;
-
+var dp;
 $(document).ready(function(){
-    //keyword=$("#search-keyword").val();
     if(searchType=="vote"){
         vote();
-        //$("#join-vote").hide();
     }
     else{
         user();
         rightShift();
-        changeURLForSearchUser(0);
+        changeURL(pageIndex);
+        searchVote();
     }
+
+    var page={
+        totalPage:10,
+        currPage:pageIndex,
+    };
+    mms=$(".pagination").createPage(page);
 });
 
 function vote(){
     $("#user").on("click",function(){
         rightShift();
         searchType="user";
-        changeURLForSearchUser(0);
-        //getJoinedVote();
+        changeURL(pageIndex);
+        searchUser();
     });
 }
 
@@ -30,12 +33,16 @@ function user(){
     $("#vote").on("click",function(){
         leftShift();
         searchType="vote";
-        changeURLForSearchVote(0);
+        changeURL(pageIndex);
+        searchVote();
     });
 }
 
-function getJoinedVote(){
-
+function searchVote(){
+    $(".result").html("votes result");
+}
+function searchUser(){
+    $(".result").html("users result");
 }
 
 function rightShift(){
@@ -66,10 +73,9 @@ function leftShift(){
     },500);
 }
 
-function changeURLForSearchUser(page_index){
+function changeURL(page_index){
     history.pushState("","","/search?searchType="+searchType+"&keyword="+keyword+"&pageIndex="+page_index);
 }
+function changeToPage(page_index){
 
-function changeURLForSearchVote(page_index){
-    history.pushState("","","/search?searchType="+searchType+"&keyword="+keyword+"&pageIndex="+page_index);
 }

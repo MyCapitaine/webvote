@@ -79,8 +79,8 @@ $.fn.dynamic_page = function(page_total,page_current){
                         totalsubpageTmep += "<li class='ali disable' ><a href='javascript:void(0);' class='h_p_n_f' data-go='' >foot</a></li>";
                     }
                     var direct='<div class="'+cn+'-direct-wrapper">';
-                    direct+='<div class="direct">';
-                    direct+='<input class="direct-input" type="text"  placeholder="page"/>';
+                    direct+='<div class="'+cn+'-direct">';
+                    direct+='<input class="'+cn+'-direct-input" type="text"  placeholder="page"/>';
                     direct+='<span >';
                     direct+='<button class="direct-button" type="button" id="goto">GoTo</button>';
                     //totalsubpageTmep+='<button class="btn btn-default" type="button" id="change">Change_page</button>';
@@ -89,13 +89,12 @@ $.fn.dynamic_page = function(page_total,page_current){
                     $(dp).html(totalsubpageTmep);
                     var page= $("."+cn+"-wrapper").html();
                     var page_wrapper=page+direct;
-                    console.log(page_wrapper);
                     $("."+cn+"-wrapper").html(page_wrapper);
                     $("."+cn+"-wrapper"+" li").not(".h_p_n_f").each(function(){
                         if($(this).text()==args.currPage)
                             $(this).addClass("active");
                     });
-                    p=$("."+cn);
+                    var p=$("."+cn);
                     ms.bindEvent($(p),args);
                 }
             })();
@@ -167,7 +166,7 @@ $.fn.dynamic_page = function(page_total,page_current){
                 });
                 //尾页
                 $(totalsubpageTmep).on("click","#foot",function(event){
-                    args.currPage=args.totalPage
+                    args.currPage=args.totalPage;
                     ms.fillHtml(totalsubpageTmep,args);
                     args.changeURL(args.totalPage);
                     args.change_to_page(args.totalPage-1);
@@ -178,20 +177,29 @@ $.fn.dynamic_page = function(page_total,page_current){
                         $(".btn").click();
                     }
                 });
-                $(totalsubpageTmep).on("click","#goto",function(event){
-                    var current = parseInt($(".form-control").val());
+                var name = cn.split(" ")[0]
+                $("."+name+"-direct").on("click","#goto",function(event){
+                    console.log(cn+"goto cilcked")
+                    var current = parseInt($("."+name+"-direct-input").val());
+                    console.log(current);
                     if(!isNaN(current)){
                         if(current>=1&&current<=args.totalPage){
-                            ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage});
-                            change_to_page($(".active").text()-1);
+                            args.currPage=current;
+                            ms.fillHtml(totalsubpageTmep,args);
+                            args.change_to_page(current-1);
+                            args.changeURL(current);
                         }
                         else if(current<1){
-                            ms.fillHtml(totalsubpageTmep,{"currPage":1,"totalPage":args.totalPage});
-                            change_to_page($(".active").text()-1);
+                            args.currPage=1;
+                            ms.fillHtml(totalsubpageTmep,args);
+                            args.change_to_page(0);
+                            args.changeURL(1);
                         }
                         else if(current>args.totalPage){
-                            ms.fillHtml(totalsubpageTmep,{"currPage":args.totalPage,"totalPage":args.totalPage});
-                            change_to_page($(".active").text()-1);
+                            args.currPage=args.totalPage;
+                            ms.fillHtml(totalsubpageTmep,args);
+                            args.change_to_page(args.totalPage-1);
+                            args.changeURL(args.totalPage);
                         }
                     }
                 });

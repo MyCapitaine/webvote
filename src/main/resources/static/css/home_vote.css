@@ -77,10 +77,10 @@
     display: inline-block;
     margin-left: 20px;
 }
-.direct{
+.join-page-direct,.publish-page-direct{
     margin: 20px 0;
 }
-.direct-input{
+.join-page-direct-input,.publish-page-direct-input{
     height: 28px;
     width: 70px;
 }

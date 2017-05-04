@@ -3,14 +3,90 @@
 <head>
     <meta charset="UTF-8"/>
     <title>搜索结果</title>
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/css/top.css" rel="stylesheet" type="text/css" />
+    <link href="/css/search_vote.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="/js/jquery-3.2.0.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/search_vote.js"></script>
 </head>
 <body>
-<script th:inline="javascript">
-    var keyword = [[${keyword}]];
-    console.log(keyword);
-</script>
-<p>search vote</p>
-<p th:text="${keyword}" >3333</p>
+    <script th:inline="javascript">
+        var keyword = [[${keyword}]];
+        var searchType = [[${searchType}]];
+        console.log(keyword);
+    </script>
+    <div class="z_top_container">
+        <div class="z_top b-header-blur-black">
+            <div class="z_header">
+                <div class="z_top_nav">
+                    <ul>
+                        <li class="home">
 
+                            <a href="/"><span>网投</span><span>主站</span></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="uns_box" >
+                    <ul class="menu" th:if="${currentUser} eq null">
+                        <li ><a href="/signin"> 登录</a></li>
+                        <li ><a href="/signup" >注册</a></li>
+
+                    </ul>
+                    <ul class="menu" th:unless="${currentUser} eq null">
+                        <li style="display: list-item;"><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                        <li ><a href="/signout"> 退出</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 36px;">
+        <div class="search-bar" >
+            <div class="search-wrapper">
+                <div class="search-block">
+                    <i class="loupe" se-linkid="s-btn-loupe"></i>
+                    <div class="input-wrapper">
+                        <input type="text" id="search-keyword" autocomplete="off" placeholder="search here"
+                               th:value="${keyword}"/>
+                    </div>
+
+                    <div class="search-button-wrapper">
+                        <i class="icon-search-white"></i>
+                        <span>搜索</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-wrapper">
+
+        <div class="security_content">
+
+            <div class="security-right">
+                <div class="title">
+                    <div class="tab tab-active" id="vote" style="margin-left: 150px;">
+                        投票
+                    </div>
+                    <div class="tab" id="user">
+                        用户
+                    </div>
+                    <div class="tab-border">
+                    </div>
+                </div>
+                <div class="result">
+                    <p>search vote</p>
+                    <p th:text="${keyword}" >3333</p>
+                    <p th:text=" 'search result is :' + ${searchResult}"></p>
+                    <p th:text="${searchType}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
