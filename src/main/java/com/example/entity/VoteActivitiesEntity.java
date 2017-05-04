@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,11 +18,16 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "vote_activities")
 public class VoteActivitiesEntity {
+
 	public VoteActivitiesEntity() {
 	}
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
+	@Column(name = "vid", nullable = false)
+	private int vid;
 	
 	@Column(name = "oid", nullable = false)
 	private int optionId;
@@ -62,6 +69,13 @@ public class VoteActivitiesEntity {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
+	public int getVid() {
+		return vid;
+	}
+
+	public void setVid(int vid) {
+		this.vid = vid;
+	}
+
 	
 }

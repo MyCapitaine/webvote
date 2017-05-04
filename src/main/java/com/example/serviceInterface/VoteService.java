@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.util.Pair;
 
 import com.example.entity.ServiceResult;
-import com.example.entity.VoteActivitiesEntity;
 import com.example.entity.VoteOptionsEntity;
 import com.example.entity.VotesEntity;
 /**
@@ -25,7 +24,7 @@ public interface VoteService {
 	/**
 	 * 发布投票
 	 */
-	boolean publishVote(VotesEntity ve, List<VoteOptionsEntity> vos);
+	boolean addVote(VotesEntity ve, List<VoteOptionsEntity> vos);
 	/**
 	 * 更新投票
 	 */
@@ -46,10 +45,6 @@ public interface VoteService {
 	 * 获取封禁投票列表
 	 */
 	ServiceResult<List<VotesEntity>> findBanList();
-	/**
-	 * 投票更新
-	 */
-	int updateVote(VoteActivitiesEntity va);
 	/**
 	 * 投票结果
 	 */

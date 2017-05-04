@@ -14,21 +14,71 @@
 	    <script  type="text/javascript">
 	    	$(document).ready(function(){
 	    		$("#submit").click(function(){
-	    			alert();
-	    			
-	    			$.post(
-	    				"",
-	    				{
-	    					
+	    			var vname = $("#vname").val().trim();
+	    			if(vname == "") {
+		    			alert("请输入投票名");
+	    				return;
+	    			}
+	    			var vinfo = $("#vinfo").val().trim();
+	    			if(vinfo == "") {
+		    			alert("请输入投票介绍");
+	    				return;
+	    			}
+	    			var begintime = $("#begintime").val();
+	    			if(begintime == "") {
+		    			alert("请输入开始时间");
+	    				return;
+	    			}
+	    			var deadline = $("#deadline").val();
+	    			if(deadline == "") {
+		    			alert("请输入结束时间");
+	    				return;
+	    			}
+	    			var vtype = $("input[name='vtype']:checked").val();
+	    			if(!vtype) {
+		    			alert("请选择投票类型");
+	    				return;
+	    			}
+	    			var resultauthority = $("input[name='resultauthority']:checked").val();
+	    			if(!resultauthority) {
+		    			alert("请选择投票结果查看权限");
+	    				return;
+	    			}
+	    			var options = new Array();
+	    			$(".option").each(function(){
+	    				var singleOption = $(this).val().trim();
+	    				if(singleOption == "") {
+	    					alert("请输入投票选项");
+	    					return;
 	    				}
-	    			);
+	    				options.push(singleOption);
+	    			});
+	    			
+	    			$.ajax({
+	    				type : "POST",
+	    				url : "/addvote",
+	    				data : {
+	    					vname : vname,
+	    					vinfo : vinfo,
+	    					vtype : vtype,
+	    					beginTime : begintime,
+	    					deadLine : deadline,
+	    					resultAuthority : resultauthority,
+	    					options : options
+	    				},
+	    				traditional : true,
+	    				success : function(result) {
+	    					alert(result);
+	    				}
+	    			});
+	    			
 	    		});
 	    		
-	    		$(#add).click(function(){
-	    			$(this).before('<div><input type="text" class="option" /><input type="button" value="删除选项" class="del" /></div>\n');
+	    		$("#add").click(function(){
+	    			$(this).before('<div><input type="text" class="option" /><input type="button" value="删除选项" class="deloption" /></div>\n');
 	    		});
 	    		
-	    		$(.del).click(function(){
+	    		$("body").on("click", ".deloption",  function(){
 	    			$(this).parent().remove();
 	    		});
 	    		
@@ -40,20 +90,22 @@
 	    </script>
 	</head>
 	<body>
-		<form method="post">
-			<input type="hidden" name="uid" th:value="${currentUser.id}" />
-			投票名:<input type="text" name="vname" /><br/>
-			投票简介:<input type="text" name="vinfo" /><br/>
-			开始时间:<input type="date" name="begintime" /><br/>
-			截止时间:<input type="date" name="deadline" /><br/>
+		<form>
+			投票名:<input type="text" id="vname" /><br/>
+			投票简介:<input type="text" id="vinfo" /><br/>
+			开始时间:<input type="date" id="begintime" /><br/>
+			截止时间:<input type="date" id="deadline" /><br/>
+			投票类型:<br/>
+			<input type="radio" name="vtype" value="0"/>单选<br/>
+			<input type="radio" name="vtype" value="1"/>多选<br/>
 			结果权限:<br/>
 			<input type="radio" name="resultauthority" value="0"/>仅自己可见<br/>
 			<input type="radio" name="resultauthority" value="1"/>所有人可见<br/>
 			投票选项:
 			<div><input type="text" class="option" /></div>
-			
+			<div><input type="text" class="option" /></div>
 			<input type="button" value="添加选项" id="add" /><br/>
-			<input type="submit" value="提交" id="submit" />
+			<input type="button" value="提交" id="submit" />
 			
 			
 			

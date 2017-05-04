@@ -1,12 +1,21 @@
 package com.example.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.entity.UserRegister;
+import com.example.entity.VoteOptionsEntity;
+import com.example.entity.VotesEntity;
 import com.example.serviceInterface.VoteService;
 /**
  * 投票控制器
@@ -30,10 +39,22 @@ public class VoteController {
 	 * 投票发布处理
 	 */
 	@RequestMapping(value = "/addvote", method = RequestMethod.POST)
-	public String addVote() {
+	@ResponseBody
+	public String addVote(ModelMap modelMap, VotesEntity votesEntity, String[] options,
+			@ModelAttribute(name = "currentUser")UserRegister ur) {
+		votesEntity.setUid(ur.getId());
+		votesEntity.setCreateTime(new Date());
 		
-		
-		return null;
+		List<VoteOptionsEntity> optionList = new ArrayList<VoteOptionsEntity>();
+		for(String option : options) {
+			VoteOptionsEntity optionEntity = new VoteOptionsEntity();
+			optionEntity.setOptionText(option);
+			optionList.add(optionEntity);
+		}
+		if(voteService.addVote(votesEntity, optionList))
+			return "success";
+		else
+			return "fail";
 	}
 	/**
 	 * 用户(发布的所有)投票概览
