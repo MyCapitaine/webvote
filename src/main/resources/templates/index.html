@@ -5,8 +5,9 @@
     <title>首页</title>
     <!--<link href="style/style.css" rel="stylesheet" type="text/css" />-->
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="/css/home.css" rel="stylesheet" type="text/css" />
+    <!--<link href="/css/home.css" rel="stylesheet" type="text/css" />-->
     <link href="/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="/css/top.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="/js/jquery-3.2.0.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
@@ -57,8 +58,11 @@
         style="width: 980px;margin:0 auto">
 
         <div>
+            <!--<div class="publish-wrapper">-->
+                <!--<button type="button" class="btn btn-danger publish" id="publish-top">发布投票</button>-->
+            <!--</div>-->
             <div class="publish-wrapper">
-                <button type="button" class="btn btn-danger publish" id="publish-top">发布投票</button>
+                <a class="publish-vote" id="publish-top" href="/addvote">发布投票</a>
             </div>
             <div class="page-wrapper">
                 <div class="page">
@@ -79,7 +83,7 @@
 
         <div>
             <div class="publish-wrapper">
-                <button type="button" class="btn btn-danger" id="publish-foot">发布投票</button>
+                <a class="publish-vote" id="publish-foot" href="/addvote">发布投票</a>
             </div>
             <div class="page-wrapper">
                 <div class="page">
