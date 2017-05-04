@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.dao.VoteActivitiesDao;
 import com.example.dao.VoteOptionsDao;
 import com.example.dao.VotesDao;
@@ -48,9 +46,16 @@ public class VoteServiceImpl implements VoteService {
 		return sr;
 	}
 	@Override
-	@Transactional
-	public boolean publishVote(VotesEntity ve, List<VoteOptionsEntity> vos) {
-		return votesDao.save(ve) != null && voteOptionsDao.save(vos) != null;
+	public boolean addVote(VotesEntity ve, List<VoteOptionsEntity> vos) {
+		VotesEntity vote = votesDao.saveAndFlush(ve);
+		if(vote == null) 
+			return false;
+		for(VoteOptionsEntity option : vos) {
+			option.setVid(vote.getId());
+			if(voteOptionsDao.saveAndFlush(option) == null) 
+				return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -81,11 +86,6 @@ public class VoteServiceImpl implements VoteService {
 		sr.setData(ves);
 		sr.setSuccess(ves != null);
 		return sr;
-	}
-
-	@Override
-	public int updateVote(VoteActivitiesEntity va) {
-		return voteActivitiesDao.updateVoteActivity(va.getId(), va.getOptionId());
 	}
 
 	@Override

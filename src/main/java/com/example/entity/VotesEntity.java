@@ -4,10 +4,14 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 /**
  * 投票本体
  * @author MyCapitaine
@@ -17,6 +21,7 @@ import javax.persistence.TemporalType;
 @Table(name = "votes")
 public class VotesEntity {
 	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	public VotesEntity() {
@@ -31,12 +36,17 @@ public class VotesEntity {
 	@Column(name = "vinfo", nullable = true)
 	private String vinfo;
 	
+	@Column(name = "vtype", nullable = false, length = 1)
+	private int vtype;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date beginTime;
 	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date deadLine;
 	
@@ -45,7 +55,15 @@ public class VotesEntity {
 	
     @Column(name = "banned", nullable = false, length = 1)
     private int banned = 0; 
+    
+	public int getVtype() {
+		return vtype;
+	}
 
+	public void setVtype(int vtype) {
+		this.vtype = vtype;
+	}
+	
 	public int getId() {
 		return id;
 	}
