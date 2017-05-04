@@ -6,10 +6,12 @@
     <!--<link href="style/style.css" rel="stylesheet" type="text/css" />-->
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="/css/home.css" rel="stylesheet" type="text/css" />
+    <link href="/css/index.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="/js/jquery-3.2.0.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
-
+    <script type="text/javascript" src="/js/page.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
 </head>
 <body>
     <div class="z_top_container">
@@ -50,15 +52,44 @@
     </div>
 
 
+
     <div th:fragment="random" th:object="${UserInformation}" th:if="${UserInformation}!=null"
         style="width: 980px;margin:0 auto">
-        <p th:text="*{id}" >3333</p>
-        <p th:text="*{sign}" >3333</p>
-        <p th:text="*{sex}">233</p>
-        <p th:text="*{birthday}">233</p>
-        <p th:text="*{bindingEmail}">233</p>
-        <p th:with="date=${UserInformation.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">233</p>
-        <button type="button" class="btn btn-danger" id="delete">随机</button>
+
+        <div>
+            <div class="publish-wrapper">
+                <button type="button" class="btn btn-danger publish" id="publish-top">发布投票</button>
+            </div>
+            <div class="page-wrapper">
+                <div class="page">
+                    <ul class="pagination" >
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="clear:both">
+            <p th:text="*{id}" >3333</p>
+            <p th:text="*{sign}" >3333</p>
+            <p th:text="*{sex}">233</p>
+            <p th:text="*{birthday}">233</p>
+            <p th:text="*{bindingEmail}">233</p>
+            <p th:with="date=${UserInformation.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">233</p>
+        </div>
+
+        <div>
+            <div class="publish-wrapper">
+                <button type="button" class="btn btn-danger" id="publish-foot">发布投票</button>
+            </div>
+            <div class="page-wrapper">
+                <div class="page">
+                    <ul class="pagination" >
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 </body>
 </html>
