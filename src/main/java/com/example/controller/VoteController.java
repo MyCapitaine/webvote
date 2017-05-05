@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.entity.MsgsEntity;
 import com.example.entity.UserRegister;
-import com.example.entity.VoteActivitiesEntity;
 import com.example.entity.VoteOptionsEntity;
 import com.example.entity.VotesEntity;
 import com.example.serviceInterface.GuestService;
@@ -30,7 +29,7 @@ import com.example.util.IpAddress;
  *
  */
 @Controller
-@SessionAttributes({"currentUser","message","redirectTo","previousPage"})
+@SessionAttributes({"currentUser","message","redirectTo","previousPage","UserInformation"})
 public class VoteController {
 	@Autowired
 	VoteService voteService;
@@ -85,17 +84,34 @@ public class VoteController {
 			@PathVariable int voteId) {
 		String ip = IpAddress.getIpAddr(request);
 		
-		VotesEntity voteEntity = (VotesEntity)voteService.findVoteById(voteId).getData();
-		List<VoteOptionsEntity> optionList = (List<VoteOptionsEntity>)voteService.findVoteOptionsByVid(voteEntity.getId()).getData();
-		List<MsgsEntity> msgs = (List<MsgsEntity>)guestService.getMsgsByVid(voteEntity.getId()).getData();
-		VoteActivitiesEntity voteActicity = (VoteActivitiesEntity)guestService.isIpVoted(ip).getData();
-		MsgsEntity msg = (MsgsEntity)guestService.isIpMsg(ip).getData();
+		
+		boolean isManager = ur.getAuthority() == 0;
+		boolean isBanned = voteService.isBanned(voteId);
+		//非管理员无法查看封禁投票
+		if(isBanned && !isManager) return "banned_vote";
+		
+		
+		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
+		boolean isVoteOwner = voteEntity.getUid() == ur.getId();
+		
+		List<VoteOptionsEntity> optionList = voteService.findVoteOptionsByVid(voteEntity.getId()).getData();
+		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
+		boolean isVoted = guestService.isIpVoted(ip).isSuccess();
+		boolean isMsged = guestService.isIpMsg(ip).isSuccess();
+		
+
+		
 		
 		modelMap.addAttribute("voteEntity", voteEntity);
 		modelMap.addAttribute("optionList", optionList);
 		modelMap.addAttribute("msgList", msgs);
-		modelMap.addAttribute("msg", msg);
-		modelMap.addAttribute("voteActicity", voteActicity);
+		modelMap.addAttribute("isMsged", isMsged);
+		modelMap.addAttribute("isVoted", isVoted);
+		modelMap.addAttribute("isBanned", isBanned);
+		modelMap.addAttribute("isManager", isManager);
+		modelMap.addAttribute("isVoteOwner", isVoteOwner);
+		
+		
 		
 		return "vote";
 	}
