@@ -30,16 +30,17 @@ public interface GuestService {
 	/**
 	 * 更改投票
 	 */
+	@Deprecated
 	int updateVote(VoteActivitiesEntity vae);
 	/**
 	 * 删除投票
 	 */
-	boolean delVote(VoteActivitiesEntity vae);
+	boolean delVote(List<VoteActivitiesEntity> vae);
 	/**
 	 * 游客是否已进行过投票
 	 * 以及投的是什么
 	 */
-	ServiceResult<VoteActivitiesEntity> isIpVoted(String ip);
+	ServiceResult<List<VoteActivitiesEntity>> isIpVoted(String ip);
 	/**
 	 * 游客留言
 	 */
@@ -47,6 +48,7 @@ public interface GuestService {
 	/**
 	 * 更改留言
 	 */
+	@Deprecated
 	int updateMsg(MsgsEntity me);
 	/**
 	 * 删除留言
@@ -54,6 +56,7 @@ public interface GuestService {
 	boolean delMsg(MsgsEntity me);
 	/**
 	 * 游客是否已进行过留言
+	 * 以及留的是什么
 	 */
 	ServiceResult<MsgsEntity> isIpMsg(String ip);
 	/**

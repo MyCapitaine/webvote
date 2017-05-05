@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8" />
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<title>投票页</title>
+		<script src="js/jquery.min.js"></script>
+	    <link href="css/bootstrap.css" rel="stylesheet"/>
+	    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+	    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+	    <script src="js/bootstrap.js"></script>
+	    <script src="js/bootstrap-datetimepicker.js"></script>
+	    <script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+	</head>
+	<body>
+		<div>
+			<p th:text="${voteEntity.vname}"></p>
+			<p th:text="${voteEntity.vinfo}"></p>
+		</div>
+		<div>
+			<form>
+				<ul th:each="option : ${optionList}">
+					<li th:if="${voteEntity.vtype == 0}">
+						<input type="radio" th:text="${option.optionText}" name="vote_option" value="${option.id}"/>
+					</li>
+					<li th:if="${voteEntity.vtype == 1}">
+						<input type="checkbox" th:text="${option.optionText}" name="vote_option" value="${option.id}"/>
+					</li>
+				</ul>
+				<input type="button" value="提交" id="vote_submit" />
+			</form>
+		</div>
+		<div>
+			<form>
+			
+				<input type="button" value="提交" id="msg_submit" />
+			
+			
+			</form>
+		</div>
+	</body>
+</html>

@@ -18,6 +18,10 @@ public interface VoteService {
 	 */
 	ServiceResult<VotesEntity> findVoteById(int id);
 	/**
+	 * 根据id查找投票选项
+	 */
+	ServiceResult<List<VoteOptionsEntity>> findVoteOptionsByVid(int vid);
+	/**
 	 * 根据uid查找投票
 	 */
 	ServiceResult<List<VotesEntity>> findVoteByUid(int uid);
