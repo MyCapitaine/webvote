@@ -110,5 +110,14 @@ public class VoteServiceImpl implements VoteService {
 		return sr;
 	}
 
+	@Override
+	public ServiceResult<List<VoteOptionsEntity>> findVoteOptionsByVid(int vid) {
+		ServiceResult<List<VoteOptionsEntity>> sr = new ServiceResult<List<VoteOptionsEntity>>();
+		List<VoteOptionsEntity> options = voteOptionsDao.findByVid(vid);
+		sr.setData(options);
+		sr.setSuccess(options != null);
+		return sr;
+	}
+
 
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8" />
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<title>投票更新页</title>
+		<script src="js/jquery.min.js"></script>
+	    <link href="css/bootstrap.css" rel="stylesheet"/>
+	    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+	    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+	    <script src="js/bootstrap.js"></script>
+	    <script src="js/bootstrap-datetimepicker.js"></script>
+	    <script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+	    <script  type="text/javascript">
+	    	$(document).ready(function(){
+	    		
+	    		
+	    		
+	    		
+	    	});
+	    </script>
+	</head>
+	<body>
+		<form>
+			投票名:<input type="text" id="vname" /><br/>
+			投票简介:<input type="text" id="vinfo" /><br/>
+			开始时间:<input type="date" id="begintime" /><br/>
+			截止时间:<input type="date" id="deadline" /><br/>
+			<p>创建时间:</p>
+			<p>投票类型:</p>
+			结果权限:<br/>
+			<input type="radio" name="resultauthority" value="0"/>仅自己可见<br/>
+			<input type="radio" name="resultauthority" value="1"/>所有人可见<br/>
+			投票选项:
+			<div><input type="text" class="option" /></div>
+			<div><input type="text" class="option" /></div>
+			<input type="button" value="提交" id="submit" />
+			<input type="button" value="重置" id="reset" />
+			
+		</form>
+	</body>
+</html>

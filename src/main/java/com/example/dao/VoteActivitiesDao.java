@@ -22,7 +22,7 @@ public interface VoteActivitiesDao extends JpaRepository<VoteActivitiesEntity, I
 	/**
 	 * 通过ip查找
 	 */
-	VoteActivitiesEntity findByIp(String ip);
+	List<VoteActivitiesEntity> findByIp(String ip);
 	/**
 	 * 更新投票活动
 	 */
