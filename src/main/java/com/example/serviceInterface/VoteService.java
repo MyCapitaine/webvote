@@ -34,6 +34,10 @@ public interface VoteService {
 	 */
 	int updateVote(VotesEntity ve);
 	/**
+	 * Ip是否被封禁
+	 */
+	boolean isIpBanned(String ip);
+	/**
 	 * 投票是否被封禁
 	 */
 	boolean isBanned(int id);

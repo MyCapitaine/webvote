@@ -4,38 +4,91 @@
 		<meta charset="UTF-8" />
     	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<title>投票页</title>
-		<script src="js/jquery.min.js"></script>
-	    <link href="css/bootstrap.css" rel="stylesheet"/>
-	    <link href="css/bootstrap.min.css" rel="stylesheet"/>
-	    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-	    <script src="js/bootstrap.js"></script>
-	    <script src="js/bootstrap-datetimepicker.js"></script>
-	    <script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<script src="/js/jquery.min.js"></script>
+	    <link href="/css/bootstrap.css" rel="stylesheet"/>
+	    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+	    <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+	    <script src="/js/bootstrap.js"></script>
+	    <script src="/js/bootstrap-datetimepicker.js"></script>
+	    <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	    <script type="text/javascript">
+	    	$(document).ready(function(){
+	    		$("#vote_submit").click(function(){
+	    			var checkedOptionIds = new Array();
+	    			$("input[name='vote_option']:checked").each(function(){
+	    				checkedOptionIds.push($(this).val());
+	    			});
+	    			if(checkedOptionIds.length == 0) {
+		    			alert("请选择选项");
+	    				return;
+	    			}
+	    			var voteId = $("#vote_id").text();
+	    			$.ajax({
+	    				type : "POST",
+	    				url : "/dovote",
+	    				data : {
+	    					vidstr : voteId,
+	    					optionIds : checkedOptionIds
+	    				},
+	    				traditional : true,
+	    				success : function(result) {
+	    					alert("vote " + result);
+	    				}
+	    			});
+	    			
+	    		});
+	    		
+	    		
+				$("#msg_submit").click(function(){
+	    			var msg = $("#msg_text").val();
+	    			var voteId = $("#vote_id").text();
+	    			$.ajax({
+	    				type : "POST",
+	    				url : "/domsg",
+	    				data : {
+	    					vidstr : voteId,
+	    					msg : msg
+	    				},
+	    				traditional : true,
+	    				success : function(result) {
+	    					alert("msg " + result);
+	    				}
+	    			});
+	    		});
+	    	});
+	    </script>
 	</head>
 	<body>
 		<div>
 			<p th:text="${voteEntity.vname}"></p>
 			<p th:text="${voteEntity.vinfo}"></p>
+			<p th:text="${voteEntity.id}" hidden="hidden" id="vote_id"></p>
 		</div>
 		<div>
 			<form>
 				<ul th:each="option : ${optionList}">
 					<li th:if="${voteEntity.vtype == 0}">
-						<input type="radio" th:text="${option.optionText}" name="vote_option" value="${option.id}"/>
+						<input type="radio" th:text="${option.optionText}" name="vote_option" th:value="${option.id}"/>
 					</li>
 					<li th:if="${voteEntity.vtype == 1}">
-						<input type="checkbox" th:text="${option.optionText}" name="vote_option" value="${option.id}"/>
+						<input type="checkbox" th:text="${option.optionText}" name="vote_option" th:value="${option.id}"/>
 					</li>
 				</ul>
-				<input type="button" value="提交" id="vote_submit" />
+				<input th:if="${isVoted} == false" type="button" value="提交" id="vote_submit" />
+				<p th:if="${isVoted} == true">您已进行过投票</p>
 			</form>
 		</div>
 		<div>
 			<form>
-			
-				<input type="button" value="提交" id="msg_submit" />
-			
-			
+				<input th:if="${isMsged} == false" type="text" id="msg_text" />
+				<input th:if="${isMsged} == false" type="button" value="发表" id="msg_submit" />
+				<p th:if="${isMsged} == true">您已进行过留言</p>
+				<ul th:each="msg : ${msgList}">
+					<li>
+						<p th:text="${msg.msgText}"></p>
+						<p th:text="${msg.msgTime}"></p>
+					</li>
+				</ul>
 			</form>
 		</div>
 	</body>
