@@ -5,7 +5,7 @@
     <title>首页</title>
     <!--<link href="style/style.css" rel="stylesheet" type="text/css" />-->
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <!--<link href="/css/home.css" rel="stylesheet" type="text/css" />-->
+    <link href="/css/my.css" rel="stylesheet" type="text/css" />
     <link href="/css/index.css" rel="stylesheet" type="text/css" />
     <link href="/css/top.css" rel="stylesheet" type="text/css" />
 
@@ -55,13 +55,8 @@
         </div>
     </div>
 
-    <div th:fragment="random" th:object="${UserInformation}" th:if="${UserInformation}!=null"
-        style="width: 980px;margin:0 auto">
-
+    <div style="width: 980px;margin:0 auto">
         <div>
-            <!--<div class="publish-wrapper">-->
-                <!--<button type="button" class="btn btn-danger publish" id="publish-top">发布投票</button>-->
-            <!--</div>-->
             <div class="publish-wrapper">
                 <a class="publish-vote" id="publish-top" href="/addvote">发布投票</a>
             </div>
@@ -73,15 +68,21 @@
             </div>
         </div>
 
-        <div style="clear:both">
-            <p th:text="'page ' +${pageIndex}"></p>
-            <p th:text="*{id}" >3333</p>
-            <p th:text="*{sign}" >3333</p>
-            <p th:text="*{sex}">233</p>
-            <p th:text="*{birthday}">233</p>
-            <p th:text="*{bindingEmail}">233</p>
-            <p th:with="date=${UserInformation.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">233</p>
+        <div style="width: 980px;margin:0 auto; clear: both;">
+            votes list
+            <div th:fragment="random" th:object="${UserInformation}" th:if="${UserInformation}!=null">
+                <div style="clear:both">
+                    <p th:text="'page ' +${pageIndex}"></p>
+                    <p th:text="*{id}" >3333</p>
+                    <p th:text="*{sign}" >3333</p>
+                    <p th:text="*{sex}">233</p>
+                    <p th:text="*{birthday}">233</p>
+                    <p th:text="*{bindingEmail}">233</p>
+                    <p th:with="date=${UserInformation.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">233</p>
+                </div>
+            </div>
         </div>
+
 
         <div>
             <div class="publish-wrapper">
@@ -95,7 +96,6 @@
             </div>
         </div>
     </div>
-
 
 </body>
 </html>

@@ -1,7 +1,4 @@
 $(document).ready(function() {
-
-	console.log(previousPage);
-
 	// 隐藏Loading/登录失败 DIV
 	$(".loading").hide();
 	$(".login-error").hide();

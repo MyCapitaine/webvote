@@ -141,7 +141,7 @@ public class TestInterceptor implements HandlerInterceptor {
 
         }
         //个人中心需要登录后才能访问
-        if(servlet.indexOf("home")>=0||servlet.indexOf("bindEmail")>=0){
+        if(servlet.indexOf("home")>=0||servlet.indexOf("bindEmail")>=0||servlet.contains("addvote")){
             if(session.getAttribute("currentUser")==null){
                 session.setAttribute("message","请先登录");
                 session.setAttribute("redirectTo","/signin");

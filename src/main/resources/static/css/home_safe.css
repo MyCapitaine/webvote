@@ -38,11 +38,13 @@
 /*分页相关*/
 .disable a{
     color: grey !important;
+    opacity: 1 ;
 }
 .disable a:hover,.disable a:focus{
     cursor: default;
     background-color: #ffffff !important;
     color: grey !important;
+
 }
 
 .page-wrapper{
