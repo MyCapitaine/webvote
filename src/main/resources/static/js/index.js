@@ -8,8 +8,8 @@ var page={
 };
 $(document).ready(function(){
     $.ajax({
-        url : "/votes",
-        type : "post",
+        url : "/getVotes",
+        type : "GET",
         data : {
             page_index:pageIndex-1,
         },

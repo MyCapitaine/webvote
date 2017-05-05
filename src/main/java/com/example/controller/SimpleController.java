@@ -43,8 +43,16 @@ public class SimpleController {
     /*ajax访问首页第几页*/
     @RequestMapping(value = "/votes",method = RequestMethod.POST)
     @ResponseBody
-    public JsonResult gpostVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
+    public JsonResult postVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
                                       ModelMap model){
+        /*获取投票列表分页*/
+        return new JsonResult();
+    }
+    /*ajax访问首页第几页*/
+    @RequestMapping(value = "/getVotes",method = RequestMethod.GET)
+    @ResponseBody
+    public JsonResult ajaxGetVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
+                                 ModelMap model){
         /*获取投票列表分页*/
         return new JsonResult();
     }
