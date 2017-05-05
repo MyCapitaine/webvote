@@ -8,7 +8,7 @@ var page={
 };
 $(document).ready(function(){
     $.ajax({
-        url : "/voteList",
+        url : "/votes",
         type : "post",
         data : {
             page_index:pageIndex-1,
@@ -41,7 +41,7 @@ $(document).ready(function(){
 });
 
 function changeURL(pageIndex){
-    history.pushState("","","/?pageIndex="+pageIndex);
+    history.pushState("","","/votes?pageIndex="+pageIndex);
 }
 
 function change_to_page(pageIndex){

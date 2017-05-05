@@ -23,15 +23,27 @@ import org.springframework.data.domain.Pageable;
 public class SimpleController {
     @Autowired
     LoginRecordService loginRecordService;
+
+
     @RequestMapping("/")
-    public String index(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
-                        ModelMap model){
+    public String index(ModelMap model){
+        /*返回页码，首页默认为第一页。由ajax获取具体数据*/
+        model.addAttribute("pageIndex",1);
+        return "index";
+    }
+    /*刷新浏览器和地址栏URL访问首页第几页*/
+    @RequestMapping(value = "/votes",method = RequestMethod.GET)
+    public String getVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
+                                      ModelMap model){
+
+        /*返回页码，由ajax获取具体数据*/
         model.addAttribute("pageIndex",pageIndex);
         return "index";
     }
-    /*首页第几页*/
-    @RequestMapping("/voteList")
-    @ResponseBody JsonResult getVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
+    /*ajax访问首页第几页*/
+    @RequestMapping(value = "/votes",method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult gpostVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
                                       ModelMap model){
         /*获取投票列表分页*/
         return new JsonResult();
@@ -73,7 +85,7 @@ public class SimpleController {
 //            return "search_result";
 //        }
 //    }
-
+    /*刷新浏览器、地址栏URL和搜索框搜索*/
     @RequestMapping("/search")
     public String search(@RequestParam(name = "searchType",defaultValue = "Vote")String searchType,
                          @RequestParam(name = "keyword",defaultValue = "")String keyword,
@@ -95,7 +107,7 @@ public class SimpleController {
         return "search_result";
 //        return "search_vote";
     }
-
+    /*ajax获取搜索结果*/
     @RequestMapping("/searchVote")
     @ResponseBody
     public JsonResult searchVote(ModelMap model,String keyword,
@@ -105,7 +117,7 @@ public class SimpleController {
         ServiceResult lrsr = loginRecordService.find(1,pageable);
         return new JsonResult(lrsr.getData());
     }
-
+    /*ajax获取搜索结果*/
     @RequestMapping("/searchUser")
     @ResponseBody
     public JsonResult searchUser(ModelMap model,String keyword,
