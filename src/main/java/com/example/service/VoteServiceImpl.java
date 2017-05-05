@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import com.example.dao.VoteActivitiesDao;
@@ -38,9 +40,9 @@ public class VoteServiceImpl implements VoteService {
 	}
 
 	@Override
-	public ServiceResult<List<VotesEntity>> findVoteByUid(int uid) {
-		ServiceResult<List<VotesEntity>> sr = new ServiceResult<List<VotesEntity>>();
-		List<VotesEntity> veList = votesDao.findByUid(uid);
+	public ServiceResult<Page<VotesEntity>> findVoteByUid(int uid, Pageable pageable) {
+		ServiceResult<Page<VotesEntity>> sr = new ServiceResult<Page<VotesEntity>>();
+		Page<VotesEntity> veList = votesDao.findByUid(uid, pageable);
 		sr.setData(veList);
 		sr.setSuccess(veList != null);
 		return sr;

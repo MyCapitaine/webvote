@@ -18,9 +18,10 @@ public interface GuestService {
 	/**
 	 * 通过投票id获取投票的留言列表
 	 */
+	@Deprecated
 	ServiceResult<List<MsgsEntity>> getMsgsByVid(int vid);
 	/**
-	 * 通过投票id获取未被封禁的投票的留言列表
+	 * 通过投票id获取未被删除的投票的留言列表
 	 */
 	ServiceResult<List<MsgsEntity>> getunbannedMsgsByVid(int vid);
 	/**
@@ -35,12 +36,13 @@ public interface GuestService {
 	/**
 	 * 删除投票
 	 */
+	@Deprecated
 	boolean delVote(List<VoteActivitiesEntity> vae);
 	/**
 	 * 游客是否已进行过投票
 	 * 以及投的是什么
 	 */
-	ServiceResult<List<VoteActivitiesEntity>> isIpVoted(String ip);
+	ServiceResult<List<VoteActivitiesEntity>> isIpVoted(String ip, int vid);
 	/**
 	 * 游客留言
 	 */
@@ -58,18 +60,20 @@ public interface GuestService {
 	 * 游客是否已进行过留言
 	 * 以及留的是什么
 	 */
-	ServiceResult<MsgsEntity> isIpMsg(String ip);
+	ServiceResult<MsgsEntity> isIpMsg(String ip, int vid);
 	/**
 	 * 投票结果
 	 */
 	ServiceResult<List<Pair<VoteOptionsEntity, Integer>>> voteResult(int vid);
 	/**
-	 * 封禁投票
+	 * 封禁留言
 	 */
+	@Deprecated
 	int banMsg(int mid);
 	/**
-	 * 解封投票
+	 * 解封留言
 	 */
+	@Deprecated
 	int unbanMsg(int mid);
 	
 }

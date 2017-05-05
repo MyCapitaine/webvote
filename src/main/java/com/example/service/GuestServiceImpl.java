@@ -51,9 +51,9 @@ public class GuestServiceImpl implements GuestService {
 		return voteActivitiesDao.save(vae) != null;
 	}
 	@Override
-	public ServiceResult<List<VoteActivitiesEntity>> isIpVoted(String ip) {
+	public ServiceResult<List<VoteActivitiesEntity>> isIpVoted(String ip, int vid) {
 		ServiceResult<List<VoteActivitiesEntity>> sr = new ServiceResult<List<VoteActivitiesEntity>>();
-		List<VoteActivitiesEntity> vaList = voteActivitiesDao.findByIp(ip);
+		List<VoteActivitiesEntity> vaList = voteActivitiesDao.findByIp(ip, vid);
 		sr.setData(vaList);
 		sr.setSuccess(vaList != null);
 		return sr;
@@ -63,9 +63,9 @@ public class GuestServiceImpl implements GuestService {
 		return msgsDao.save(me) != null;
 	}
 	@Override
-	public ServiceResult<MsgsEntity> isIpMsg(String ip) {
+	public ServiceResult<MsgsEntity> isIpMsg(String ip, int vid) {
 		ServiceResult<MsgsEntity> sr = new ServiceResult<MsgsEntity>();
-		MsgsEntity me = msgsDao.findByIp(ip);
+		MsgsEntity me = msgsDao.findByIp(ip, vid);
 		sr.setData(me);
 		sr.setSuccess(me != null);
 		return sr;

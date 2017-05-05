@@ -2,6 +2,7 @@ package com.example.dao;
 
 import java.util.Date;
 import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,7 +25,7 @@ public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
 	/**
 	 * 通过uid查找
 	 */
-	List<VotesEntity> findByUid(int uid);
+	Page<VotesEntity> findByUid(int uid, Pageable pageable);
 	/**
 	 * 查询封禁列表
 	 */

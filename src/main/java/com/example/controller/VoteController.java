@@ -96,8 +96,8 @@ public class VoteController {
 		
 		List<VoteOptionsEntity> optionList = voteService.findVoteOptionsByVid(voteEntity.getId()).getData();
 		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
-		boolean isVoted = guestService.isIpVoted(ip).isSuccess();
-		boolean isMsged = guestService.isIpMsg(ip).isSuccess();
+		boolean isVoted = guestService.isIpVoted(ip, voteId).isSuccess();
+		boolean isMsged = guestService.isIpMsg(ip, voteId).isSuccess();
 		
 
 		

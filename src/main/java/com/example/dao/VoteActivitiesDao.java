@@ -22,7 +22,8 @@ public interface VoteActivitiesDao extends JpaRepository<VoteActivitiesEntity, I
 	/**
 	 * 通过ip查找
 	 */
-	List<VoteActivitiesEntity> findByIp(String ip);
+	@Query(" from VoteActivitiesEntity where ip = ?1 and vid = ?2 ")
+	List<VoteActivitiesEntity> findByIp(String ip, int vid);
 	/**
 	 * 更新投票活动
 	 */
