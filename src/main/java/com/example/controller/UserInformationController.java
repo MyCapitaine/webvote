@@ -5,6 +5,7 @@ import com.example.entity.*;
 import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
+import com.example.serviceInterface.VoteService;
 import com.example.util.Code;
 import com.example.util.Encrypt;
 import com.example.vo.ModifyInformationVO;
@@ -34,6 +35,8 @@ public class UserInformationController {
     private UserInformationService userInformationService;
     @Autowired
     private LoginRecordService loginRecordService;
+    @Autowired
+    private VoteService voteService;
 
     /************************个人中心***************************/
     @RequestMapping("/home")
@@ -197,8 +200,9 @@ public class UserInformationController {
         int page_size=5;
         JsonResult jr=new JsonResult();
         Pageable page = new PageRequest(page_index, page_size);
-        Page result = loginRecordDao.findByUserId2(ur.getId(),page);
-        jr.setData(result);
+        ServiceResult vsr = voteService.findVoteByUid(ur.getId(),page);
+        //Page result = loginRecordDao.findByUserId2(ur.getId(),page);
+        jr.setData(vsr.getData());
         jr.setSuccess(true);
         return jr;
     }
