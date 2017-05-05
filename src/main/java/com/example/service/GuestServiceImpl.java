@@ -51,11 +51,11 @@ public class GuestServiceImpl implements GuestService {
 		return voteActivitiesDao.save(vae) != null;
 	}
 	@Override
-	public ServiceResult<VoteActivitiesEntity> isIpVoted(String ip) {
-		ServiceResult<VoteActivitiesEntity> sr = new ServiceResult<VoteActivitiesEntity>();
-		VoteActivitiesEntity va = voteActivitiesDao.findByIp(ip);
-		sr.setData(va);
-		sr.setSuccess(va != null);
+	public ServiceResult<List<VoteActivitiesEntity>> isIpVoted(String ip) {
+		ServiceResult<List<VoteActivitiesEntity>> sr = new ServiceResult<List<VoteActivitiesEntity>>();
+		List<VoteActivitiesEntity> vaList = voteActivitiesDao.findByIp(ip);
+		sr.setData(vaList);
+		sr.setSuccess(vaList != null);
 		return sr;
 	}
 	@Override
@@ -104,8 +104,10 @@ public class GuestServiceImpl implements GuestService {
 		return voteActivitiesDao.updateVoteActivity(vae.getId(), vae.getOptionId());
 	}
 	@Override
-	public boolean delVote(VoteActivitiesEntity vae) {
-		voteActivitiesDao.delete(vae.getId());
+	public boolean delVote(List<VoteActivitiesEntity> vaList) {
+		for(VoteActivitiesEntity va : vaList) {
+			voteActivitiesDao.delete(va.getId());
+		}
 		return true;
 	}
 	@Override
