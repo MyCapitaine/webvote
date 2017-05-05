@@ -2,6 +2,8 @@ package com.example.serviceInterface;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
 
 import com.example.entity.ServiceResult;
@@ -24,7 +26,7 @@ public interface VoteService {
 	/**
 	 * 根据uid查找投票
 	 */
-	ServiceResult<List<VotesEntity>> findVoteByUid(int uid);
+	ServiceResult<Page<VotesEntity>> findVoteByUid(int uid, Pageable pageable);
 	/**
 	 * 发布投票
 	 */
@@ -34,20 +36,23 @@ public interface VoteService {
 	 */
 	int updateVote(VotesEntity ve);
 	/**
-	 * 投票是否被封禁
+	 * 投票是否被删除
 	 */
+	@Deprecated
 	boolean isBanned(int id);
 	/**
-	 * 封禁投票
+	 * 删除投票
 	 */
 	int banVote(int id);
 	/**
-	 * 解禁投票
+	 * 删除投票
 	 */
+	@Deprecated
 	int unbanVote(int id);
 	/**
 	 * 获取封禁投票列表
 	 */
+	@Deprecated
 	ServiceResult<List<VotesEntity>> findBanList();
 	/**
 	 * 投票结果

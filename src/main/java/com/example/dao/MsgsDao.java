@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.entity.MsgsEntity;
-import com.example.entity.VoteActivitiesEntity;
-
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -20,7 +18,8 @@ public interface MsgsDao extends JpaRepository<MsgsEntity, Integer> {
 	/**
 	 * 通过ip查找
 	 */
-	MsgsEntity findByIp(String ip);
+	@Query(" from MsgsEntity where ip = ?1 and vid = ?2 ")
+	MsgsEntity findByIp(String ip, int vid);
 	/**
 	 * 通过投票id查询所有留言
 	 */
