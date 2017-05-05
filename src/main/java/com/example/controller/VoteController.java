@@ -23,7 +23,7 @@ import com.example.serviceInterface.VoteService;
  *
  */
 @Controller
-@SessionAttributes({"currentUser","message","redirectTo","previousPage"})
+@SessionAttributes({"currentUser","message","redirectTo","previousPage","UserInformation"})
 public class VoteController {
 	@Autowired
 	VoteService voteService;
