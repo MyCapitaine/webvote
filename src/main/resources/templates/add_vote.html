@@ -4,13 +4,18 @@
 		<meta charset="UTF-8" />
     	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<title>投票发布页</title>
-		<script src="js/jquery.min.js"></script>
-	    <link href="css/bootstrap.css" rel="stylesheet"/>
-	    <link href="css/bootstrap.min.css" rel="stylesheet"/>
-	    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-	    <script src="js/bootstrap.js"></script>
-	    <script src="js/bootstrap-datetimepicker.js"></script>
-	    <script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<script src="/js/jquery.min.js"></script>
+	    <link href="/css/bootstrap.css" rel="stylesheet"/>
+	    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+	    <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+        <link href="/css/my.css" rel="stylesheet"/>
+        <!--<link href="/css/home.css" rel="stylesheet"/>-->
+        <link href="/css/top.css" rel="stylesheet"/>
+        <link href="/css/add_vote.css" rel="stylesheet"/>
+	    <script src="/js/bootstrap.js"></script>
+	    <script src="/js/bootstrap-datetimepicker.js"></script>
+	    <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
+
 	    <script  type="text/javascript">
 	    	$(document).ready(function(){
 	    		$("#submit").click(function(){
@@ -75,7 +80,7 @@
 	    		});
 	    		
 	    		$("#add").click(function(){
-	    			$(this).before('<div><input type="text" class="option" /><input type="button" value="删除选项" class="deloption" /></div>\n');
+	    			$(this).before('<div class="newOption"><input type="text" class="option" /><input type="button" value="X" class="deloption" /></div>\n');
 	    		});
 	    		
 	    		$("body").on("click", ".deloption",  function(){
@@ -83,32 +88,119 @@
 	    		});
 	    		
 	    	});
-	    	
-	    	
-	    	
-	    	
 	    </script>
 	</head>
 	<body>
-		<form>
-			投票名:<input type="text" id="vname" /><br/>
-			投票简介:<input type="text" id="vinfo" /><br/>
-			开始时间:<input type="date" id="begintime" /><br/>
-			截止时间:<input type="date" id="deadline" /><br/>
-			投票类型:<br/>
-			<input type="radio" name="vtype" value="0"/>单选<br/>
-			<input type="radio" name="vtype" value="1"/>多选<br/>
-			结果权限:<br/>
-			<input type="radio" name="resultauthority" value="0"/>仅自己可见<br/>
-			<input type="radio" name="resultauthority" value="1"/>所有人可见<br/>
-			投票选项:
-			<div><input type="text" class="option" /></div>
-			<div><input type="text" class="option" /></div>
-			<input type="button" value="添加选项" id="add" /><br/>
-			<input type="button" value="提交" id="submit" />
-			
-			
-			
-		</form>
+
+        <div class="z_top_container">
+            <div class="z_top b-header-blur-black">
+                <div class="z_header">
+                    <div class="z_top_nav">
+                        <ul>
+                            <li class="home">
+
+                                <a href="/"><span>网投</span><span>主站</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="uns_box" >
+                        <ul class="menu" th:if="${currentUser} eq null">
+                            <li ><a href="/signin"> 登录</a></li>
+                            <li ><a href="/signup" >注册</a></li>
+                        </ul>
+                        <ul class="menu" th:unless="${currentUser} eq null">
+                            <li style="display: list-item;"><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                            <li ><a href="/signout"> 退出</a></li>
+                        </ul>
+                    </div>
+                    <div class="nav-search">
+                        <form action="/search" id="nav_searchform" target="_blank">
+                            <input name="keyword" type="text"
+                                   class="nav-search-keyword" id="nav_search_keyword" autocomplete="off"
+                                   accesskey="s" x-webkit-speech="" x-webkit-grammar="builtin:translate" placeholder="搜索"/>
+                            <button type="submit" class="nav-search-submit"></button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="information">
+            <div class="title">
+                <h3 style="margin-top: 10px">发布投票</h3>
+            </div>
+            <form class="information-form">
+                <div class="row">
+                    <div class="textName">
+                        <label for="vname">投<b style="width: 4px;display: inline-block;"></b>
+                            票<b style="width: 4px;display: inline-block;"></b>名:</label>
+                    </div>
+                    <input type="text" id="vname" class="text"/>
+                </div>
+                <div class="row">
+                    <div class="textName">
+                        <label for="vinfo">投票简介:</label>
+                    </div>
+                    <input type="text" id="vinfo" class="text"/><br/>
+                </div>
+                <div class="row">
+                    <div class="textName">
+                        <label for="begintime">开始时间:</label>
+                    </div>
+                    <input type="date" id="begintime" class="text"/><br/>
+                </div>
+                <div class="row">
+                    <div class="textName">
+                        <label for="deadline">截止时间:</label>
+                    </div>
+                    <input type="date" id="deadline" class="text"/><br/>
+                </div>
+                <div class="row">
+                    <div class="textName">
+                        <label for="deadline">投票类型:</label>
+                    </div>
+                    <input type="radio" name="vtype" value="0" class="radio" id="single"/>
+                    <div class="radioName">
+                        <label for="single">单<b style="width: 36px;display: inline-block;"></b>选</label>
+                    </div>
+                    <div style="display: none"></div>
+                    <input type="radio" name="vtype" value="1" class="radio" id="multiple"/>
+                    <div class="radioName">
+                        <label for="multiple">多<b style="width: 36px;display: inline-block;"></b>选</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="textName">
+                        <label for="deadline">结果权限:</label>
+                    </div>
+                    <input type="radio" name="resultauthority" value="0" class="radio" id="myself"/>
+                    <div class="radioName">
+                        <label for="myself">仅自己可见</label>
+                    </div>
+                    <div style="display: none"></div>
+                    <input type="radio" name="resultauthority" value="1" class="radio" id="everybody"/>
+                    <div class="radioName">
+                        <label for="everybody">所有人可见</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="textName">
+                        <label for="deadline">投票选项:</label>
+                    </div>
+                    <input type="text" class="option" />
+                    <input type="text" class="option" />
+                    <input type="button" value="添加选项" id="add" />
+                    <div class="publish-wrapper">
+                        <a class="publish-vote" id="submit-top" href="/addvote">发布投票</a>
+                    </div>
+                    <!--<input type="button" value="提交" id="submit" />-->
+                </div>
+
+
+
+            </form>
+        </div>
+
 	</body>
 </html>

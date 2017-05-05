@@ -31,6 +31,12 @@ public class SimpleController {
         model.addAttribute("pageIndex",1);
         return "index";
     }
+    @RequestMapping("/index")
+    public String index2(ModelMap model){
+        /*返回页码，首页默认为第一页。由ajax获取具体数据*/
+        model.addAttribute("pageIndex",1);
+        return "index";
+    }
     /*刷新浏览器和地址栏URL访问首页第几页*/
     @RequestMapping(value = "/votes",method = RequestMethod.GET)
     public String getVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,

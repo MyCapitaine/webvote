@@ -72,6 +72,7 @@
 }
 .disable a{
     color: grey !important;
+    opacity:1; !important;
 }
 .disable a:hover,.disable a:focus{
     cursor: default;
