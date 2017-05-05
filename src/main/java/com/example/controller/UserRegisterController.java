@@ -155,6 +155,7 @@ public class UserRegisterController {
         js.setSuccess(false);
 
         UserRegister ur = new UserRegister();
+        //ur.setAuthority(1);//注册用户默认权限
         ur.setLoginPassword(form.getLoginPassword());
         ur.setBindingEmail(form.getBindingEmail());
         ur.setLoginName(form.getLoginName());

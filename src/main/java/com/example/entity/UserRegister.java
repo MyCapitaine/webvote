@@ -30,6 +30,9 @@ public class UserRegister {
     //@Column(name = "last_login_time",nullable = false)
     private Date lastLoginTime; // 注册时间，格式：yyyy-MM-dd HH:mm:ss
 
+    @Column(name = "authority",nullable = false)
+    private int authority=1;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;//用户id，注册后自动生成
@@ -59,6 +62,14 @@ public class UserRegister {
     public int getId() {
 
         return id;
+    }
+
+    public int getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(int authority) {
+        this.authority = authority;
     }
 
     public void setId(int id) {

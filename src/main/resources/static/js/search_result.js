@@ -2,47 +2,77 @@
  * Created by hasee on 2017/4/21.
  */
 var dp;
+var page={
+    totalPage:0,
+    currPage:0,
+};
 $(document).ready(function(){
-    if(searchType=="vote"){
+    if(searchType=="Vote"){
         vote();
+        search();
     }
     else{
         user();
-        rightShift();
+        $("#vote").removeClass("tab-active")
+        $("#user").addClass("tab-active");
+        $(".tab-border").css("margin-left","430px");
         changeURL(pageIndex);
-        searchVote();
+        search();
     }
-
-    var page={
-        totalPage:10,
-        currPage:pageIndex,
-    };
-    mms=$(".pagination").createPage(page);
 });
 
 function vote(){
     $("#user").on("click",function(){
         rightShift();
-        searchType="user";
+        searchType="User";
+        pageIndex=1;
+        page.currPage=1;
         changeURL(pageIndex);
-        searchUser();
+        search();
     });
 }
 
 function user(){
     $("#vote").on("click",function(){
         leftShift();
-        searchType="vote";
+        searchType="Vote";
+        pageIndex=1;
+        page.currPage=1;
         changeURL(pageIndex);
-        searchVote();
+        search();
     });
 }
 
-function searchVote(){
-    $(".result").html("votes result");
-}
-function searchUser(){
-    $(".result").html("users result");
+function search(){
+    $.ajax({
+        url : "/search"+searchType,
+        type : "post",
+        data : {
+            page_index:pageIndex-1,
+        },
+        dataType : "json",
+        success : function(result) {
+            var page=result.data;
+            var data=page.content;
+            var pageTotal=page.totalPages;
+            if(pageIndex<=pageTotal){
+                page={
+                    totalPage:pageTotal,
+                    currPage:pageIndex,
+                };
+                dp=$(".pagination").createPage(page);
+                var index=pageIndex-1>data.length-1?data.length-1:pageIndex-1;
+                var time=new Date(data[index].loginTime).Format("yyyy-MM-dd hh:mm:ss");
+                $(".result").html("login time is : "+time);
+                //dynamic_table(data);
+            }
+            else{
+                // $(".img-wrapper").show();
+                $(".result").html("page index error");
+                //alert("参数错误");
+            }
+        }
+    });
 }
 
 function rightShift(){
@@ -77,5 +107,34 @@ function changeURL(page_index){
     history.pushState("","","/search?searchType="+searchType+"&keyword="+keyword+"&pageIndex="+page_index);
 }
 function changeToPage(page_index){
+    $.ajax({
+        url : "/search"+searchType,
+        type : "post",
+        data : {
+            page_index:page_index,
+        },
+        dataType : "json",
+        success : function(result) {
+            var page=result.data;
+            var data=page.content;
+            var pageTotal=page.totalPages;
 
+            if(pageIndex<=pageTotal){
+                page={
+                    totalPage:pageTotal,
+                    currPage:pageIndex,
+                };
+                dp=$(".pagination").init(page);
+                var index=page_index>data.length-1?data.length-1:page_index;
+                var time=new Date(data[index].loginTime).Format("yyyy-MM-dd hh:mm:ss");
+                $(".result").html("login time is : "+time);
+                //dynamic_table(data);
+            }
+            else{
+                // $(".img-wrapper").show();
+                $(".result").html("page index error");
+                //alert("参数错误");
+            }
+        }
+    });
 }

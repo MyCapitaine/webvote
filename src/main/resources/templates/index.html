@@ -15,6 +15,9 @@
     <script type="text/javascript" src="/js/index.js"></script>
 </head>
 <body>
+<script th:inline="javascript">
+    var pageIndex = [[${pageIndex}]];
+</script>
     <div class="z_top_container">
         <div class="z_top b-header-blur-black">
             <div class="z_header">
@@ -52,8 +55,6 @@
         </div>
     </div>
 
-
-
     <div th:fragment="random" th:object="${UserInformation}" th:if="${UserInformation}!=null"
         style="width: 980px;margin:0 auto">
 
@@ -73,6 +74,7 @@
         </div>
 
         <div style="clear:both">
+            <p th:text="'page ' +${pageIndex}"></p>
             <p th:text="*{id}" >3333</p>
             <p th:text="*{sign}" >3333</p>
             <p th:text="*{sex}">233</p>
