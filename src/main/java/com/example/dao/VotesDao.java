@@ -18,39 +18,52 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
+	
 	/**
-	 * 通过id查找
+	 * 查找所有投票(删除的不包含在内)
 	 */
+	@Query("select v from VotesEntity v where v.banned = 0")
+	Page<VotesEntity> findAllVote(Pageable pageable);
+	
+	/**
+	 * 通过id查找(删除的不包含在内)
+	 */
+	@Query(" from VotesEntity where id = ?1 and banned = 0")
 	VotesEntity findById(int id);
+	
 	/**
-	 * 通过uid查找
+	 * 通过uid查找(删除的不包含在内)
 	 */
+	@Query("select v from VotesEntity v where v.uid = ?1 and v.banned = 0")
 	Page<VotesEntity> findByUid(int uid, Pageable pageable);
+	
 	/**
-	 * 查询封禁列表
+	 * 查询删除的投票列表
 	 */
 	@Query(" from VotesEntity where banned = 1")
+	@Deprecated
 	List<VotesEntity> findBanList();
 
-//    @Query(" from VotesEntity lr where banned=1")
-//    Page findCommentById(Pageable page);
 	/**
-	 * 查询投票是否被封禁
+	 * 查询投票是否被删除
 	 */
 	@Query("select v.banned from VotesEntity v where v.id = ?1")
+	@Deprecated
 	int isBanned(int id);
+	
 	/**
-	 * 封禁投票
+	 * 删除投票
 	 */
     @Modifying
     @Transactional
 	@Query("update VotesEntity set banned = 1 where id = ?1")
 	int ban(int id);
 	/**
-	 * 解封投票
+	 * 恢复投票
 	 */
     @Modifying
     @Transactional
+    @Deprecated
 	@Query("update VotesEntity set banned = 0 where id = ?1")
 	int unban(int id);
 	/**

@@ -86,10 +86,6 @@ public class VoteController {
 		
 		
 		boolean isManager = ur.getAuthority() == 0;
-		boolean isBanned = voteService.isBanned(voteId);
-		//非管理员无法查看封禁投票
-		if(isBanned && !isManager) return "banned_vote";
-		
 		
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		boolean isVoteOwner = voteEntity.getUid() == ur.getId();
@@ -100,14 +96,11 @@ public class VoteController {
 		boolean isMsged = guestService.isIpMsg(ip, voteId).isSuccess();
 		
 
-		
-		
 		modelMap.addAttribute("voteEntity", voteEntity);
 		modelMap.addAttribute("optionList", optionList);
 		modelMap.addAttribute("msgList", msgs);
 		modelMap.addAttribute("isMsged", isMsged);
 		modelMap.addAttribute("isVoted", isVoted);
-		modelMap.addAttribute("isBanned", isBanned);
 		modelMap.addAttribute("isManager", isManager);
 		modelMap.addAttribute("isVoteOwner", isVoteOwner);
 		

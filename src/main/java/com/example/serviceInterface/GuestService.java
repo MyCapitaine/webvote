@@ -18,11 +18,11 @@ public interface GuestService {
 	/**
 	 * 通过投票id获取投票的留言列表
 	 */
-	@Deprecated
 	ServiceResult<List<MsgsEntity>> getMsgsByVid(int vid);
 	/**
-	 * 通过投票id获取未被删除的投票的留言列表
+	 * 通过投票id获取未被封禁的投票的留言列表
 	 */
+	@Deprecated
 	ServiceResult<List<MsgsEntity>> getunbannedMsgsByVid(int vid);
 	/**
 	 * 游客投票

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface MsgsDao extends JpaRepository<MsgsEntity, Integer> {
 	/**
-	 * 通过ip查找
+	 * 通过ip查找某投票的留言
 	 */
 	@Query(" from MsgsEntity where ip = ?1 and vid = ?2 ")
 	MsgsEntity findByIp(String ip, int vid);
@@ -27,6 +27,7 @@ public interface MsgsDao extends JpaRepository<MsgsEntity, Integer> {
 	/**
 	 * 通过投票id查询未封禁的留言
 	 */
+	@Deprecated
 	@Query("select m from MsgsEntity m where vid = ?1 and banned = 0")
 	List<MsgsEntity> findUnbanMsgByVid(int id);
 	/**
@@ -34,6 +35,7 @@ public interface MsgsDao extends JpaRepository<MsgsEntity, Integer> {
 	 */
 	@Modifying
 	@Transactional
+	@Deprecated
 	@Query("update MsgsEntity set msgtext = ?2 where id = ?1")
 	int updateMsg(int id, String msgtext);
 	/**
@@ -41,6 +43,7 @@ public interface MsgsDao extends JpaRepository<MsgsEntity, Integer> {
 	 */
 	@Modifying
 	@Transactional
+	@Deprecated
 	@Query("update MsgsEntity set banned = 1 where id = ?1")
 	int banMsg(int id);
 	/**
@@ -48,6 +51,7 @@ public interface MsgsDao extends JpaRepository<MsgsEntity, Integer> {
 	 */
 	@Modifying
 	@Transactional
+	@Deprecated
 	@Query("update MsgsEntity set banned = 0 where id = ?1")
 	int unbanMsg(int id);
 	

@@ -29,6 +29,15 @@ public class VoteServiceImpl implements VoteService {
 	VoteOptionsDao voteOptionsDao;
 	@Autowired
 	VoteActivitiesDao voteActivitiesDao;
+
+	@Override
+	public ServiceResult<Page<VotesEntity>> findAllVote(Pageable pageable) {
+		ServiceResult<Page<VotesEntity>> sr = new ServiceResult<Page<VotesEntity>>();
+		Page<VotesEntity> page = votesDao.findAllVote(pageable);
+		sr.setData(page);
+		sr.setSuccess(page != null);
+		return sr;
+	}
 	
 	@Override
 	public ServiceResult<VotesEntity> findVoteById(int id) {
@@ -68,7 +77,8 @@ public class VoteServiceImpl implements VoteService {
 
 	@Override
 	public boolean isBanned(int id) {
-		return votesDao.isBanned(id) == 0 ? false : true;
+//		return votesDao.isBanned(id) == 0 ? false : true;
+		throw new RuntimeException("not support");
 	}
 	
 	@Override
@@ -78,16 +88,18 @@ public class VoteServiceImpl implements VoteService {
 
 	@Override
 	public int unbanVote(int id) {
-		return votesDao.unban(id);
+//		return votesDao.unban(id);
+		throw new RuntimeException("not support");
 	}
 
 	@Override
 	public ServiceResult<List<VotesEntity>> findBanList() {
-		ServiceResult<List<VotesEntity>> sr = new ServiceResult<List<VotesEntity>>();
-		List<VotesEntity> ves = votesDao.findBanList();
-		sr.setData(ves);
-		sr.setSuccess(ves != null);
-		return sr;
+//		ServiceResult<List<VotesEntity>> sr = new ServiceResult<List<VotesEntity>>();
+//		List<VotesEntity> ves = votesDao.findBanList();
+//		sr.setData(ves);
+//		sr.setSuccess(ves != null);
+//		return sr;
+		throw new RuntimeException("not support");
 	}
 
 	@Override
@@ -120,6 +132,7 @@ public class VoteServiceImpl implements VoteService {
 		sr.setSuccess(options != null);
 		return sr;
 	}
+
 
 
 }
