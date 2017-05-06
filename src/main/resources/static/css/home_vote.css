@@ -1,7 +1,7 @@
 .tab{
     float: left;
     padding: 15px 5px 15px 5px;
-    cursor:pointer;
+    /*cursor:pointer;*/
 }
 .tab-active{
     color: #00a1d6;

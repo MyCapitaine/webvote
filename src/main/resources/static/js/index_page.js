@@ -15,6 +15,7 @@
                 var dp=totalsubpageTmep;
                 var cn=$(dp).attr("class");
                 totalsubpageTmep="";
+                //args.currPage=args.currPage>args.totalPage?args.totalPage:args.currPage;
                 /************************START*********************/
                 if(args.currPage > 1){
                     totalsubpageTmep += "<li class='ali' id='head'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >head</a></li>";

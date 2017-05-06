@@ -8,20 +8,20 @@ var jtotal;
 var ptotal;
 
 $(document).ready(function(){
-    initJoinVote();
+    //initJoinVote();
     initPublishVote();
 
-    joinVote();
-    publishVote();
-    if(type=="publish"){
-        $("#join-vote").hide();
-    }
-    else{
-        $("#publish").removeClass("tab-active")
-        $("#join").addClass("tab-active");
-        $(".tab-border").css("left","95px");
-        $("#publish-vote").hide();
-    }
+    //joinVote();
+    //publishVote();
+    // if(type=="publish"){
+    //     $("#join-vote").hide();
+    // }
+    // else{
+    //     $("#publish").removeClass("tab-active")
+    //     $("#join").addClass("tab-active");
+    //     $(".tab-border").css("left","95px");
+    //     $("#publish-vote").hide();
+    // }
 });
 
 function joinVote(){

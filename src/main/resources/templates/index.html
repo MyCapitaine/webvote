@@ -68,8 +68,7 @@
             </div>
         </div>
 
-        <div style="width: 980px;margin:0 auto; clear: both;">
-            votes list
+        <div class="result" >
             <div th:fragment="random" th:object="${UserInformation}" th:if="${UserInformation}!=null">
                 <div style="clear:both">
                     <p th:text="'page ' +${pageIndex}"></p>
