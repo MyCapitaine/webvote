@@ -37,7 +37,15 @@
 
                     </ul>
                     <ul class="menu" th:unless="${currentUser} eq null">
-                        <li style="display: list-item;"><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                        <li th:if="${currentUser.authority}==1">
+                            <a  href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a>
+                        </li>
+                        <li th:if="${currentUser.authority}==0">
+                            <a  href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a>
+                        </li>
+                        <li th:if="${currentUser.authority}==0">
+                            <a  href="/admin" th:with="str=${UserInformation.nickName}" th:text="管理中心"></a>
+                        </li>
                         <li ><a href="/signout"> 退出</a></li>
                     </ul>
                 </div>

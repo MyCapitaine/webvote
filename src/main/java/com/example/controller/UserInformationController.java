@@ -172,7 +172,7 @@ public class UserInformationController {
     /************************我的投票***************************/
     @RequestMapping("home/vote")
     public String vote(ModelMap model,
-            @RequestParam(value = "type",defaultValue = "publish")String type,
+                       @RequestParam(value = "type",defaultValue = "publish")String type,
                        @RequestParam(value = "page_index",defaultValue = "1")int page_index){
         model.addAttribute("type",type);
         model.addAttribute("page_index",page_index);

@@ -116,7 +116,10 @@ public class TestInterceptor implements HandlerInterceptor {
                         //todo
                         if (now - last >= 1000*60*60){
                             LoginRecord lr = new LoginRecord(ur);
-                            lr.setIp(IpAddress.getIpAddr(httpServletRequest));
+//                            lr.setIp(IpAddress.getIpAddr(httpServletRequest));
+                            lr.setIp(ip);
+                            ui.setLatestIP(ip);
+                            userInformationService.modify(ui);
                             loginRecordService.add(lr);
                             System.out.println("**********interceptor登录记录**********");
                         }
@@ -157,15 +160,20 @@ public class TestInterceptor implements HandlerInterceptor {
         if(servlet.indexOf("admin")>=0){
             //没有登录，不能访问，重定向到登录界面
             if(session.getAttribute("currentUser")==null){
-                httpServletResponse.sendRedirect("/signin");
+                session.setAttribute("message","请先登录");
+                session.setAttribute("redirectTo","/signin");
+                httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest,httpServletResponse);
                 return false;
             }
             //已经登录则检查权限
             else if(session.getAttribute("currentUser")!=null){
                 UserRegister ur= (UserRegister) session.getAttribute("currentUser");
                 //没有权限，不能访问
-                if(ur.getBanned()==1){
-                    httpServletResponse.sendRedirect("/index");
+                if(ur.getAuthority()!=0){
+                    session.setAttribute("message","没有权限");
+                    session.setAttribute("redirectTo","/index");
+                    httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest,httpServletResponse);
+                    //httpServletResponse.sendRedirect("/index");
                     return false;
                 }
                 else{

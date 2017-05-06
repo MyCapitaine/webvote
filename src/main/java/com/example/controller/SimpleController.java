@@ -24,18 +24,17 @@ public class SimpleController {
     @Autowired
     LoginRecordService loginRecordService;
 
-
     @RequestMapping("/")
     public String index(ModelMap model){
         /*返回页码，首页默认为第一页。由ajax获取具体数据*/
         model.addAttribute("pageIndex",1);
-        return "index";
+        return "/index";
     }
     @RequestMapping("/index")
     public String index2(ModelMap model){
         /*返回页码，首页默认为第一页。由ajax获取具体数据*/
         model.addAttribute("pageIndex",1);
-        return "index";
+        return "/index";
     }
     /*刷新浏览器和地址栏URL访问首页第几页*/
     @RequestMapping(value = "/votes",method = RequestMethod.GET)
@@ -44,7 +43,7 @@ public class SimpleController {
 
         /*返回页码，由ajax获取具体数据*/
         model.addAttribute("pageIndex",pageIndex);
-        return "index";
+        return "/index";
     }
     /*ajax访问首页第几页*/
     @RequestMapping(value = "/votes",method = RequestMethod.POST)
@@ -68,7 +67,7 @@ public class SimpleController {
     @RequestMapping("/{vid}")
     public String vote(@PathVariable("vid") int id, ModelMap model){
         model.addAttribute("pageIndex",id);
-        return "index";
+        return "/index";
     }
 
 //    @RequestMapping("/search")
@@ -106,19 +105,19 @@ public class SimpleController {
                          @RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
                          ModelMap model){
         if(keyword.equals("")){
-            return "search_index";
+            return "/search_index";
         }
         model.addAttribute("keyword",keyword);
         model.addAttribute("pageIndex",pageIndex);
         if(searchType.equals("User")){
             model.addAttribute("searchType",searchType);
             model.addAttribute("searchResult","result");
-            return "search_result";
+            return "/search_result";
 //            return "search_user";
         }
         model.addAttribute("searchType",searchType);
         model.addAttribute("searchResult","result");
-        return "search_result";
+        return "/search_result";
 //        return "search_vote";
     }
     /*ajax获取搜索结果*/

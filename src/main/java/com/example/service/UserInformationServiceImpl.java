@@ -3,13 +3,12 @@ package com.example.service;
 import com.example.dao.UserInformationDao;
 import com.example.entity.ServiceResult;
 import com.example.entity.UserInformation;
-import com.example.entity.UserRegister;
 import com.example.exception.UserInformationServiceException;
 import com.example.serviceInterface.UserInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by hasee on 2017/4/13.
@@ -100,6 +99,14 @@ public class UserInformationServiceImpl implements UserInformationService {
         	e.printStackTrace();
         }
 
+        return sr;
+    }
+
+    @Override
+    public ServiceResult findAll(Pageable page) {
+        ServiceResult sr = new ServiceResult();
+        Page result = userInformationDao.findAll(page);
+        sr.setData(result);
         return sr;
     }
 
