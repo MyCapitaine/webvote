@@ -19,23 +19,29 @@ $(document).ready(function(){
             var page=result.data;
             //var data=page.content;
             //var pageTotal=page.totalPages;
-            page={
-                totalPage:10,
-                currPage:pageIndex,
-            };
-            dp=$(".pagination").createPage(page);
-            // if(pageIndex<=pageTotal){
-            //     page={
-            //         totalPage:pageTotal,
-            //         currPage:pageIndex,
-            //     };
-            //     dp=$(".pagination").createPage(page);
-            //     //dynamic_table(data);
-            // }
-            // else{
-            //     // $(".img-wrapper").show();
-            //     $(".result").html("page index error");
-            // }
+            var pageTotal=10;
+            // page={
+            //     totalPage:10,
+            //     currPage:pageIndex,
+            // };
+            //dp=$(".pagination").createPage(page);
+            if(pageIndex<=pageTotal){
+                var pages={
+                    totalPage:pageTotal,
+                    currPage:pageIndex,
+                };
+                dp=$(".pagination").createPage(pages);
+                //dynamic_table(data);
+            }
+            else{
+                var pages={
+                    totalPage:pageTotal,
+                    currPage:pageIndex,
+                };
+                dp=$(".pagination").createPage(pages);
+                // $(".img-wrapper").show();
+                $(".result").html("page index error");
+            }
         }
     });
 });

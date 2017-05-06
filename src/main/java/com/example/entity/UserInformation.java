@@ -14,6 +14,9 @@ public class UserInformation {
     @Id
     private int id;//用户id
 
+    @Column(name = "banned",nullable = false,length = 1)
+    private int banned=0;//是否被封禁;1表示被封禁
+
     @Temporal(TemporalType.DATE)
     @Column(name="birthday",nullable = false)
     private Date birthday;//出生日期
@@ -41,6 +44,9 @@ public class UserInformation {
 
     @Column(name="register_time",nullable = false)
     private Date registerTime;//注册时间，格式：yyyy-MM-dd HH:mm:ss
+
+    @Column(name="latest_ip",nullable = false)
+    private String latestIP;
 
     public UserInformation() {
 
@@ -140,5 +146,21 @@ public class UserInformation {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getLatestIP() {
+        return latestIP;
+    }
+
+    public void setLatestIP(String latestIP) {
+        this.latestIP = latestIP;
+    }
+
+    public int getBanned() {
+        return banned;
+    }
+
+    public void setBanned(int banned) {
+        this.banned = banned;
     }
 }

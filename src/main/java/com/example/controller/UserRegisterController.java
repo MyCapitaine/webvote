@@ -108,6 +108,8 @@ public class UserRegisterController {
             if(now-last>=1000*60*60){
                 LoginRecord lr = new LoginRecord(ur);
                 lr.setIp(IpAddress.getIpAddr(httpServletRequest));
+                ui.setLatestIP(IpAddress.getIpAddr(httpServletRequest));
+                userInformationService.modify(ui);
                 loginRecordService.add(lr);
                 System.out.println("***********controller登录记录**********");
             }

@@ -2,8 +2,9 @@ package com.example.serviceInterface;
 
 import com.example.entity.ServiceResult;
 import com.example.entity.UserInformation;
-import com.example.entity.UserRegister;
 import com.example.exception.UserInformationServiceException;
+import org.springframework.data.domain.Pageable;
+
 
 /**
  * Created by hasee on 2017/4/13.
@@ -19,6 +20,7 @@ public interface UserInformationService {
     //boolean isEmailBinding(String bindingEmail);
     ServiceResult modify(UserInformation ui);
 
+    ServiceResult findAll(Pageable page);
     ServiceResult findById(int id);
     ServiceResult findByNickName(String name);
 

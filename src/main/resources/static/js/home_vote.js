@@ -8,20 +8,20 @@ var jtotal;
 var ptotal;
 
 $(document).ready(function(){
-    initJoinVote();
+    //initJoinVote();
     initPublishVote();
 
-    joinVote();
-    publishVote();
-    if(type=="publish"){
-        $("#join-vote").hide();
-    }
-    else{
-        $("#publish").removeClass("tab-active")
-        $("#join").addClass("tab-active");
-        $(".tab-border").css("left","95px");
-        $("#publish-vote").hide();
-    }
+    //joinVote();
+    //publishVote();
+    // if(type=="publish"){
+    //     $("#join-vote").hide();
+    // }
+    // else{
+    //     $("#publish").removeClass("tab-active")
+    //     $("#join").addClass("tab-active");
+    //     $(".tab-border").css("left","95px");
+    //     $("#publish-vote").hide();
+    // }
 });
 
 function joinVote(){
@@ -191,10 +191,10 @@ function dynamicTablePublish(data){
     for(var obj in data){
         var tr_head="<tr>";
         var tr_foot="</tr>";
-        var time="<td>"+new Date(data[obj].loginTime).Format("yyyy-MM-dd hh:mm:ss")+"</td>";
+        var time="<td>"+new Date(data[obj].createTime).Format("yyyy-MM-dd hh:mm:ss")+"</td>";
         +"</td>";
-        var ip="<td>"+data[obj].ip+"</td>";
-        var position="<td>" + "登录地点" + data[obj].ip + "</td>";
+        var ip="<td>"+data[obj].vinfo+"</td>";
+        var position="<td>" + data[obj].vname + "</td>";
         var tr=tr_head + time + ip + position + tr_foot;
         $("#publish-vote tbody").append(tr);
     }
