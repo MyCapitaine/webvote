@@ -208,6 +208,7 @@ $(document).ready(function(){
         },
         dataType : "json",
         success : function(result) {
+            console.log(result);
             var page=result.data;
             var data=page.content;
             var page_total=page.totalPages;
@@ -217,7 +218,6 @@ $(document).ready(function(){
                     currPage:page_index,
                     turndown:'true',
                 });
-                console.log(mms);
                 dynamic_table(data);
             }
             else{

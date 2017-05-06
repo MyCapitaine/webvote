@@ -44,7 +44,10 @@
 
             <div class="uns_box" >
                 <ul class="menu">
-                    <li style="display: list-item;"><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                    <li ><a  th:if="${currentUser.authority}==1" href="/home"
+                             th:with="str=${UserInformation.nickName}"
+                             th:text=" ${#strings.abbreviate(str ,10)} "></a>
+                        <a th:if="${currentUser.authority}==0" href="/admin" th:text="管理中心"></a></li>
                     <li ><a href="/signout"> 退出</a></li>
                 </ul>
             </div>
@@ -119,7 +122,6 @@
                 </form>
 
                 <div class="img-wrapper" style="display: none">
-
                     <div class="error-wrapper">
                         <div class="error-img">
                             <img  class="portrait-img" src="/images/red_yellow.jpg"/>
@@ -130,13 +132,14 @@
 
                     </div>
                 </div>
-                <div class="publish-page-wrapper">
 
+                <div class="publish-page-wrapper">
                     <div class="page">
                         <ul class="publish-page pagination" >
                         </ul>
                     </div>
                 </div>
+
             </div>
 
 

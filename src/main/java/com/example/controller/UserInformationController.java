@@ -198,6 +198,7 @@ public class UserInformationController {
     @ResponseBody
     public JsonResult publishVote(@ModelAttribute(value = "currentUser")UserRegister ur,int page_index){
         int page_size=5;
+        System.out.println("getVotes index:"+page_index);
         JsonResult jr=new JsonResult();
         Pageable page = new PageRequest(page_index, page_size);
         ServiceResult vsr = voteService.findVoteByUid(ur.getId(),page);
