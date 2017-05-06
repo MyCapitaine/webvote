@@ -33,7 +33,7 @@ public class VoteServiceImpl implements VoteService {
 	@Override
 	public ServiceResult<Page<VotesEntity>> findAllVote(Pageable pageable) {
 		ServiceResult<Page<VotesEntity>> sr = new ServiceResult<Page<VotesEntity>>();
-		Page<VotesEntity> page = votesDao.findAll(pageable);
+		Page<VotesEntity> page = votesDao.findAllVote(pageable);
 		sr.setData(page);
 		sr.setSuccess(page != null);
 		return sr;

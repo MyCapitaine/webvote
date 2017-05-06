@@ -22,8 +22,8 @@ public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
 	/**
 	 * 查找所有投票(删除的不包含在内)
 	 */
-	@Query(" from VotesEntity where banned = 0")
-	Page<VotesEntity> findAll(Pageable pageable);
+	@Query("select v from VotesEntity v where v.banned = 0")
+	Page<VotesEntity> findAllVote(Pageable pageable);
 	
 	/**
 	 * 通过id查找(删除的不包含在内)
@@ -34,7 +34,7 @@ public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
 	/**
 	 * 通过uid查找(删除的不包含在内)
 	 */
-	@Query(" from VotesEntity where uid = ?1 and banned = 0")
+	@Query("select v from VotesEntity v where v.uid = ?1 and v.banned = 0")
 	Page<VotesEntity> findByUid(int uid, Pageable pageable);
 	
 	/**
