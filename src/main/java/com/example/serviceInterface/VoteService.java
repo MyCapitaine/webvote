@@ -16,6 +16,10 @@ import com.example.entity.VotesEntity;
  */
 public interface VoteService {
 	/**
+	 * 查找所有投票
+	 */
+	ServiceResult<Page<VotesEntity>> findAllVote(Pageable pageable);
+	/**
 	 * 根据id查找投票
 	 */
 	ServiceResult<VotesEntity> findVoteById(int id);
@@ -45,7 +49,7 @@ public interface VoteService {
 	 */
 	int banVote(int id);
 	/**
-	 * 删除投票
+	 * 恢复投票
 	 */
 	@Deprecated
 	int unbanVote(int id);

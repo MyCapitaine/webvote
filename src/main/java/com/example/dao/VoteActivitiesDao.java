@@ -16,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface VoteActivitiesDao extends JpaRepository<VoteActivitiesEntity, Integer> {
 	/**
+	 * 通过投票id查找
+	 */
+	List<VoteActivitiesEntity> findByVid(int vid);
+	/**
 	 * 通过选项id查找
 	 */
 	List<VoteActivitiesEntity> findByOptionId(int oid);
@@ -29,6 +33,7 @@ public interface VoteActivitiesDao extends JpaRepository<VoteActivitiesEntity, I
 	 */
 	@Modifying
 	@Transactional
+	@Deprecated
 	@Query("update VoteActivitiesEntity set oid = ?2 where id = ?1")
 	int updateVoteActivity(int id, int oid);
 	

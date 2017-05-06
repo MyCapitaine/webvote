@@ -40,11 +40,12 @@ public class GuestServiceImpl implements GuestService {
 	}
 	@Override
 	public ServiceResult<List<MsgsEntity>> getunbannedMsgsByVid(int vid) {
-		ServiceResult<List<MsgsEntity>> sr = new ServiceResult<List<MsgsEntity>>();
-		List<MsgsEntity> msgs = msgsDao.findUnbanMsgByVid(vid);
-		sr.setData(msgs);
-		sr.setSuccess(msgs != null);
-		return sr;
+//		ServiceResult<List<MsgsEntity>> sr = new ServiceResult<List<MsgsEntity>>();
+//		List<MsgsEntity> msgs = msgsDao.findUnbanMsgByVid(vid);
+//		sr.setData(msgs);
+//		sr.setSuccess(msgs != null);
+//		return sr;
+		throw new RuntimeException("not support");
 	}
 	@Override
 	public boolean doVote(VoteActivitiesEntity vae) {
@@ -55,7 +56,7 @@ public class GuestServiceImpl implements GuestService {
 		ServiceResult<List<VoteActivitiesEntity>> sr = new ServiceResult<List<VoteActivitiesEntity>>();
 		List<VoteActivitiesEntity> vaList = voteActivitiesDao.findByIp(ip, vid);
 		sr.setData(vaList);
-		sr.setSuccess(vaList != null);
+		sr.setSuccess(vaList != null && vaList.size() != 0);
 		return sr;
 	}
 	@Override
@@ -93,26 +94,31 @@ public class GuestServiceImpl implements GuestService {
 	}
 	@Override
 	public int banMsg(int mid) {
-		return msgsDao.banMsg(mid);
+//		return msgsDao.banMsg(mid);
+		throw new RuntimeException("not support");
 	}
 	@Override
 	public int unbanMsg(int mid) {
-		return msgsDao.unbanMsg(mid);
+//		return msgsDao.unbanMsg(mid);
+		throw new RuntimeException("not support");
 	}
 	@Override
 	public int updateVote(VoteActivitiesEntity vae) {
-		return voteActivitiesDao.updateVoteActivity(vae.getId(), vae.getOptionId());
+//		return voteActivitiesDao.updateVoteActivity(vae.getId(), vae.getOptionId());
+		throw new RuntimeException("not support");
 	}
 	@Override
 	public boolean delVote(List<VoteActivitiesEntity> vaList) {
-		for(VoteActivitiesEntity va : vaList) {
-			voteActivitiesDao.delete(va.getId());
-		}
-		return true;
+//		for(VoteActivitiesEntity va : vaList) {
+//			voteActivitiesDao.delete(va.getId());
+//		}
+//		return true;
+		throw new RuntimeException("not support");
 	}
 	@Override
 	public int updateMsg(MsgsEntity me) {
-		return msgsDao.updateMsg(me.getId(), me.getMsgText());
+//		return msgsDao.updateMsg(me.getId(), me.getMsgText());
+		throw new RuntimeException("not support");
 	}
 	@Override
 	public boolean delMsg(MsgsEntity me) {
