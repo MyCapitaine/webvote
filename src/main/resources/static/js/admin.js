@@ -10,6 +10,7 @@ $(document).ready(function(){
         },
         dataType : "json",
         success:function(result){
+            console.log(result);
             var page=result.data;
             var data=page.content;
             dynamic_table(data);
@@ -70,10 +71,10 @@ function dynamic_table(data){
     for(var obj in data){
         var tr_head="<tr>";
         var tr_foot="</tr>";
-        var box="<td><input type='checkbox' value='"+data[obj].id+"'/>"+"</td>";
-        var id="<td>"+data[obj].id +"</td>";
-        var nickName="<td>"+data[obj].nickName+"</td>";
-        var ip="<td>" + data[obj].latestIP + "</td>";
+        var box="<td><input type='checkbox' value='"+data[obj][0].id+"'/>"+"</td>";
+        var id="<td>"+data[obj][0].id +"</td>";
+        var nickName="<td>"+data[obj][0].nickName+"</td>";
+        var ip="<td>" + data[obj][0].latestIP + "</td>";
         var tr=tr_head + box + id + nickName + ip + tr_foot;
         $("tbody").append(tr);
     }
