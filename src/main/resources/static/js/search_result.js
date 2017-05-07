@@ -118,7 +118,6 @@ function changeToPage(page_index){
             var page=result.data;
             var data=page.content;
             var pageTotal=page.totalPages;
-
             if(pageIndex<=pageTotal){
                 page={
                     totalPage:pageTotal,

@@ -1,7 +1,16 @@
 /**
  * Created by hasee on 2017/5/6.
  */
+var dp;
+// var page={
+//     totalPage:0,
+//     currPage:0,
+// };
 $(document).ready(function(){
+    if(pageIndex-1<0){
+        pageIndex=1;
+        changeURL(1);
+    }
     $.ajax({
         url:"/admin/getAllUser",
         type:"GET",
@@ -13,6 +22,12 @@ $(document).ready(function(){
             console.log(result);
             var page=result.data;
             var data=page.content;
+            var pageTotal=page.totalPages;
+            page={
+                totalPage:pageTotal,
+                currPage:pageIndex,
+            };
+            dp=$(".pagination").createPage(page);
             dynamic_table(data);
             check_all();
             ban();
@@ -32,22 +47,33 @@ function check_all(){
 }
 function ban(){
     $(".ban").on("click",function(){
-        console.log("ban");
+        console.log("before ban ,index is : "+pageIndex);
         var ids=[];
         $(":checked").not("#all").each(function(){
             ids.push($(this).val());
-            console.log("id : "+$(this).val());
         });
         if(ids.length>0){
             $.get("/admin/banUser",
                 {
                     id_array:ids.toString(),
-                    page_index:1
+                    page_index:pageIndex
                 },
-                function(data){
-                    if(data.success){
-                        sessionStorage.clear();
-                        var total=data.data.totalPages;
+                function(result){
+                    if(result.success){
+                        console.log(result);
+                        var page=result.data;
+                        var data=page.content;
+                        var pageTotal=page.totalPages;
+                        if(pageIndex>pageTotal)
+                            pageIndex=pageTotal;
+                        page={
+                            totalPage:pageTotal,
+                            currPage:pageIndex,
+                        };
+                        console.log("after ban ,index is : "+pageIndex);
+                        dp.init($(".pagination"),page);
+                        changeURL(pageIndex);
+                        changeToPage(page.currPage-1>0?page.currPage-1:0);
                         // // var current=$(".active").text();
                         //
                         //
@@ -63,7 +89,40 @@ function ban(){
 }
 
 function changeURL(index){
+    pageIndex=index;
     history.pushState("","","/admin/allUser?pageIndex="+index);
+}
+
+function changeToPage(page_index){
+    $(":checkbox").prop("checked", false);
+    //pageIndex=page_index+1;
+    $.ajax({
+        url : "/admin/getAllUser",
+        type : "post",
+        data : {
+            pageIndex:page_index,
+        },
+        dataType : "json",
+        success : function(result) {
+            var page=result.data;
+            var data=page.content;
+            var pageTotal=page.totalPages;
+            if(pageIndex<=pageTotal){
+                // page={
+                //     totalPage:pageTotal,
+                //     currPage:pageIndex,
+                // };
+                // dp.init($(".pagination"),page);
+                dynamic_table(data);
+                //dynamic_table(data);
+            }
+            else{
+                // $(".img-wrapper").show();
+                $(".result").html("page index error");
+                //alert("参数错误");
+            }
+        }
+    });
 }
 
 function dynamic_table(data){

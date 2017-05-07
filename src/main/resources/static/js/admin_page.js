@@ -1,7 +1,9 @@
 /**
- * Created by hasee on 2017/4/19.
+ * Created by hasee on 2017/5/7.
  */
-
+/**
+ * Created by hasee on 2017/5/4.
+ */
 (function($){
     var ms = {
         init:function(totalsubpageTmep,args){
@@ -76,7 +78,6 @@
                 direct+='<input class="direct-input" type="text"  placeholder="page"/>';
                 direct+='<span >';
                 direct+='<button class="direct-button" type="button" id="goto">GoTo</button>';
-                //totalsubpageTmep+='<button class="btn btn-default" type="button" id="change">Change_page</button>';
                 direct+='</span></div></div>';
                 $(".direct-wrapper").remove();
                 $(dp).html(totalsubpageTmep);
@@ -95,70 +96,40 @@
         //绑定事件
         bindEvent:function(totalsubpageTmep,args){
             return (function(){
-                //删除操作
-                // $("#delete").on("click",function(){
-                //     var ids=[];
-                //     $(":checked").not("#all").each(function(){
-                //         ids.push($(this).val());
-                //     });
-                //     if(ids.length>0){
-                //         console.log("before delete total: "+args.totalPage+"current: "+args.currPage);
-                //         $.get("/delete",
-                //             {
-                //                 id_array:ids.toString(),
-                //                 page_index:$(".active").text()
-                //             },
-                //             function(data){
-                //                 if(data.success){
-                //                     sessionStorage.clear();
-                //                     args.totalPage=data.data.totalPages;
-                //                     args.currPage=$(".active").text();
-                //                     if(args.currPage>args.totalPage)
-                //                         args.currPage=args.totalPage;
-                //                     var page_index=args.currPage-1>0?args.currPage-1:0;
-                //                     ms.fillHtml(totalsubpageTmep,{"currPage":args.currPage,"totalPage":args.totalPage,"turndown":args.turndown});
-                //                     change_to_page(page_index);
-                //                 }
-                //             }
-                //         );
-                //     }
-                //
-                // });
                 //第几页
                 $(totalsubpageTmep).on("click",".geraltTb_pager",function(event){
                     var current = parseInt($(this).text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
                     // ms.bindEvent(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
                     changeURL(current);
-                    change_to_page(current-1);
+                    changeToPage(current-1);
                 });
                 //首页
                 $(totalsubpageTmep).on("click","#head",function(event){
-                    //var current = parseInt($(".active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":1,"totalPage":args.totalPage,"turndown":args.turndown});
                     changeURL(1);
-                    change_to_page(0);
+                    changeToPage(0);
                 });
                 //上一页
                 $(totalsubpageTmep).on("click","#prev",function(event){
                     var current = parseInt($(".ali.active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current-1,"totalPage":args.totalPage,"turndown":args.turndown});
                     changeURL(current-1);
-                    change_to_page(current-2);
+                    changeToPage(current-2);
                 });
                 //下一页
                 $(totalsubpageTmep).on("click","#next",function(){
                     var current = parseInt($(".ali.active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":current+1,"totalPage":args.totalPage,"turndown":args.turndown});
                     changeURL(current+1);
-                    change_to_page(current);
+                    changeToPage(current);
                 });
                 //尾页
                 $(totalsubpageTmep).on("click","#foot",function(event){
                     //var current = parseInt($(".active").text());
                     ms.fillHtml(totalsubpageTmep,{"currPage":args.totalPage,"totalPage":args.totalPage,"turndown":args.turndown});
                     changeURL(args.totalPage);
-                    change_to_page(args.totalPage-1);
+                    changeToPage(args.totalPage-1);
                 });
                 //跳到xx页
                 $(document).keydown(function(event){
@@ -166,20 +137,20 @@
                         $(".btn").click();
                     }
                 });
-                $(totalsubpageTmep).on("click","#goto",function(event){
+                $(".direct").on("click","#goto",function(event){
                     var current = parseInt($(".form-control").val());
                     if(!isNaN(current)){
                         if(current>=1&&current<=args.totalPage){
                             ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
-                            change_to_page($(".active").text()-1);
+                            changeToPage($(".active").text()-1);
                         }
                         else if(current<1){
                             ms.fillHtml(totalsubpageTmep,{"currPage":1,"totalPage":args.totalPage,"turndown":args.turndown});
-                            change_to_page($(".active").text()-1);
+                            changeToPage($(".active").text()-1);
                         }
                         else if(current>args.totalPage){
                             ms.fillHtml(totalsubpageTmep,{"currPage":args.totalPage,"totalPage":args.totalPage,"turndown":args.turndown});
-                            change_to_page($(".active").text()-1);
+                            changeToPage($(".active").text()-1);
                         }
                     }
                 });
@@ -195,79 +166,3 @@
         return ms;
     }
 })(jQuery);
-
-var ms = $(document).getMS();
-
-var mms;
-$(document).ready(function(){
-    if(page_index-1<0){
-        page_index=1;
-        changeURL(1);
-    }
-    $.ajax({
-        url : "/home/loginRecord",
-        type : "post",
-        data : {
-            page_index:page_index-1,
-        },
-        dataType : "json",
-        success : function(result) {
-            console.log(result);
-            var page=result.data;
-            var data=page.content;
-            var page_total=page.totalPages;
-            if(page_index<=page_total){
-                mms=$(".pagination").createPage({
-                    totalPage:page_total,
-                    currPage:page_index,
-                    turndown:'true',
-                });
-                dynamic_table(data);
-            }
-            else{
-                $(".img-wrapper").show();
-                //alert("参数错误");
-            }
-        }
-    });
-});
-
-function changeURL(page_index){
-    history.pushState("","","/home/safe?page_index="+page_index);
-}
-
-//换页
-function change_to_page(page_index){
-    $.get("/home/loginRecord",
-        {
-            page_index:page_index
-        },
-        function(result){
-            var page=result.data;
-            var data=page.content;
-            var page_total=page.totalPages;
-            dynamic_table(data);
-            ms.init($(".pagination"),{
-                totalPage:page_total,
-                currPage:page_index+1,
-                turndown:'true',
-            });
-    });
-    $(":checkbox").prop("checked", false);
-}
-
-function dynamic_table(data){
-    $("tbody").empty();
-    for(var obj in data){
-        var tr_head="<tr>";
-        var tr_foot="</tr>";
-        var time="<td>"+new Date(data[obj].loginTime).Format("yyyy-MM-dd hh:mm:ss")+"</td>";
-        +"</td>";
-        var ip="<td>"+data[obj].ip+"</td>";
-        var position="<td>" + "登录地点" + data[obj].ip + "</td>";
-        var tr=tr_head + time + ip + position + tr_foot;
-        $("tbody").append(tr);
-    }
-}
-
-

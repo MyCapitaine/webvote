@@ -41,7 +41,7 @@ public class AdminController {
     @RequestMapping("/admin/getAllUser")
     @ResponseBody
     public JsonResult getAllUser(int pageIndex){
-        int page_size=5;
+        int page_size=2;
         //JsonResult jr=new JsonResult();
         Pageable page = new PageRequest(pageIndex, page_size);
         ServiceResult sr = userInformationService.findAll(page);
@@ -56,7 +56,7 @@ public class AdminController {
             userInformationService.ban(id);
             userRegisterService.ban(id);
         }
-        int page_size=5;
+        int page_size=2;
         //JsonResult jr=new JsonResult();
         Pageable page = new PageRequest(page_index, page_size);
         ServiceResult sr = userInformationService.findAll(page);

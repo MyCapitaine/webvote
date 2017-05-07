@@ -7,6 +7,10 @@ var page={
     currPage:0,
 };
 $(document).ready(function(){
+    if(pageIndex-1<0){
+        pageIndex=1;
+        changeURL(1);
+    }
     $.ajax({
         url : "/getVotes",
         type : "GET",
@@ -34,11 +38,11 @@ $(document).ready(function(){
                 dynamic_result(data);
             }
             else{
-                var pages={
-                    totalPage:pageTotal,
-                    currPage:pageIndex,
-                };
-                dp=$(".pagination").createPage(pages);
+                // var pages={
+                //     totalPage:pageTotal,
+                //     currPage:pageIndex,
+                // };
+                // dp=$(".pagination").createPage(pages);
                 // $(".img-wrapper").show();
                 $(".result").html("page index error");
             }

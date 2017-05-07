@@ -80,6 +80,10 @@ function initJoinVote(){
     });
 }
 function initPublishVote(){
+    if(page_index-1<0){
+        page_index=1;
+        changeURLPublish(1);
+    }
     $.ajax({
         url : "/home/publishVote",
         type : "post",
