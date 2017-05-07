@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.util.List;
+
 /**
  * Created by hasee on 2017/5/6.
  */
@@ -44,6 +46,20 @@ public class AdminController {
         Pageable page = new PageRequest(pageIndex, page_size);
         ServiceResult sr = userInformationService.findAll(page);
         //jr.setData(sr.getData());
+        return new JsonResult(sr.getData());
+    }
+
+    @RequestMapping("/admin/banUser")
+    @ResponseBody
+    public JsonResult banUser(@RequestParam(value = "id_array") List<Integer> users,int page_index){
+        for(int id :users){
+            userInformationService.ban(id);
+            userRegisterService.ban(id);
+        }
+        int page_size=5;
+        //JsonResult jr=new JsonResult();
+        Pageable page = new PageRequest(page_index, page_size);
+        ServiceResult sr = userInformationService.findAll(page);
         return new JsonResult(sr.getData());
     }
 }

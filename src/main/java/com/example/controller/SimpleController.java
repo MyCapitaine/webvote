@@ -6,6 +6,7 @@ import com.example.entity.LoginRecord;
 import com.example.entity.ServiceResult;
 import com.example.entity.UserRegister;
 import com.example.serviceInterface.LoginRecordService;
+import com.example.serviceInterface.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,8 @@ import org.springframework.data.domain.Pageable;
 public class SimpleController {
     @Autowired
     LoginRecordService loginRecordService;
+    @Autowired
+    VoteService voteService;
 
     @RequestMapping("/")
     public String index(ModelMap model){
@@ -59,7 +62,12 @@ public class SimpleController {
     public JsonResult ajaxGetVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
                                  ModelMap model){
         /*获取投票列表分页*/
-        return new JsonResult();
+        int page_size=5;
+        System.out.println("getVotes index:"+pageIndex);
+        //JsonResult jr=new JsonResult();
+        Pageable page = new PageRequest(pageIndex, page_size);
+        ServiceResult sr = voteService.findAllVote(page);
+        return new JsonResult(sr.getData());
     }
 
 

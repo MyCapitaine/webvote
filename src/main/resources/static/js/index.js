@@ -11,15 +11,15 @@ $(document).ready(function(){
         url : "/getVotes",
         type : "GET",
         data : {
-            page_index:pageIndex-1,
+            pageIndex:pageIndex-1,
         },
         dataType : "json",
         success : function(result) {
-            console.log("callback");
+            console.log(result);
             var page=result.data;
-            //var data=page.content;
-            //var pageTotal=page.totalPages;
-            var pageTotal=10;
+            var data=page.content;
+            var pageTotal=page.totalPages;
+            // var pageTotal=10;
             // page={
             //     totalPage:10,
             //     currPage:pageIndex,
@@ -31,7 +31,7 @@ $(document).ready(function(){
                     currPage:pageIndex,
                 };
                 dp=$(".pagination").createPage(pages);
-                //dynamic_table(data);
+                dynamic_result(data);
             }
             else{
                 var pages={
@@ -52,4 +52,17 @@ function changeURL(pageIndex){
 
 function change_to_page(pageIndex){
 
+}
+
+function dynamic_result(data){
+    var template=$(".template");
+    $(".result").empty();
+    for(var index in data){
+        var row = template.clone();
+        $(row).find("a").attr("href","/votepage/"+data[index].id);
+        $(row).find("a").attr("target","_blank");
+        $(row).find("a").text(data[index].vname);
+        $(row).find(".row-bottom").text(data[index].vinfo);
+        $(".result").append(row);
+    }
 }

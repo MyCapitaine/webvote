@@ -23,7 +23,7 @@ $.fn.dynamic_page = function(page_total,page_current){
                 var cn=$(dp).attr("class").split(" ")[0];
                 totalsubpageTmep="";
                 /************************START*********************/
-                if(args.totalPage>1){
+                if(args.totalPage>=1){
                     if(args.currPage > 1){
                         totalsubpageTmep += "<li class='ali' id='head'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >head</a></li>";
                         totalsubpageTmep += "<li class='ali' id='prev'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >prev</a></li>";

@@ -19,6 +19,8 @@ public interface UserInformationService {
     boolean isNickNameUsed(int id,String nickName);
     //boolean isEmailBinding(String bindingEmail);
     ServiceResult modify(UserInformation ui);
+    void release(int id);
+    void ban(int id);
 
     ServiceResult findAll(Pageable page);
     ServiceResult findById(int id);
