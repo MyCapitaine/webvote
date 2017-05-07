@@ -31,7 +31,7 @@ public class UserRegister {
     private Date lastLoginTime; // 注册时间，格式：yyyy-MM-dd HH:mm:ss
 
     @Column(name = "authority",nullable = false)
-    private int authority=1;
+    private int authority=1;//权限，0为管理员，1为注册用户
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -2,7 +2,6 @@
  * Created by hasee on 2017/5/6.
  */
 $(document).ready(function(){
-    console.log(pageIndex);
     $.ajax({
         url:"/admin/getAllUser",
         type:"GET",
@@ -14,9 +13,53 @@ $(document).ready(function(){
             var page=result.data;
             var data=page.content;
             dynamic_table(data);
+            check_all();
+            ban();
         }
     });
 })
+
+function check_all(){
+    $("#all").click(function(){
+        if(this.checked){
+            $(":checkbox").prop("checked", true);
+        }
+        else{
+            $(":checkbox").prop("checked", false);
+        }
+    });
+}
+function ban(){
+    $(".ban").on("click",function(){
+        console.log("ban");
+        var ids=[];
+        $(":checked").not("#all").each(function(){
+            ids.push($(this).val());
+            console.log("id : "+$(this).val());
+        });
+        if(ids.length>0){
+            $.get("/admin/banUser",
+                {
+                    id_array:ids.toString(),
+                    page_index:1
+                },
+                function(data){
+                    if(data.success){
+                        sessionStorage.clear();
+                        var total=data.data.totalPages;
+                        // // var current=$(".active").text();
+                        //
+                        //
+                        // if(current>total)
+                        //     current=total;
+                        // //dynamic_page(total,current);
+                        // change_to_page(current-1>0?current-1:0);
+                    }
+                }
+            );
+        }
+    })
+}
 
 function changeURL(index){
     history.pushState("","","/admin/allUser?pageIndex="+index);

@@ -15,6 +15,6 @@ public interface UserInformationDao extends JpaRepository<UserInformation, Integ
 
     UserInformation findByNickName(String nickName);
     UserInformation findByBindingEmail(String bindingEmail);
-    @Query(" from UserInformation ui where ui.banned = 0")
+    @Query(" from UserInformation ui where ui.banned = 0 and ui.authority = 1")
     Page findAll(Pageable page);
 }

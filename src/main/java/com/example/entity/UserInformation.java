@@ -48,6 +48,9 @@ public class UserInformation {
     @Column(name="latest_ip",nullable = false)
     private String latestIP;
 
+    @Column(name = "authority",nullable = false)
+    private int authority=1;//权限，0为管理员，1为注册用户
+
     public UserInformation() {
 
     }
@@ -162,5 +165,13 @@ public class UserInformation {
 
     public void setBanned(int banned) {
         this.banned = banned;
+    }
+
+    public int getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(int authority) {
+        this.authority = authority;
     }
 }
