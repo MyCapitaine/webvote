@@ -150,8 +150,17 @@ public class SimpleController {
     }
 
     @RequestMapping("/find")
-    public String find(){
+    public String find(@ModelAttribute(value = "currentUser") UserRegister ur){
+
         return "find";
+    }
+
+    @RequestMapping("/model")
+    @ResponseBody
+    public String model(int id, HttpServletRequest request){
+        System.out.println(id);
+        UserRegister ur = (UserRegister) request.getSession().getAttribute("currentUser");
+        return ur.getId()+"";
     }
 
     //message界面

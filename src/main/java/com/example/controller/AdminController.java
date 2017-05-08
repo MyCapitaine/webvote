@@ -33,7 +33,7 @@ public class AdminController {
     @RequestMapping("/admin")
     public String adminIndex(ModelMap model){
         model.addAttribute("pageIndex",1);
-        return "/admin_ban_user";
+        return "admin_ban_user";
     }
     /**********封禁用户或IP**********/
     @RequestMapping("/admin/banUser")
@@ -96,7 +96,7 @@ public class AdminController {
     public String release(ModelMap model,
                           @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
         model.addAttribute("pageIndex",pageIndex);
-        return "/admin_release_user";
+        return "admin_release_user";
     }
 
     /*地址栏*/
@@ -137,7 +137,7 @@ public class AdminController {
     public String releaseIp(ModelMap model,
                             @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
         model.addAttribute("pageIndex",pageIndex);
-        return "/admin_ip";
+        return "admin_ip";
     }
 
     /*地址栏*/
@@ -159,7 +159,7 @@ public class AdminController {
         return new JsonResult(sr.getData());
     }
     /*封禁*/
-    @RequestMapping("/admin/ip/releaseIp")
+    @RequestMapping("/admin/ip/release")
     @ResponseBody
     public JsonResult releaseIp(@RequestParam(value = "idArray") List<Integer> ids,int pageIndex){
         for(int id :ids){

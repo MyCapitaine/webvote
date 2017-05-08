@@ -56,7 +56,7 @@ function checkAll(){
     });
 }
 function release(){
-    $(".ban").on("click",function(){
+    $(".release").on("click",function(){
         console.log("before ban ,index is : "+pageIndex);
         var ids=[];
         $(":checked").not("#all").each(function(){
@@ -108,10 +108,17 @@ function changeToPage(page_index){
         },
         dataType : "json",
         success : function(result) {
+            console.log("release pageTotal:"+result)
             var page=result.data;
             var data=page.content;
             var pageTotal=page.totalPages;
+            console.log("release pageTotal:"+page.totalPages);
+            page={
+                pageTotal:pageTotal,
+                pageCurrent:pageIndex,
+            };
             if(pageIndex<=pageTotal){
+                dp.init($(".pagination"),page);
                 dynamic_table(data);
             }
             else{

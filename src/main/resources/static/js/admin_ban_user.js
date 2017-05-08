@@ -121,21 +121,26 @@ function changeURL(index){
     history.pushState("","","/admin/banUser?pageIndex="+index);
 }
 
-function changeToPage(pageIndex){
+function changeToPage(index){
     $(":checkbox").prop("checked", false);
     //pageIndex=pageIndex+1;
     $.ajax({
         url : "/admin/banUser/getAllUser",
         type : "post",
         data : {
-            pageIndex:pageIndex,
+            pageIndex:index,
         },
         dataType : "json",
         success : function(result) {
             var page=result.data;
             var data=page.content;
             var pageTotal=page.totalPages;
+            page={
+                pageTotal:pageTotal,
+                pageCurrent:pageIndex,
+            };
             if(pageIndex<=pageTotal){
+                dp.init($(".pagination"),page);
                 dynamic_table(data);
             }
             else{
