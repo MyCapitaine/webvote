@@ -29,7 +29,10 @@ $(document).ready(function(){
             //     current:pageIndex,
             // };
             //dp=$(".pagination").createPage(page);
-            if(pageIndex<=pageTotal){
+            if(pageTotal==0){
+                $(".result").html("空空如也");
+            }
+            else if(pageIndex<=pageTotal){
                 var pages={
                     pageTotal:pageTotal,
                     pageCurrent:pageIndex,

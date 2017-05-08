@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.entity.*;
+import com.example.serviceInterface.IpService;
 import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
@@ -30,6 +31,9 @@ public class TestInterceptor implements HandlerInterceptor {
     @Autowired
     private LoginRecordService loginRecordService;
 
+    @Autowired
+    private IpService ipService;
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         System.out.println("----------preHandle----------");
@@ -43,10 +47,10 @@ public class TestInterceptor implements HandlerInterceptor {
         HttpSession session = httpServletRequest.getSession();
         System.out.println("session create time :" + new Date(session.getCreationTime()));
         System.out.println("session life :" + session.getMaxInactiveInterval() + "s");
-//如果ip被封
-//        if(){
-//            return false;
-//        }
+        //如果ip被封
+        if(ipService.isBanned(ip)){
+            return false;
+        }
         //如果用户登录后被封
         if(session.getAttribute("currentUser") != null){
             UserRegister ur = (UserRegister) session.getAttribute("currentUser");

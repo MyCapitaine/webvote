@@ -167,9 +167,9 @@ public class UserRegisterController {
         try{
             ServiceResult<UserRegister> ursr = userRegisterService.register(ur);
             ur = (UserRegister) ursr.getData();
-
             UserInformation ui = new UserInformation(ur);
             ui.setNickName(form.getNickName());
+            ui.setLatestIP(IpAddress.getIpAddr(httpServletRequest));
             ServiceResult<?> uisr = userInformationService.register(ui);
             ui = (UserInformation) uisr.getData();
             UserInformationVO uivo = new UserInformationVO(ui);

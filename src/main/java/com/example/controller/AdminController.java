@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.entity.JsonResult;
 import com.example.entity.ServiceResult;
+import com.example.serviceInterface.IpService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,15 @@ public class AdminController {
     private UserRegisterService userRegisterService;
     @Autowired
     private UserInformationService userInformationService;
+    @Autowired
+    IpService ipService;
 
     @RequestMapping("/admin")
     public String adminIndex(ModelMap model){
         model.addAttribute("pageIndex",1);
         return "/admin_ban_user";
     }
-    /**********封禁用户**********/
+    /**********封禁用户或IP**********/
     @RequestMapping("/admin/banUser")
     public String ban(ModelMap model){
         model.addAttribute("pageIndex",1);
@@ -56,13 +59,29 @@ public class AdminController {
         //jr.setData(sr.getData());
         return new JsonResult(sr.getData());
     }
-    /*封禁*/
+    /*封禁用户*/
     @RequestMapping("/admin/banUser/ban")
     @ResponseBody
     public JsonResult banUser(@RequestParam(value = "idArray") List<Integer> users,int pageIndex){
         for(int id :users){
             userInformationService.ban(id);
             userRegisterService.ban(id);
+        }
+        int pageSize=2;
+        //JsonResult jr=new JsonResult();
+        Pageable page = new PageRequest(pageIndex, pageSize);
+        ServiceResult sr = userInformationService.findAllNormal(page);
+        return new JsonResult(sr.getData());
+    }
+
+    /*封禁IP*/
+    @RequestMapping("/admin/banIp")
+    @ResponseBody
+    public JsonResult banIp(@RequestParam(value = "idArray") List<String> ips,int pageIndex){
+        for(String ip :ips){
+            if(!ipService.isBanned(ip)){
+                ipService.ban(ip);
+            }
         }
         int pageSize=2;
         //JsonResult jr=new JsonResult();
@@ -110,4 +129,7 @@ public class AdminController {
         ServiceResult sr = userInformationService.findAllBanning(page);
         return new JsonResult(sr.getData());
     }
+
+
+
 }

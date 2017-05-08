@@ -53,7 +53,7 @@ function checkAll(){
     });
 }
 function ban(){
-    $(".ban").on("click",function(){
+    $("#banUser").on("click",function(){
         var ids=[];
         $(":checked").not("#all").each(function(){
             ids.push($(this).val());
@@ -78,13 +78,37 @@ function ban(){
                         dp.init($(".pagination"),page);
                         changeURL(pageIndex);
                         changeToPage(page.pageCurrent-1>0?page.pageCurrent-1:0);
-                        // // var current=$(".active").text();
-                        //
-                        //
-                        // if(current>total)
-                        //     current=total;
-                        // //dynamic_page(total,current);
-                        // changeToPage(current-1>0?current-1:0);
+                    }
+                }
+            );
+        }
+    });
+
+    $("#banIp").on("click",function(){
+        var ids=[];
+        $(":checked").not("#all").each(function(){
+            ids.push($(this).parent().siblings().eq(2).text());
+        });
+        if(ids.length>0){
+            $.post("/admin/banIp",
+                {
+                    idArray:ids.toString(),
+                    pageIndex:pageIndex
+                },
+                function(result){
+                    if(result.success){
+                        var page=result.data;
+                        var data=page.content;
+                        var pageTotal=page.totalPages;
+                        if(pageIndex>pageTotal)
+                            pageIndex=pageTotal;
+                        page={
+                            pageTotal:pageTotal,
+                            pageCurrent:pageIndex,
+                        };
+                        dp.init($(".pagination"),page);
+                        changeURL(pageIndex);
+                        changeToPage(page.pageCurrent-1>0?page.pageCurrent-1:0);
                     }
                 }
             );
@@ -112,18 +136,10 @@ function changeToPage(pageIndex){
             var data=page.content;
             var pageTotal=page.totalPages;
             if(pageIndex<=pageTotal){
-                // page={
-                //     totalPage:pageTotal,
-                //     current:pageIndex,
-                // };
-                // dp.init($(".pagination"),page);
                 dynamic_table(data);
-                //dynamic_table(data);
             }
             else{
-                // $(".img-wrapper").show();
                 $(".result").html("page index error");
-                //alert("参数错误");
             }
         }
     });
