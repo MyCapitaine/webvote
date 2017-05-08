@@ -129,6 +129,22 @@ public class UserInformationServiceImpl implements UserInformationService {
     }
 
     @Override
+    public ServiceResult findAllBanning(Pageable page) {
+        ServiceResult sr = new ServiceResult();
+        Page result = userInformationDao.findAllBanning(page);
+        sr.setData(result);
+        return sr;
+    }
+
+    @Override
+    public ServiceResult findAllNormal(Pageable page) {
+        ServiceResult sr = new ServiceResult();
+        Page result = userInformationDao.findAllNormal(page);
+        sr.setData(result);
+        return sr;
+    }
+
+    @Override
     public ServiceResult findById(int id) {
         ServiceResult sr=new ServiceResult();
         sr.setMessage("not found");

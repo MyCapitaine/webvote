@@ -1,4 +1,7 @@
 /**
+ * Created by hasee on 2017/5/8.
+ */
+/**
  * Created by hasee on 2017/5/6.
  */
 var dp;
@@ -11,31 +14,38 @@ $(document).ready(function(){
         pageIndex=1;
         changeURL(1);
     }
+    changeToRelease();
     $.ajax({
-        url:"/admin/getAllUser",
+        url:"/admin/releaseUser/getAllUser",
         type:"GET",
         data:{
             pageIndex:pageIndex-1,
         },
         dataType : "json",
         success:function(result){
-            console.log(result);
             var page=result.data;
             var data=page.content;
             var pageTotal=page.totalPages;
             page={
-                totalPage:pageTotal,
-                currPage:pageIndex,
+                pageTotal:pageTotal,
+                pageCurrent:pageIndex,
             };
             dp=$(".pagination").createPage(page);
+            console.log(dp);
             dynamic_table(data);
-            check_all();
-            ban();
+            checkAll();
+            release();
         }
     });
 })
 
-function check_all(){
+function changeToRelease(){
+    $("#ban").on("click",function () {
+        location.href="/admin/banUser";
+    })
+}
+
+function checkAll(){
     $("#all").click(function(){
         if(this.checked){
             $(":checkbox").prop("checked", true);
@@ -45,7 +55,7 @@ function check_all(){
         }
     });
 }
-function ban(){
+function release(){
     $(".ban").on("click",function(){
         console.log("before ban ,index is : "+pageIndex);
         var ids=[];
@@ -53,10 +63,10 @@ function ban(){
             ids.push($(this).val());
         });
         if(ids.length>0){
-            $.get("/admin/banUser",
+            $.post("/admin/releaseUser/release",
                 {
-                    id_array:ids.toString(),
-                    page_index:pageIndex
+                    idArray:ids.toString(),
+                    pageIndex:pageIndex
                 },
                 function(result){
                     if(result.success){
@@ -67,13 +77,13 @@ function ban(){
                         if(pageIndex>pageTotal)
                             pageIndex=pageTotal;
                         page={
-                            totalPage:pageTotal,
-                            currPage:pageIndex,
+                            pageTotal:pageTotal,
+                            pageCurrent:pageIndex,
                         };
                         console.log("after ban ,index is : "+pageIndex);
                         dp.init($(".pagination"),page);
                         changeURL(pageIndex);
-                        changeToPage(page.currPage-1>0?page.currPage-1:0);
+                        changeToPage(page.pageCurrent-1>0?page.pageCurrent-1:0);
                         // // var current=$(".active").text();
                         //
                         //
@@ -90,14 +100,15 @@ function ban(){
 
 function changeURL(index){
     pageIndex=index;
-    history.pushState("","","/admin/allUser?pageIndex="+index);
+    history.pushState("","","/admin/releaseUser/allUser?pageIndex="+index);
 }
 
 function changeToPage(page_index){
+    console.log(page_index);
     $(":checkbox").prop("checked", false);
     //pageIndex=page_index+1;
     $.ajax({
-        url : "/admin/getAllUser",
+        url : "/admin/releaseUser/getAllUser",
         type : "post",
         data : {
             pageIndex:page_index,

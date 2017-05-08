@@ -23,6 +23,8 @@ public interface UserInformationService {
     void ban(int id);
 
     ServiceResult findAll(Pageable page);
+    ServiceResult findAllBanning(Pageable page);
+    ServiceResult findAllNormal(Pageable page);
     ServiceResult findById(int id);
     ServiceResult findByNickName(String name);
 

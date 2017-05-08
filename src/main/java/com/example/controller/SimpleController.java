@@ -162,17 +162,17 @@ public class SimpleController {
 
 
     @RequestMapping("/page")
-    public String page(ModelMap model, @RequestParam(value = "page_index",defaultValue = "1")int index){
-        model.addAttribute("page_index",index);
+    public String page(ModelMap model, @RequestParam(value = "pageIndex",defaultValue = "1")int index){
+        model.addAttribute("pageIndex",index);
         return "page";
     }
     @Autowired
     UserRegisterDao userRegisterDao;
     @RequestMapping("/initPage")
     @ResponseBody
-    public JsonResult initPage(int page_index){
+    public JsonResult initPage(int pageIndex){
         int page_size=1;
-        Pageable pageable =new PageRequest(page_index, page_size);
+        Pageable pageable =new PageRequest(pageIndex, page_size);
         Page<UserRegister> datas = userRegisterDao.findAll(pageable);
         if(datas!=null){
             return new JsonResult(datas);

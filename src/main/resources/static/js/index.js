@@ -4,7 +4,7 @@
 var dp;
 var page={
     totalPage:0,
-    currPage:0,
+    current:0,
 };
 $(document).ready(function(){
     if(pageIndex-1<0){
@@ -26,13 +26,16 @@ $(document).ready(function(){
             // var pageTotal=10;
             // page={
             //     totalPage:10,
-            //     currPage:pageIndex,
+            //     current:pageIndex,
             // };
             //dp=$(".pagination").createPage(page);
-            if(pageIndex<=pageTotal){
+            if(pageTotal==0){
+                $(".result").html("空空如也");
+            }
+            else if(pageIndex<=pageTotal){
                 var pages={
-                    totalPage:pageTotal,
-                    currPage:pageIndex,
+                    pageTotal:pageTotal,
+                    pageCurrent:pageIndex,
                 };
                 dp=$(".pagination").createPage(pages);
                 dynamic_result(data);
@@ -40,7 +43,7 @@ $(document).ready(function(){
             else{
                 // var pages={
                 //     totalPage:pageTotal,
-                //     currPage:pageIndex,
+                //     current:pageIndex,
                 // };
                 // dp=$(".pagination").createPage(pages);
                 // $(".img-wrapper").show();
@@ -54,7 +57,7 @@ function changeURL(pageIndex){
     history.pushState("","","/votes?pageIndex="+pageIndex);
 }
 
-function change_to_page(pageIndex){
+function changeToPage(pageIndex){
 
 }
 

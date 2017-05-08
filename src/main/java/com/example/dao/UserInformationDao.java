@@ -20,4 +20,9 @@ public interface UserInformationDao extends JpaRepository<UserInformation, Integ
     //此语句返回三个字段数据
     //@Query("  select ui.id,ui.nickName,ui.latestIP from UserInformation ui, UserRegister ur  where ur.banned = 0 and ur.authority = 1 and ui.id = ur.id")
     Page findAll(Pageable page);
+
+    @Query("  from UserInformation ui, UserRegister ur  where ur.banned = 1 and ur.authority = 1 and ui.id = ur.id")
+    Page findAllBanning(Pageable page);
+    @Query("  from UserInformation ui, UserRegister ur  where ur.banned = 0 and ur.authority = 1 and ui.id = ur.id")
+    Page findAllNormal(Pageable page);
 }
