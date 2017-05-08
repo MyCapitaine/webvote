@@ -37,17 +37,18 @@ public class AdminController {
     }
     /**********封禁用户或IP**********/
     @RequestMapping("/admin/banUser")
-    public String ban(ModelMap model){
-        model.addAttribute("pageIndex",1);
-        return "/admin_ban_user";
-    }
-    /*地址栏*/
-    @RequestMapping("/admin/banUser/allUser")
-    public String getNormalUser(ModelMap model,
-                            @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
+    public String ban(ModelMap model,
+                      @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
         model.addAttribute("pageIndex",pageIndex);
         return "/admin_ban_user";
     }
+    /*地址栏*/
+//    @RequestMapping("/admin/banUser/allUser")
+//    public String getNormalUser(ModelMap model,
+//                            @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
+//        model.addAttribute("pageIndex",pageIndex);
+//        return "/admin_ban_user";
+//    }
     /*ajax*/
     @RequestMapping("/admin/banUser/getAllUser")
     @ResponseBody
@@ -92,18 +93,19 @@ public class AdminController {
 
     /**********解封用户**********/
     @RequestMapping("/admin/releaseUser")
-    public String release(ModelMap model){
-        model.addAttribute("pageIndex",1);
+    public String release(ModelMap model,
+                          @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
+        model.addAttribute("pageIndex",pageIndex);
         return "/admin_release_user";
     }
 
     /*地址栏*/
-    @RequestMapping("/admin/releaseUser/allUser")
-    public String getBanningUser(ModelMap model,
-                            @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
-        model.addAttribute("pageIndex",pageIndex);
-        return "/admin_release_user";
-    }
+//    @RequestMapping("/admin/releaseUser/allUser")
+//    public String getBanningUser(ModelMap model,
+//                            @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
+//        model.addAttribute("pageIndex",pageIndex);
+//        return "/admin_release_user";
+//    }
     /*ajax*/
     @RequestMapping("/admin/releaseUser/getAllUser")
     @ResponseBody
@@ -130,6 +132,44 @@ public class AdminController {
         return new JsonResult(sr.getData());
     }
 
+    /**********解封IP**********/
+    @RequestMapping("/admin/ip")
+    public String releaseIp(ModelMap model,
+                            @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
+        model.addAttribute("pageIndex",pageIndex);
+        return "/admin_ip";
+    }
 
+    /*地址栏*/
+//    @RequestMapping("/admin/ip/allUser")
+//    public String getBanningIp(ModelMap model,
+//                               @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
+//        model.addAttribute("pageIndex",pageIndex);
+//        return "/admin_release_user";
+//    }
+    /*ajax*/
+    @RequestMapping("/admin/ip/getAllIp")
+    @ResponseBody
+    public JsonResult getAllIpToRelease(int pageIndex){
+        int pageSize=2;
+        //JsonResult jr=new JsonResult();
+        Pageable page = new PageRequest(pageIndex, pageSize);
+        ServiceResult sr = ipService.findAll(page);
+        //jr.setData(sr.getData());
+        return new JsonResult(sr.getData());
+    }
+    /*封禁*/
+    @RequestMapping("/admin/ip/releaseIp")
+    @ResponseBody
+    public JsonResult releaseIp(@RequestParam(value = "idArray") List<Integer> ids,int pageIndex){
+        for(int id :ids){
+            ipService.release(id);
+        }
+        int pageSize=2;
+        //JsonResult jr=new JsonResult();
+        Pageable page = new PageRequest(pageIndex, pageSize);
+        ServiceResult sr = userInformationService.findAllBanning(page);
+        return new JsonResult(sr.getData());
+    }
 
 }

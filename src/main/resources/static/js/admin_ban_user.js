@@ -118,7 +118,7 @@ function ban(){
 
 function changeURL(index){
     pageIndex=index;
-    history.pushState("","","/admin/banUser/allUser?pageIndex="+index);
+    history.pushState("","","/admin/banUser?pageIndex="+index);
 }
 
 function changeToPage(pageIndex){

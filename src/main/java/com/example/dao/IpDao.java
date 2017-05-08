@@ -5,8 +5,11 @@ package com.example.dao;
  */
 
 import com.example.entity.Ip;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface  IpDao extends JpaRepository<Ip,Integer>{
     Ip findByIp(String ip);
+    Page findAll(Pageable page);
 }

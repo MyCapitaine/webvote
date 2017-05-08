@@ -1,10 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8"/>
     <title>IP管理</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+
+    <script src="/js/jquery.min.js"></script>
+    <!--<link href="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet"/>-->
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/bootstrap-datetimepicker.js"></script>
+    <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of Html5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!--<script src="http://cdn.bootcss.com/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>-->
+    <!--<script src="bootstrap-datetimepicker.js"></script>-->
+    <!--<script src="bootstrap-datetimepicker.zh-CN.js"></script>-->
+    <link href="/css/home.css" rel="stylesheet" type="text/css" />
+    <link href="/css/admin.css" rel="stylesheet" type="text/css" />
+    <link href="/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="/css/top.css" rel="stylesheet" type="text/css" />
+
+    <!--<script src="/js/admin_page.js"></script>-->
+    <script src="/js/dynamic_page.js"></script>
+    <script src="/js/admin_ip.js"></script>
+    <script src="/js/jquery.validate.js"></script>
+    <style>
+        .a-upload {
+            width: 128px;
+            text-align: center;
+            padding: 4px 10px;
+            height: 20px;
+            line-height: 20px;
+            position: relative;
+            cursor: pointer;
+            color: #888;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1
+        }
+
+        .a-upload  input {
+            position: absolute;
+            font-size: 20px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            cursor: pointer
+        }
+
+        .a-upload:hover {
+            color: #444;
+            background: #eee;
+            border-color: #ccc;
+            text-decoration: none
+        }
+        .showFileName{
+            padding: 0 5px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+<script th:inline="javascript">
+    var id = [[${currentUser.id}]];
+    var pageIndex = [[${pageIndex}]];
+</script>
+<div class="z_top_container">
+    <div class="z_top b-header-blur-black">
+        <div class="z_header">
+            <div class="z_top_nav">
+                <ul>
+                    <li class="home">
+
+                        <a href="/"><span>网投</span><span>主站</span></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="uns_box" >
+                <ul class="menu">
+                    <li ><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                    <li ><a href="/signout"> 退出</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="information_container">
+    <div class="security_content">
+        <div class="security-left">
+            <ul class="child-list">
+                <li>
+                    <a href="/admin" id="home" title="首页" class="canHover">
+                        <i ></i>
+                        <span>用户管理</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href='javascript:void(0);' id="comment" class="active">
+                        <i class="al-coin"></i>
+                        <span>IP管理</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/vote" id="vote" class="canHover">
+                        <i class="al-jl"></i>
+                        <span>投票管理</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/comment" id="safe" class="canHover">
+                        <i class="al-aq"></i>
+                        <span>留言管理</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="security-right">
+            <div class="title">
+                <div class="tab tab-active">
+                    封禁IP
+                </div>
+            </div>
+
+            <div class="title">
+                <div class="tab tab-active" id="release">
+                    解封IP
+                </div>
+            </div>
+            <div class="information">
+                <form class="information-form">
+                    <div class="wrapper-padding">
+                        <div class="table-wrapper">
+                            <table class="table-normal" id="login_log_table">
+                                <thead>
+                                <tr>
+                                    <td><input type="checkbox" id="all"/></td>
+                                    <td ><div>用户ID</div></td>
+                                    <td ><div>用户昵称</div></td>
+                                    <td ><div>最近登录IP</div></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </form>
+                <div>
+                    <input type="button" class="ban" value="解封IP" id="banIp"/>
+                </div>
+                <div class="img-wrapper" style="display: none">
+
+                    <div class="error-wrapper">
+                        <div class="error-img">
+                            <img  class="portrait-img" src="/images/red_yellow.jpg"/>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="page-wrapper">
+                    <div class="page">
+                        <ul class="pagination" >
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div >
+    <div class="mask" style="display: none">
+            <span>
+                <img th:if="${UserInformation.portrait} ne null"  class="portrait-img" th:src="${UserInformation.portrait}"/>
+                <img th:if="${UserInformation.portrait} eq null" class="portrait-img" src="/images/default_portrait.jpg"/>
+                <!--<img src="/images/red_yellow.jpg"/>-->
+            </span>
+    </div>
+</div>
 
 </body>
 </html>
