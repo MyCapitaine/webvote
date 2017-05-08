@@ -213,6 +213,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
      * @return boolean
      */
     public boolean isBanned(UserRegister ur){
+        ur = userRegisterDao.findOne(ur.getId());
         return ur.getBanned()==0?false:true;
         //return true;
     }
