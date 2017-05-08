@@ -4,7 +4,7 @@
 var dp;
 // var page={
 //     totalPage:0,
-//     currPage:0,
+//     current:0,
 // };
 $(document).ready(function(){
     if(pageIndex-1<0){
@@ -24,8 +24,8 @@ $(document).ready(function(){
             var data=page.content;
             var pageTotal=page.totalPages;
             page={
-                totalPage:pageTotal,
-                currPage:pageIndex,
+                pageTotal:pageTotal,
+                pageCurrent:pageIndex,
             };
             dp=$(".pagination").createPage(page);
             dynamic_table(data);
@@ -47,7 +47,6 @@ function check_all(){
 }
 function ban(){
     $(".ban").on("click",function(){
-        console.log("before ban ,index is : "+pageIndex);
         var ids=[];
         $(":checked").not("#all").each(function(){
             ids.push($(this).val());
@@ -56,11 +55,10 @@ function ban(){
             $.get("/admin/banUser",
                 {
                     id_array:ids.toString(),
-                    page_index:pageIndex
+                    pageIndex:pageIndex
                 },
                 function(result){
                     if(result.success){
-                        console.log(result);
                         var page=result.data;
                         var data=page.content;
                         var pageTotal=page.totalPages;
@@ -68,19 +66,18 @@ function ban(){
                             pageIndex=pageTotal;
                         page={
                             totalPage:pageTotal,
-                            currPage:pageIndex,
+                            current:pageIndex,
                         };
-                        console.log("after ban ,index is : "+pageIndex);
                         dp.init($(".pagination"),page);
                         changeURL(pageIndex);
-                        changeToPage(page.currPage-1>0?page.currPage-1:0);
+                        changeToPage(page.current-1>0?page.current-1:0);
                         // // var current=$(".active").text();
                         //
                         //
                         // if(current>total)
                         //     current=total;
                         // //dynamic_page(total,current);
-                        // change_to_page(current-1>0?current-1:0);
+                        // changeToPage(current-1>0?current-1:0);
                     }
                 }
             );
@@ -93,14 +90,14 @@ function changeURL(index){
     history.pushState("","","/admin/allUser?pageIndex="+index);
 }
 
-function changeToPage(page_index){
+function changeToPage(pageIndex){
     $(":checkbox").prop("checked", false);
-    //pageIndex=page_index+1;
+    //pageIndex=pageIndex+1;
     $.ajax({
         url : "/admin/getAllUser",
         type : "post",
         data : {
-            pageIndex:page_index,
+            pageIndex:pageIndex,
         },
         dataType : "json",
         success : function(result) {
@@ -110,7 +107,7 @@ function changeToPage(page_index){
             if(pageIndex<=pageTotal){
                 // page={
                 //     totalPage:pageTotal,
-                //     currPage:pageIndex,
+                //     current:pageIndex,
                 // };
                 // dp.init($(".pagination"),page);
                 dynamic_table(data);
