@@ -5,6 +5,7 @@ import com.example.entity.ServiceResult;
 import com.example.serviceInterface.IpService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
+import com.example.serviceInterface.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,9 @@ public class AdminController {
     @Autowired
     private UserInformationService userInformationService;
     @Autowired
-    IpService ipService;
+    private IpService ipService;
+    @Autowired
+    private VoteService voteService;
 
     @RequestMapping("/admin")
     public String adminIndex(ModelMap model){
@@ -168,10 +171,72 @@ public class AdminController {
             }
         }
         int pageSize=2;
-        //JsonResult jr=new JsonResult();
         Pageable page = new PageRequest(pageIndex, pageSize);
         ServiceResult sr = ipService.findAll(page);
         return new JsonResult(sr.getData());
     }
 
+    /**********投票管理**********/
+    @RequestMapping("/admin/vote")
+    public String vote(ModelMap model,
+                       @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
+        model.addAttribute("pageIndex",pageIndex);
+        return "admin_vote";
+    }
+    /*ajax*/
+    @RequestMapping("/admin/vote/getAllVotes")
+    @ResponseBody
+    public JsonResult getAllVotes(int pageIndex){
+        int pageSize=10;
+        //JsonResult jr=new JsonResult();
+        Pageable page = new PageRequest(pageIndex, pageSize);
+        ServiceResult sr = voteService.findAllVote(page);
+        //jr.setData(sr.getData());
+        return new JsonResult(sr.getData());
+    }
+    /*删除投票*/
+    @RequestMapping("/admin/vote/delete")
+    @ResponseBody
+    public JsonResult deleteVotes(@RequestParam(value = "idArray") List<Integer> ids,int pageIndex){
+        for(int id :ids){
+            voteService.banVote(id);
+        }
+        //10条一页
+        int pageSize=10;
+        Pageable page = new PageRequest(pageIndex, pageSize);
+        ServiceResult sr = voteService.findAllVote(page);
+        return new JsonResult(sr.getData());
+    }
+
+    /**********留言管理**********/
+    @RequestMapping("/admin/comment")
+    public String comment(ModelMap model,
+                       @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
+        model.addAttribute("pageIndex",pageIndex);
+        return "admin_comment";
+    }
+    /*ajax*/
+    @RequestMapping("/admin/comment/getAllComments")
+    @ResponseBody
+    public JsonResult getAllComments(int pageIndex){
+        int pageSize=10;
+        //JsonResult jr=new JsonResult();
+        Pageable page = new PageRequest(pageIndex, pageSize);
+        ServiceResult sr = voteService.findAllVote(page);
+        //jr.setData(sr.getData());
+        return new JsonResult(sr.getData());
+    }
+    /*删除投票*/
+    @RequestMapping("/admin/comment/delete")
+    @ResponseBody
+    public JsonResult deleteComments(@RequestParam(value = "idArray") List<Integer> ids,int pageIndex){
+//        for(int id :ids){
+//            voteService.banVote(id);
+//        }
+//        int pageSize=10;
+//        Pageable page = new PageRequest(pageIndex, pageSize);
+//        ServiceResult sr = voteService.findAllVote(page);
+//        return new JsonResult(sr.getData());
+        return new JsonResult();
+    }
 }

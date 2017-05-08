@@ -77,6 +77,7 @@ function changeURL(index){
 }
 
 function changeToPage(index){
+    $(":checkbox").prop("checked", false);
     $.ajax({
         url:"/admin/ip/getAllIp",
         type:"GET",

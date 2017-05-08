@@ -67,6 +67,7 @@ public class SimpleController {
         //JsonResult jr=new JsonResult();
         Pageable page = new PageRequest(pageIndex, page_size);
         ServiceResult sr = voteService.findAllVote(page);
+
         return new JsonResult(sr.getData());
     }
 

@@ -20,7 +20,6 @@ $(document).ready(function(){
         },
         dataType : "json",
         success:function(result){
-            console.log(result);
             var page=result.data;
             var data=page.content;
             var pageTotal=page.totalPages;
