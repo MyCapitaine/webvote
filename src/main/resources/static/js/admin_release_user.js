@@ -1,25 +1,28 @@
 /**
+ * Created by hasee on 2017/5/8.
+ */
+/**
  * Created by hasee on 2017/5/6.
  */
 var dp;
 // var page={
 //     totalPage:0,
-//     current:0,
+//     currPage:0,
 // };
 $(document).ready(function(){
     if(pageIndex-1<0){
         pageIndex=1;
         changeURL(1);
     }
+    changeToRelease();
     $.ajax({
-        url:"/admin/getAllUser",
+        url:"/admin/releaseUser/getAllUser",
         type:"GET",
         data:{
             pageIndex:pageIndex-1,
         },
         dataType : "json",
         success:function(result){
-            console.log(result);
             var page=result.data;
             var data=page.content;
             var pageTotal=page.totalPages;
@@ -28,14 +31,21 @@ $(document).ready(function(){
                 pageCurrent:pageIndex,
             };
             dp=$(".pagination").createPage(page);
+            console.log(dp);
             dynamic_table(data);
-            check_all();
-            ban();
+            checkAll();
+            release();
         }
     });
 })
 
-function check_all(){
+function changeToRelease(){
+    $("#ban").on("click",function () {
+        location.href="/admin/banUser";
+    })
+}
+
+function checkAll(){
     $("#all").click(function(){
         if(this.checked){
             $(":checkbox").prop("checked", true);
@@ -45,39 +55,42 @@ function check_all(){
         }
     });
 }
-function ban(){
+function release(){
     $(".ban").on("click",function(){
+        console.log("before ban ,index is : "+pageIndex);
         var ids=[];
         $(":checked").not("#all").each(function(){
             ids.push($(this).val());
         });
         if(ids.length>0){
-            $.get("/admin/banUser",
+            $.post("/admin/releaseUser/release",
                 {
-                    id_array:ids.toString(),
+                    idArray:ids.toString(),
                     pageIndex:pageIndex
                 },
                 function(result){
                     if(result.success){
+                        console.log(result);
                         var page=result.data;
                         var data=page.content;
                         var pageTotal=page.totalPages;
                         if(pageIndex>pageTotal)
                             pageIndex=pageTotal;
                         page={
-                            totalPage:pageTotal,
-                            current:pageIndex,
+                            pageTotal:pageTotal,
+                            pageCurrent:pageIndex,
                         };
+                        console.log("after ban ,index is : "+pageIndex);
                         dp.init($(".pagination"),page);
                         changeURL(pageIndex);
-                        changeToPage(page.current-1>0?page.current-1:0);
+                        changeToPage(page.pageCurrent-1>0?page.pageCurrent-1:0);
                         // // var current=$(".active").text();
                         //
                         //
                         // if(current>total)
                         //     current=total;
                         // //dynamic_page(total,current);
-                        // changeToPage(current-1>0?current-1:0);
+                        // change_to_page(current-1>0?current-1:0);
                     }
                 }
             );
@@ -87,17 +100,18 @@ function ban(){
 
 function changeURL(index){
     pageIndex=index;
-    history.pushState("","","/admin/allUser?pageIndex="+index);
+    history.pushState("","","/admin/releaseUser/allUser?pageIndex="+index);
 }
 
-function changeToPage(pageIndex){
+function changeToPage(page_index){
+    console.log(page_index);
     $(":checkbox").prop("checked", false);
-    //pageIndex=pageIndex+1;
+    //pageIndex=page_index+1;
     $.ajax({
-        url : "/admin/getAllUser",
+        url : "/admin/releaseUser/getAllUser",
         type : "post",
         data : {
-            pageIndex:pageIndex,
+            pageIndex:page_index,
         },
         dataType : "json",
         success : function(result) {
@@ -107,7 +121,7 @@ function changeToPage(pageIndex){
             if(pageIndex<=pageTotal){
                 // page={
                 //     totalPage:pageTotal,
-                //     current:pageIndex,
+                //     currPage:pageIndex,
                 // };
                 // dp.init($(".pagination"),page);
                 dynamic_table(data);

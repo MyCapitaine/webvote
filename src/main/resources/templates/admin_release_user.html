@@ -35,9 +35,9 @@
     <link href="/css/my.css" rel="stylesheet" type="text/css" />
     <link href="/css/top.css" rel="stylesheet" type="text/css" />
 
-    <script src="/js/admin.js"></script>
-    <!--<script src="/js/admin_page.js"></script>-->
     <script src="/js/dynamic_page.js"></script>
+    <script src="/js/admin_release_user.js"></script>
+
     <script src="/js/jquery.validate.js"></script>
     <style>
         .a-upload {
@@ -142,7 +142,12 @@
 
         <div class="security-right">
             <div class="title">
-                <span class="title-text">正常用户</span>
+                <div class="tab canHover" id="ban">
+                    封禁用户
+                </div>
+                <div class="tab tab-active" id="release">
+                    解封用户
+                </div>
             </div>
             <div class="information">
                 <form class="information-form">
@@ -165,7 +170,7 @@
 
                 </form>
                 <div>
-                    <input type="button" class="ban"/>封禁
+                    <input type="button" class="ban" value="解封"/>
                 </div>
                 <div class="img-wrapper" style="display: none">
 

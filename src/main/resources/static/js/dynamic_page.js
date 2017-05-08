@@ -2,12 +2,12 @@
  * Created by hasee on 2017/4/21.
  */
 
-$.fn.dynamic_page = function(total,current){
-    $(this).createPage({
-        pageTotal:total,
-        pageCurrent:current
-    });
-};
+// $.fn.dynamic_page = function(total,current){
+//     $(this).createPage({
+//         pageTotal:total,
+//         pageCurrent:current
+//     });
+// };
 
 (function($){
     var ms = {
@@ -19,6 +19,7 @@ $.fn.dynamic_page = function(total,current){
         //填充html
         fillHtml:function(totalsubpageTmep,args){
             return (function(){
+                console.log(args.pageCurrent);
                 var dp=totalsubpageTmep;
                 var cn=$(dp).attr("class")
                 totalsubpageTmep="";
@@ -204,7 +205,6 @@ $.fn.dynamic_page = function(total,current){
             })();
         }
     };
-
 
     $.fn.createPage = function(options){
         ms.init(this,options);
