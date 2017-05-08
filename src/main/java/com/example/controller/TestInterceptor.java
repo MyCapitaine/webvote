@@ -43,6 +43,32 @@ public class TestInterceptor implements HandlerInterceptor {
         HttpSession session = httpServletRequest.getSession();
         System.out.println("session create time :" + new Date(session.getCreationTime()));
         System.out.println("session life :" + session.getMaxInactiveInterval() + "s");
+//如果ip被封
+//        if(){
+//            return false;
+//        }
+        //如果用户登录后被封
+        if(session.getAttribute("currentUser") != null){
+            UserRegister ur = (UserRegister) session.getAttribute("currentUser");
+            if(userRegisterService.isBanned(ur)){
+                for (Cookie cookie:cookies){
+                    if (cookie.getName().equals("currentUser")){
+                        cookie.setMaxAge(0);
+                        httpServletResponse.addCookie(cookie);
+                    }
+                }
+                session.setAttribute("currentUser",null);
+                session.setAttribute("UserInformation",null);
+                session.setAttribute("message", "用户被封");
+                session.setAttribute("redirectTo", "/signin");
+                httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest, httpServletResponse);
+                return false;
+            }
+        }
+
+        if(servlet.contains("message")){
+            return true;
+        }
 
         if (referer != null
         		&& referer.indexOf("local")>=0
@@ -105,7 +131,6 @@ public class TestInterceptor implements HandlerInterceptor {
                         ServiceResult uisr = userInformationService.findById(ur.getId());
                         UserInformation ui = (UserInformation) uisr.getData();
                         UserInformationVO uivo = new UserInformationVO(ui);
-                        //uivo.setBindingEmail(Encrypt.encryptEmailPrefix(uivo.getBindingEmail()));
 
                         session.setAttribute("currentUser", ur);
                         session.setAttribute("UserInformation",uivo);
@@ -113,7 +138,6 @@ public class TestInterceptor implements HandlerInterceptor {
                         cookie.setMaxAge(60 * 60 * 24 * 30);
                         cookie.setPath("/");
                         httpServletResponse.addCookie(cookie);
-                        //todo
                         if (now - last >= 1000*60*60){
                             LoginRecord lr = new LoginRecord(ur);
 //                            lr.setIp(IpAddress.getIpAddr(httpServletRequest));
@@ -124,6 +148,25 @@ public class TestInterceptor implements HandlerInterceptor {
                             System.out.println("**********interceptor登录记录**********");
                         }
                         return true;
+                    }
+                    else if(sr.getMessage().equals("User is banned")){
+                        cookie.setMaxAge(0);
+                        cookie.setPath("/");
+                        httpServletResponse.addCookie(cookie);
+                        session.setAttribute("message", "用户被封");
+                        session.setAttribute("redirectTo", "/signin");
+                        httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest, httpServletResponse);
+                        return false;
+                    }
+                    else{
+                        cookie.setMaxAge(0);
+                        cookie.setPath("/");
+                        httpServletResponse.addCookie(cookie);
+                        session.setAttribute("currentUser",null);
+                        session.setAttribute("message", "cookie失效");
+                        session.setAttribute("redirectTo", "/signin");
+                        httpServletRequest.getRequestDispatcher("/message").forward(httpServletRequest, httpServletResponse);
+                        return false;
                     }
                 }
             }
