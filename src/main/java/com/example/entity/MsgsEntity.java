@@ -34,7 +34,7 @@ public class MsgsEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date msgTime;
 	
-	@Column(name = "ip", nullable = false, unique = true)
+	@Column(name = "ip", nullable = false)
 	private String ip;
 	
     @Column(name = "banned", nullable = false, length = 1)
