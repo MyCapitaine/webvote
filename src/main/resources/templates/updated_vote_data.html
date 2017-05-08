@@ -1,0 +1,7 @@
+			<input type="text" id="vid" th:value="${voteEntity.id}" />
+			<input type="text" id="vname_origin" th:value="${voteEntity.vname}" />
+			<input type="text" id="vinfo_origin" th:value="${voteEntity.vinfo}" />
+			<input type="text" id="vtype_origin" th:value="${voteEntity.vtype}" />
+			<input type="datetime" id="begintime_origin" th:value="${#dates.format(voteEntity.beginTime, 'yyyy-MM-dd')}" />
+			<input type="datetime" id="deadline_origin" th:value="${#dates.format(voteEntity.deadLine, 'yyyy-MM-dd')}" />
+			<input type="text" id="resultauthority_origin" th:value="${voteEntity.resultAuthority}" />

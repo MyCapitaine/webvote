@@ -71,7 +71,7 @@ public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
 	 */
 	@Modifying
     @Transactional
-	@Query(value = "update VotesEntity v set v.vname = ?2, v.vinfo = ?3, v.beginTime = ?4, v.deadLine = ?5, v.resultAuthority = ?6 where v.id = ?1")
-	int updateVotes(int id, String vname, String vinfo, Date beginTime, Date deadLine, int resultAuthority);
+	@Query(value = "update VotesEntity v set v.vname = ?2, v.vinfo = ?3, v.vtype = ?4, v.beginTime = ?5, v.deadLine = ?6, v.resultAuthority = ?7 where v.id = ?1")
+	int updateVotes(int id, String vname, String vinfo, int vtype, Date beginTime, Date deadLine, int resultAuthority);
 
 }
