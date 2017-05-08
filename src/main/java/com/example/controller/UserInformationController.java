@@ -134,7 +134,7 @@ public class UserInformationController {
 
     /************************我的账号***************************/
     @RequestMapping("/home/safe")
-    public String safe(ModelMap model,@RequestParam(value = "page_index",defaultValue = "1")int page_index,
+    public String safe(ModelMap model,@RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex,
                        @ModelAttribute(name = "currentUser")UserRegister ur){
 //        ServiceResult sr = userRegisterService.findById(ur.getId());
 //        UserRegister ur = (UserRegister) sr.getData();
@@ -143,18 +143,18 @@ public class UserInformationController {
         ur.setLoginPassword(Encrypt.encrypt(ur.getLoginPassword()));
 
         model.addAttribute("userRegister",ur);
-        model.addAttribute("page_index",page_index);
+        model.addAttribute("pageIndex",pageIndex);
         return "home_safe";
     }
 
     @RequestMapping("/home/loginRecord")
     @ResponseBody
-    public JsonResult loginRecord(@ModelAttribute(value = "currentUser")UserRegister ur,int page_index){
-        int page_size= 5;
+    public JsonResult loginRecord(@ModelAttribute(value = "currentUser")UserRegister ur,int pageIndex){
+        int pageSize= 5;
         JsonResult jr = new JsonResult();
         jr.setMessage("failed");
         jr.setSuccess(false);
-        Pageable page = new PageRequest(page_index, page_size);
+        Pageable page = new PageRequest(pageIndex, pageSize);
         ServiceResult lrsr = loginRecordService.find(ur.getId(),page);
         if(lrsr.isSuccess()){
             jr.setData(lrsr.getData());
@@ -165,17 +165,17 @@ public class UserInformationController {
     }
     /************************我的留言***************************/
     @RequestMapping("/home/comment")
-    public String comment(ModelMap model,@RequestParam(value = "page_index",defaultValue = "1")int page_index){
-        model.addAttribute("page_index",page_index);
+    public String comment(ModelMap model,@RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
+        model.addAttribute("pageIndex",pageIndex);
         return "home_comment";
     }
     /************************我的投票***************************/
     @RequestMapping("home/vote")
     public String vote(ModelMap model,
                        @RequestParam(value = "type",defaultValue = "publish")String type,
-                       @RequestParam(value = "page_index",defaultValue = "1")int page_index){
+                       @RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex){
         model.addAttribute("type",type);
-        model.addAttribute("page_index",page_index);
+        model.addAttribute("pageIndex",pageIndex);
         return "home_vote";
     }
 
@@ -183,10 +183,10 @@ public class UserInformationController {
     LoginRecordDao loginRecordDao;
     @RequestMapping("home/joinVote")
     @ResponseBody
-    public JsonResult joinVote(@ModelAttribute(value = "currentUser")UserRegister ur,int page_index){
-        int page_size=5;
+    public JsonResult joinVote(@ModelAttribute(value = "currentUser")UserRegister ur,int pageIndex){
+        int pageSize=5;
         JsonResult jr=new JsonResult();
-        Pageable page = new PageRequest(page_index, page_size);
+        Pageable page = new PageRequest(pageIndex, pageSize);
         Page result = loginRecordDao.findByUserId(ur.getId(),page);
         jr.setData(result);
         jr.setSuccess(true);
@@ -196,11 +196,11 @@ public class UserInformationController {
 
     @RequestMapping("home/publishVote")
     @ResponseBody
-    public JsonResult publishVote(@ModelAttribute(value = "currentUser")UserRegister ur,int page_index){
-        int page_size=5;
-        System.out.println("getVotes index:"+page_index);
+    public JsonResult publishVote(@ModelAttribute(value = "currentUser")UserRegister ur,int pageIndex){
+        int pageSize=5;
+        System.out.println("getVotes index:"+pageIndex);
         JsonResult jr=new JsonResult();
-        Pageable page = new PageRequest(page_index, page_size);
+        Pageable page = new PageRequest(pageIndex, pageSize);
         ServiceResult vsr = voteService.findVoteByUid(ur.getId(),page);
         //Page result = loginRecordDao.findByUserId2(ur.getId(),page);
         jr.setData(vsr.getData());

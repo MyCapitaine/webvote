@@ -51,14 +51,14 @@ public class AdminController {
 
     @RequestMapping("/admin/banUser")
     @ResponseBody
-    public JsonResult banUser(@RequestParam(value = "id_array") List<Integer> users,int page_index){
+    public JsonResult banUser(@RequestParam(value = "id_array") List<Integer> users,int pageIndex){
         for(int id :users){
             userInformationService.ban(id);
             userRegisterService.ban(id);
         }
-        int page_size=2;
+        int pageSize=2;
         //JsonResult jr=new JsonResult();
-        Pageable page = new PageRequest(page_index, page_size);
+        Pageable page = new PageRequest(pageIndex, pageSize);
         ServiceResult sr = userInformationService.findAll(page);
         return new JsonResult(sr.getData());
     }

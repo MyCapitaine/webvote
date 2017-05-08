@@ -5,12 +5,12 @@ $(document).ready(function(){
 
     $.get("/initPage",
         {
-            page_index:page_index-1
+            pageIndex:pageIndex-1
         },
         function(data){
-            sessionStorage.setItem("page_index="+0,JSON.stringify(data.data.content));
+            sessionStorage.setItem("pageIndex="+0,JSON.stringify(data.data.content));
             var total=data.data.totalPages;
-            dynamic_page(total,page_index);
+            dynamic_page(total,pageIndex);
             dynamic_table(data.data.content);
             check_all();
             del();
@@ -36,7 +36,7 @@ function del(total,current){
 //             $.get("/delete",
 //                 {
 //                     id_array:ids.toString(),
-//                     page_index:$(".active").text()
+//                     pageIndex:$(".active").text()
 //                 },
 //                 function(data){
 //                     if(data.success){
@@ -48,7 +48,7 @@ function del(total,current){
 //                         if(current>total)
 //                             current=total;
 //                         dynamic_page(total,current);
-//                         change_to_page(current-1>0?current-1:0);
+//                         changeToPage(current-1>0?current-1:0);
 //                     }
 //                 }
 //             );
@@ -92,7 +92,7 @@ function dynamic_table(data){
 function dynamic_page(page_total,page_current){
     $(".pagination").createPage({
         totalPage:page_total,
-        currPage:page_current,
+        current:page_current,
         turndown:'true',
     });
 }
@@ -108,10 +108,10 @@ function dynamic_page(page_total,page_current){
         //填充html
         fillHtml:function(totalsubpageTmep,args){
               return (function(){
-                  console.log("index:"+args.currPage);
+                  console.log("index:"+args.current);
                 totalsubpageTmep="";
                 /************************START*********************/
-                if(args.currPage > 1){
+                if(args.current > 1){
                     totalsubpageTmep += "<li class='ali' id='head'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >head</a></li>";
                     totalsubpageTmep += "<li class='ali' id='prev'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >prev</a></li>";
                 }else{
@@ -119,28 +119,28 @@ function dynamic_page(page_total,page_current){
                 }
 
                 // 页码大于等于4的时候，添加第一个页码元素
-                if(args.currPage!=1 && args.currPage>=4 && args.totalPage!=4) {
+                if(args.current!=1 && args.current>=4 && args.totalPage!=4) {
                     totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+1+"</a></li>";
                 }
                 /* 当前页码>4, 并且<=总页码，总页码>5，添加“···”*/
-                if(args.currPage-2>2 && args.currPage<=args.totalPage && args.totalPage>5) {
+                if(args.current-2>2 && args.current<=args.totalPage && args.totalPage>5) {
                     totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_' data-go='' >...</a></li>";
                 }
                 /* 当前页码的前两页 */
-                var start = args.currPage-2;
+                var start = args.current-2;
                 /* 当前页码的后两页 */
-                var end = args.currPage+2;
+                var end = args.current+2;
 
-                if((start>1 && args.currPage<4) || args.currPage==1) {
+                if((start>1 && args.current<4) || args.current==1) {
                     end++;
                 }
-                if(args.currPage>args.totalPage-4 && args.currPage>=args.totalPage) {
+                if(args.current>args.totalPage-4 && args.current>=args.totalPage) {
                     start--;
                 }
 
                 for(; start<=end; start++) {
                     if(start<=args.totalPage && start>=1) {
-                        if(start != args.currPage) {
+                        if(start != args.current) {
                             totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+start+"</a></li>";
                         }else{
                             totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+start+"</a></li>";
@@ -148,15 +148,15 @@ function dynamic_page(page_total,page_current){
                     }
                 }
 
-                if(args.currPage+2<args.totalPage-1 && args.currPage>=1 && args.totalPage>5) {
+                if(args.current+2<args.totalPage-1 && args.current>=1 && args.totalPage>5) {
                     totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_' data-go='' >...</a></li>";
                 }
 
-                if(args.currPage!=args.totalPage && args.currPage<args.totalPage-2 && args.totalPage!=4) {
+                if(args.current!=args.totalPage && args.current<args.totalPage-2 && args.totalPage!=4) {
                     totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' id='total' >"+args.totalPage+"</a></li>";
                 }
 
-                if(args.currPage < args.totalPage){
+                if(args.current < args.totalPage){
                     totalsubpageTmep += "<li class='ali' id='next'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >next</a></li>";
                     totalsubpageTmep += "<li class='ali' id='foot'><a href='javascript:void(0);' class='h_p_n_f' data-go='' >foot</a></li>";
                 }
@@ -170,7 +170,7 @@ function dynamic_page(page_total,page_current){
                   console.log(totalsubpageTmep);
                 $(".pagination").html(totalsubpageTmep);
                 $("li").not(".h_p_n_f").each(function(){
-                    if($(this).text()==args.currPage)
+                    if($(this).text()==args.current)
                         $(this).addClass("active");
                 });
             })();
@@ -186,22 +186,22 @@ function dynamic_page(page_total,page_current){
                         ids.push($(this).val());
                     });
                     if(ids.length>0){
-                        console.log("before delete total: "+args.totalPage+"current: "+args.currPage);
+                        console.log("before delete total: "+args.totalPage+"current: "+args.current);
                         $.get("/delete",
                             {
                                 id_array:ids.toString(),
-                                page_index:$(".active").text()
+                                pageIndex:$(".active").text()
                             },
                             function(data){
                                 if(data.success){
                                     sessionStorage.clear();
                                     args.totalPage=data.data.totalPages;
-                                    args.currPage=$(".active").text();
-                                    if(args.currPage>args.totalPage)
-                                        args.currPage=args.totalPage;
-                                    var page_index=args.currPage-1>0?args.currPage-1:0;
-                                    ms.fillHtml(totalsubpageTmep,{"currPage":args.currPage,"totalPage":args.totalPage,"turndown":args.turndown});
-                                    change_to_page(page_index);
+                                    args.current=$(".active").text();
+                                    if(args.current>args.totalPage)
+                                        args.current=args.totalPage;
+                                    var pageIndex=args.current-1>0?args.current-1:0;
+                                    ms.fillHtml(totalsubpageTmep,{"current":args.current,"totalPage":args.totalPage,"turndown":args.turndown});
+                                    changeToPage(pageIndex);
                                 }
                             }
                         );
@@ -211,33 +211,33 @@ function dynamic_page(page_total,page_current){
                 //第几页
                 totalsubpageTmep.on("click","a.geraltTb_pager",function(event){
                     var current = parseInt($(this).text());
-                    ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
+                    ms.fillHtml(totalsubpageTmep,{"current":current,"totalPage":args.totalPage,"turndown":args.turndown});
                     changeURL($(".active").text());
-                    change_to_page($(".active").text()-1);
+                    changeToPage($(".active").text()-1);
                 });
                 //首页
                 totalsubpageTmep.on("click","#head",function(event){
                     //var current = parseInt($(".active").text());
-                    ms.fillHtml(totalsubpageTmep,{"currPage":1,"totalPage":args.totalPage,"turndown":args.turndown});
-                    change_to_page($(".active").text()-1);
+                    ms.fillHtml(totalsubpageTmep,{"current":1,"totalPage":args.totalPage,"turndown":args.turndown});
+                    changeToPage($(".active").text()-1);
                 });
                 //上一页
                 totalsubpageTmep.on("click","#prev",function(event){
                     var current = parseInt($(".active").text());
-                    ms.fillHtml(totalsubpageTmep,{"currPage":current-1,"totalPage":args.totalPage,"turndown":args.turndown});
-                    change_to_page($(".active").text()-1);
+                    ms.fillHtml(totalsubpageTmep,{"current":current-1,"totalPage":args.totalPage,"turndown":args.turndown});
+                    changeToPage($(".active").text()-1);
                 });
                 //下一页
                 totalsubpageTmep.on("click","#next",function(){
                     var current = parseInt($(".active").text());
-                    ms.fillHtml(totalsubpageTmep,{"currPage":current+1,"totalPage":args.totalPage,"turndown":args.turndown});
-                    change_to_page($(".active").text()-1);
+                    ms.fillHtml(totalsubpageTmep,{"current":current+1,"totalPage":args.totalPage,"turndown":args.turndown});
+                    changeToPage($(".active").text()-1);
                 });
                 //尾页
                 totalsubpageTmep.on("click","#foot",function(event){
                     //var current = parseInt($(".active").text());
-                    ms.fillHtml(totalsubpageTmep,{"currPage":args.totalPage,"totalPage":args.totalPage,"turndown":args.turndown});
-                    change_to_page($(".active").text()-1);
+                    ms.fillHtml(totalsubpageTmep,{"current":args.totalPage,"totalPage":args.totalPage,"turndown":args.turndown});
+                    changeToPage($(".active").text()-1);
                 });
                 //跳到xx页
 
@@ -250,16 +250,16 @@ function dynamic_page(page_total,page_current){
                     var current = parseInt($(".form-control").val());
                     if(!isNaN(current)){
                         if(current>=1&&current<=args.totalPage){
-                            ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});
-                            change_to_page($(".active").text()-1);
+                            ms.fillHtml(totalsubpageTmep,{"current":current,"totalPage":args.totalPage,"turndown":args.turndown});
+                            changeToPage($(".active").text()-1);
                         }
                         else if(current<1){
-                            ms.fillHtml(totalsubpageTmep,{"currPage":1,"totalPage":args.totalPage,"turndown":args.turndown});
-                            change_to_page($(".active").text()-1);
+                            ms.fillHtml(totalsubpageTmep,{"current":1,"totalPage":args.totalPage,"turndown":args.turndown});
+                            changeToPage($(".active").text()-1);
                         }
                         else if(current>args.totalPage){
-                            ms.fillHtml(totalsubpageTmep,{"currPage":args.totalPage,"totalPage":args.totalPage,"turndown":args.turndown});
-                            change_to_page($(".active").text()-1);
+                            ms.fillHtml(totalsubpageTmep,{"current":args.totalPage,"totalPage":args.totalPage,"turndown":args.turndown});
+                            changeToPage($(".active").text()-1);
                         }
                     }
                 });
@@ -329,7 +329,7 @@ function dynamic_page(page_total,page_current){
 //                     $("li").remove("#next");
 //                     $("li").remove("#foot");
 //                 }
-//                 change_to_page($(this).text()-1);
+//                 changeToPage($(this).text()-1);
 //             }
 //             //判断点击标签是否是当前活动标签结束
 //         });
@@ -354,7 +354,7 @@ function dynamic_page(page_total,page_current){
 //                 $("ul").append(foot);
 //                 n_f_click();
 //             }
-//             change_to_page($(".active").text()-1);
+//             changeToPage($(".active").text()-1);
 //         });
 //         //首页点击事件
 //         $("#head").click(function(){
@@ -368,7 +368,7 @@ function dynamic_page(page_total,page_current){
 //                 $("ul").append(foot);
 //                 n_f_click();
 //             }
-//             change_to_page(0);
+//             changeToPage(0);
 //         });
 //     }
 //
@@ -388,7 +388,7 @@ function dynamic_page(page_total,page_current){
 //                 $("ul").prepend(head);
 //                 p_h_click();
 //             }
-//             change_to_page($(".active").text()-1);
+//             changeToPage($(".active").text()-1);
 //         });
 //         //尾页点击事件
 //         $("#foot").click(function(){
@@ -402,31 +402,31 @@ function dynamic_page(page_total,page_current){
 //                 $("ul").prepend(head);
 //                 p_h_click();
 //             }
-//             change_to_page($(".active").text()-1);
+//             changeToPage($(".active").text()-1);
 //         });
 //     }
 // }
 
 
-function changeURL(page_index){
+function changeURL(pageIndex){
     var stateObj = { foo: "bar" };
-    history.pushState(stateObj, "page2", "page?page_index="+page_index);
+    history.pushState(stateObj, "page2", "page?pageIndex="+pageIndex);
 }
 
 //换页
-function change_to_page(page_index){
+function changeToPage(pageIndex){
     $(":checkbox").prop("checked", false);
-    if(sessionStorage.getItem("page_index="+page_index)){
-        var data=sessionStorage.getItem("page_index="+page_index);
+    if(sessionStorage.getItem("pageIndex="+pageIndex)){
+        var data=sessionStorage.getItem("pageIndex="+pageIndex);
         dynamic_table(JSON.parse(data));
     }
     else{
         $.get("/initPage",
             {
-                page_index:page_index
+                pageIndex:pageIndex
             },
             function(data){
-                sessionStorage.setItem("page_index="+page_index,JSON.stringify(data.data.content));
+                sessionStorage.setItem("pageIndex="+pageIndex,JSON.stringify(data.data.content));
                 dynamic_table(data.data.content);
             });
     }

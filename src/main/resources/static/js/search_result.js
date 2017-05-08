@@ -4,7 +4,7 @@
 var dp;
 var page={
     totalPage:0,
-    currPage:0,
+    current:0,
 };
 $(document).ready(function(){
     if(searchType=="Vote"){
@@ -26,7 +26,7 @@ function vote(){
         rightShift();
         searchType="User";
         pageIndex=1;
-        page.currPage=1;
+        page.current=1;
         changeURL(pageIndex);
         search();
     });
@@ -37,7 +37,7 @@ function user(){
         leftShift();
         searchType="Vote";
         pageIndex=1;
-        page.currPage=1;
+        page.current=1;
         changeURL(pageIndex);
         search();
     });
@@ -48,7 +48,7 @@ function search(){
         url : "/search"+searchType,
         type : "post",
         data : {
-            page_index:pageIndex-1,
+            pageIndex:pageIndex-1,
         },
         dataType : "json",
         success : function(result) {
@@ -57,8 +57,8 @@ function search(){
             var pageTotal=page.totalPages;
             if(pageIndex<=pageTotal){
                 page={
-                    totalPage:pageTotal,
-                    currPage:pageIndex,
+                    pageTotal:pageTotal,
+                    pageCurrent:pageIndex,
                 };
                 dp=$(".pagination").createPage(page);
                 var index=pageIndex-1>data.length-1?data.length-1:pageIndex-1;
@@ -103,15 +103,15 @@ function leftShift(){
     },500);
 }
 
-function changeURL(page_index){
-    history.pushState("","","/search?searchType="+searchType+"&keyword="+keyword+"&pageIndex="+page_index);
+function changeURL(pageIndex){
+    history.pushState("","","/search?searchType="+searchType+"&keyword="+keyword+"&pageIndex="+pageIndex);
 }
-function changeToPage(page_index){
+function changeToPage(pageIndex){
     $.ajax({
         url : "/search"+searchType,
         type : "post",
         data : {
-            page_index:page_index,
+            pageIndex:pageIndex,
         },
         dataType : "json",
         success : function(result) {
@@ -120,11 +120,11 @@ function changeToPage(page_index){
             var pageTotal=page.totalPages;
             if(pageIndex<=pageTotal){
                 page={
-                    totalPage:pageTotal,
-                    currPage:pageIndex,
+                    pageTotal:pageTotal,
+                    pageCurrent:pageIndex,
                 };
                 dp=$(".pagination").init(page);
-                var index=page_index>data.length-1?data.length-1:page_index;
+                var index=pageIndex>data.length-1?data.length-1:pageIndex;
                 var time=new Date(data[index].loginTime).Format("yyyy-MM-dd hh:mm:ss");
                 $(".result").html("login time is : "+time);
                 //dynamic_table(data);
