@@ -84,13 +84,6 @@ function release(){
                         dp.init($(".pagination"),page);
                         changeURL(pageIndex);
                         changeToPage(page.pageCurrent-1>0?page.pageCurrent-1:0);
-                        // // var current=$(".active").text();
-                        //
-                        //
-                        // if(current>total)
-                        //     current=total;
-                        // //dynamic_page(total,current);
-                        // change_to_page(current-1>0?current-1:0);
                     }
                 }
             );
@@ -100,7 +93,7 @@ function release(){
 
 function changeURL(index){
     pageIndex=index;
-    history.pushState("","","/admin/releaseUser/allUser?pageIndex="+index);
+    history.pushState("","","/admin/releaseUser?pageIndex="+index);
 }
 
 function changeToPage(page_index){
@@ -119,18 +112,11 @@ function changeToPage(page_index){
             var data=page.content;
             var pageTotal=page.totalPages;
             if(pageIndex<=pageTotal){
-                // page={
-                //     totalPage:pageTotal,
-                //     currPage:pageIndex,
-                // };
-                // dp.init($(".pagination"),page);
                 dynamic_table(data);
-                //dynamic_table(data);
             }
             else{
                 // $(".img-wrapper").show();
                 $(".result").html("page index error");
-                //alert("参数错误");
             }
         }
     });

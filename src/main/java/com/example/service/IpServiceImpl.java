@@ -5,6 +5,7 @@ import com.example.entity.Ip;
 import com.example.entity.ServiceResult;
 import com.example.serviceInterface.IpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +15,11 @@ import org.springframework.stereotype.Service;
 public class IpServiceImpl implements IpService{
     @Autowired
     IpDao ipDao;
+
+    @Override
+    public ServiceResult findAll(Pageable page) {
+        return new ServiceResult(ipDao.findAll(page));
+    }
 
     @Override
     public boolean isBanned(String ip) {
