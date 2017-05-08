@@ -1,0 +1,19 @@
+			<form>
+				<div id="msg_input_field">
+					<input th:if="${isMsged} == false" type="text" id="msg_text" />
+					<input th:if="${isMsged} == false" type="button" value="发表" id="msg_submit" />
+					<p th:if="${isMsged} == true">您已进行过留言</p>
+				</div>
+			</form>
+			<div>
+				<ul th:each="msg : ${msgList}">
+					<li>
+						<p th:text="${msg.msgText}"></p>
+						<p th:text="${msg.msgTime}"></p>
+						<form th:if="${canDelMsg} == true">
+							<input th:value="${msg.id}" hidden="hidden" class="del_msg_id" />
+							<input type="button" value="删除" class="del_msg" />
+						</form>
+					</li>
+				</ul>
+			</div>

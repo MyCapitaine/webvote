@@ -88,23 +88,30 @@ public class VoteController {
 		boolean isManager = ur.getAuthority() == 0;
 		
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
+		if(voteEntity == null) return "no_vote";
 		boolean isVoteOwner = voteEntity.getUid() == ur.getId();
 		
 		List<VoteOptionsEntity> optionList = voteService.findVoteOptionsByVid(voteEntity.getId()).getData();
 		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
 		boolean isVoted = guestService.isIpVoted(ip, voteId).isSuccess();
 		boolean isMsged = guestService.isIpMsg(ip, voteId).isSuccess();
+
+		boolean canDelVote = isManager || isVoteOwner;
+		boolean canDelMsg = isManager || isVoteOwner;
 		
+		Date currentDate = new Date();
+		boolean isVoteBegin = currentDate.after(voteEntity.getBeginTime());
+		boolean isVoteOver = currentDate.after(voteEntity.getDeadLine());
 
 		modelMap.addAttribute("voteEntity", voteEntity);
 		modelMap.addAttribute("optionList", optionList);
 		modelMap.addAttribute("msgList", msgs);
 		modelMap.addAttribute("isMsged", isMsged);
 		modelMap.addAttribute("isVoted", isVoted);
-		modelMap.addAttribute("isManager", isManager);
-		modelMap.addAttribute("isVoteOwner", isVoteOwner);
-		
-		
+		modelMap.addAttribute("canDelVote", canDelVote);
+		modelMap.addAttribute("canDelMsg", canDelMsg);
+		modelMap.addAttribute("isVoteBegin", isVoteBegin);
+		modelMap.addAttribute("isVoteOver", isVoteOver);
 		
 		return "vote";
 	}
@@ -134,24 +141,14 @@ public class VoteController {
 	/**
 	 * 删除投票
 	 */
-	@RequestMapping(value = "/deletevote/{voteId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/deletevote/{voteId}", method = RequestMethod.POST)
+	@ResponseBody
 	public String delVote(@PathVariable int voteId) {
-		return null;
+		voteService.banVote(voteId);
+		return "success";
 	}
-	/**
-	 * 投票封禁处理
-	 */
-	@RequestMapping("/banvote/{voteId}")
-	public String banVote(@PathVariable int voteId) {
-		return null;
-	}
-	/**
-	 * 投票解封处理
-	 */
-	@RequestMapping("/unbanvote/{voteId}")
-	public String unbanvote(@PathVariable int voteId) {
-		return null;
-	}
+
+
 	
 	/**
 	 * 投票结果页面

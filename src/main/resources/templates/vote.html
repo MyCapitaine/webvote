@@ -12,7 +12,7 @@
 	    <script src="/js/bootstrap-datetimepicker.js"></script>
 	    <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	    <script type="text/javascript">
-	    	$(document).ready(function(){
+			$(document).ready(function(){
 	    		$("#vote_submit").click(function(){
 	    			var checkedOptionIds = new Array();
 	    			$("input[name='vote_option']:checked").each(function(){
@@ -33,13 +33,13 @@
 	    				traditional : true,
 	    				success : function(result) {
 	    					alert("vote " + result);
+	    					$("#vote_input_filed").html("<p>您已进行过投票</p>");
 	    				}
 	    			});
 	    			
 	    		});
 	    		
-	    		
-				$("#msg_submit").click(function(){
+	    		$("body").on("click", "#msg_submit",  function(){
 	    			var msg = $("#msg_text").val();
 	    			var voteId = $("#vote_id").text();
 	    			$.ajax({
@@ -50,11 +50,43 @@
 	    					msg : msg
 	    				},
 	    				traditional : true,
-	    				success : function(result) {
-	    					alert("msg " + result);
+	    				success : function(refresh_msg) {
+	    					$("#msg_field").html(refresh_msg);
 	    				}
 	    			});
 	    		});
+	    		
+	    		$("body").on("click", ".del_msg",  function(){
+	    			var voteId = $("#vote_id").text();
+					var mid = $(this).prev(".del_msg_id").val();
+					$.ajax({
+	    				type : "POST",
+	    				url : "/delmsg",
+	    				data : {
+	    					mid : mid,
+	    					vid : voteId
+	    				},
+	    				success : function(refresh_msg) {
+	    					$("#msg_field").html(refresh_msg);
+	    				}
+	    			});
+	    		});
+				
+				$("#del_vote").click(function(){
+					var voteId = $("#vote_id").text();
+					var url = "/deletevote/" + voteId;
+	    			$.ajax({
+	    				type : "POST",
+	    				url : url,
+	    				success : function(result) {
+	    					alert(result);
+	    					window.location.reload();
+	    				}
+	    			});
+					
+				});
+				
+				
 	    	});
 	    </script>
 	</head>
@@ -62,34 +94,52 @@
 		<div>
 			<p th:text="${voteEntity.vname}"></p>
 			<p th:text="${voteEntity.vinfo}"></p>
+			<p th:text="${voteEntity.beginTime}"></p>
+			<p th:text="${voteEntity.deadLine}"></p>
 			<p th:text="${voteEntity.id}" hidden="hidden" id="vote_id"></p>
+			<form th:if="${canDelVote} == true">
+				<input type="button" value="删除投票" id="del_vote" />
+			</form>
 		</div>
 		<div>
 			<form>
 				<ul th:each="option : ${optionList}">
-					<li th:if="${voteEntity.vtype == 0}">
+					<li th:if="${voteEntity.vtype} == 0">
 						<input type="radio" th:text="${option.optionText}" name="vote_option" th:value="${option.id}"/>
 					</li>
-					<li th:if="${voteEntity.vtype == 1}">
+					<li th:if="${voteEntity.vtype} == 1">
 						<input type="checkbox" th:text="${option.optionText}" name="vote_option" th:value="${option.id}"/>
 					</li>
 				</ul>
-				<input th:if="${isVoted} == false" type="button" value="提交" id="vote_submit" />
-				<p th:if="${isVoted} == true">您已进行过投票</p>
+				<div id="vote_input_filed">
+					<input th:if="${isVoted} == false and ${isVoteBegin} == true and ${isVoteOver} == false" type="button" value="提交" id="vote_submit" />
+					<p th:if="${isVoted} == true and ${isVoteBegin} == true and ${isVoteOver} == false">您已进行过投票</p>
+					<p th:if="${isVoteBegin} == false and ${isVoteOver} == false">投票尚未开始</p>
+					<p th:if="${isVoteOver} == true">投票已经结束<a>查看投票结果</a></p>
+				</div>
+
 			</form>
 		</div>
-		<div>
+		<div id="msg_field">
 			<form>
-				<input th:if="${isMsged} == false" type="text" id="msg_text" />
-				<input th:if="${isMsged} == false" type="button" value="发表" id="msg_submit" />
-				<p th:if="${isMsged} == true">您已进行过留言</p>
+				<div id="msg_input_field">
+					<input th:if="${isMsged} == false" type="text" id="msg_text" />
+					<input th:if="${isMsged} == false" type="button" value="发表" id="msg_submit" />
+					<p th:if="${isMsged} == true">您已进行过留言</p>
+				</div>
+			</form>
+			<div>
 				<ul th:each="msg : ${msgList}">
 					<li>
 						<p th:text="${msg.msgText}"></p>
 						<p th:text="${msg.msgTime}"></p>
+						<form th:if="${canDelMsg} == true">
+							<input th:value="${msg.id}" hidden="hidden" class="del_msg_id" />
+							<input type="button" value="删除" class="del_msg" />
+						</form>
 					</li>
 				</ul>
-			</form>
+			</div>
 		</div>
 	</body>
 </html>
