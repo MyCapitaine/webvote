@@ -77,7 +77,26 @@ function changeURL(index){
 }
 
 function changeToPage(index){
-
+    $.ajax({
+        url:"/admin/ip/getAllIp",
+        type:"GET",
+        data:{
+            pageIndex:index,
+        },
+        dataType : "json",
+        success:function(result){
+            console.log(result);
+            var page=result.data;
+            var data=page.content;
+            var pageTotal=page.totalPages;
+            page={
+                pageTotal:pageTotal,
+                pageCurrent:pageIndex,
+            };
+            dp=$(".pagination").createPage(page);
+            dynamicTable(data);
+        }
+    });
 }
 
 function dynamicTable(data){

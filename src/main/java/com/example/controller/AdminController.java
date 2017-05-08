@@ -158,17 +158,19 @@ public class AdminController {
         //jr.setData(sr.getData());
         return new JsonResult(sr.getData());
     }
-    /*封禁*/
+    /*解封ip*/
     @RequestMapping("/admin/ip/release")
     @ResponseBody
     public JsonResult releaseIp(@RequestParam(value = "idArray") List<Integer> ids,int pageIndex){
         for(int id :ids){
-            ipService.release(id);
+            if(ipService.isBanned(id)){
+                ipService.release(id);
+            }
         }
         int pageSize=2;
         //JsonResult jr=new JsonResult();
         Pageable page = new PageRequest(pageIndex, pageSize);
-        ServiceResult sr = userInformationService.findAllBanning(page);
+        ServiceResult sr = ipService.findAll(page);
         return new JsonResult(sr.getData());
     }
 
