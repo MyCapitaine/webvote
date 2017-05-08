@@ -18,6 +18,63 @@
 	    
 	    	$(document).ready(function(){
 	    		$("#submit").click(function(){
+	    			var vname = $("#vname").val().trim();
+	    			if(vname == "") {
+		    			alert("请输入投票名");
+	    				return;
+	    			}
+	    			var vinfo = $("#vinfo").val().trim();
+	    			if(vinfo == "") {
+		    			alert("请输入投票介绍");
+	    				return;
+	    			}
+	    			var begintime = $("#begintime").val();
+	    			if(begintime == "") {
+		    			alert("请输入开始时间");
+	    				return;
+	    			}
+	    			var deadline = $("#deadline").val();
+	    			if(deadline == "") {
+		    			alert("请输入结束时间");
+	    				return;
+	    			}
+	    			var vtype = $("input[name='vtype']:checked").val();
+	    			if(!vtype) {
+		    			alert("请选择投票类型");
+	    				return;
+	    			}
+	    			var resultauthority = $("input[name='resultauthority']:checked").val();
+	    			if(!resultauthority) {
+		    			alert("请选择投票结果查看权限");
+	    				return;
+	    			}
+	    			var options = new Array();
+	    			$(".option").each(function(){
+	    				var singleOption = $(this).val().trim();
+	    				if(singleOption == "") {
+	    					alert("请输入投票选项");
+	    					return;
+	    				}
+	    				options.push(singleOption);
+	    			});
+	    			
+	    			$.ajax({
+	    				type : "POST",
+	    				url : "/addvote",
+	    				data : {
+	    					vname : vname,
+	    					vinfo : vinfo,
+	    					vtype : vtype,
+	    					beginTime : begintime,
+	    					deadLine : deadline,
+	    					resultAuthority : resultauthority,
+	    					options : options
+	    				},
+	    				traditional : true,
+	    				success : function(result) {
+	    					alert(result);
+	    				}
+	    			});
 	    			
 	    		});
 	    		
@@ -27,10 +84,14 @@
 	    </script>
 	</head>
 	<body>
+		<div hidden="hidden">
+			<input id="vname_origin" th:value="${}" />
+		
+		</div>
 		<form>
 			投票名:<input type="text" id="vname" /><br/>
 			投票简介:<input type="text" id="vinfo" /><br/>
-			开始时间:<input type="date" id="begintime" /><br/>
+			开始时间:<input type="date" id="begintime" th:value="" /><br/>
 			截止时间:<input type="date" id="deadline" /><br/>
 			<p>创建时间:</p>
 			<p>投票类型:</p>

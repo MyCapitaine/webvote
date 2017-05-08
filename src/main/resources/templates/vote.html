@@ -113,9 +113,9 @@
 				</ul>
 				<div id="vote_input_filed">
 					<input th:if="${isVoted} == false and ${isVoteBegin} == true and ${isVoteOver} == false" type="button" value="提交" id="vote_submit" />
-					<p th:if="${isVoted} == true and ${isVoteBegin} == true and ${isVoteOver} == false">您已进行过投票</p>
+					<p th:if="${isVoted} == true and ${isVoteBegin} == true and ${isVoteOver} == false">您已进行过投票<a target="_blank" th:href="'../voteresult/' + ${voteEntity.id}" th:if="${canCheckResult}">查看投票结果</a></p>
 					<p th:if="${isVoteBegin} == false and ${isVoteOver} == false">投票尚未开始</p>
-					<p th:if="${isVoteOver} == true">投票已经结束<a>查看投票结果</a></p>
+					<p th:if="${isVoteOver} == true">投票已经结束<a target="_blank" th:href="'../voteresult/' + ${voteEntity.id}" th:if="${canCheckResult}">查看投票结果</a></p>
 				</div>
 
 			</form>
