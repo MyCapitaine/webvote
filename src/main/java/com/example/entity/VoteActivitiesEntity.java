@@ -35,7 +35,7 @@ public class VoteActivitiesEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date voteTime;
 	
-	@Column(name = "ip", nullable = false, unique = true)
+	@Column(name = "ip", nullable = false)
 	private String ip;
 
 	public int getId() {

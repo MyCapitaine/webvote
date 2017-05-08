@@ -90,6 +90,7 @@ public class VoteController {
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		if(voteEntity == null) return "no_vote";
 		boolean isVoteOwner = voteEntity.getUid() == ur.getId();
+		boolean canCheckResult = voteEntity.getResultAuthority() == 1 || isVoteOwner || isManager;
 		
 		List<VoteOptionsEntity> optionList = voteService.findVoteOptionsByVid(voteEntity.getId()).getData();
 		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
@@ -112,6 +113,7 @@ public class VoteController {
 		modelMap.addAttribute("canDelMsg", canDelMsg);
 		modelMap.addAttribute("isVoteBegin", isVoteBegin);
 		modelMap.addAttribute("isVoteOver", isVoteOver);
+		modelMap.addAttribute("canCheckResult", canCheckResult);
 		
 		return "vote";
 	}
@@ -153,9 +155,9 @@ public class VoteController {
 	/**
 	 * 投票结果页面
 	 */
-	@RequestMapping("/voteresult/{voteId}")
+	@RequestMapping(value = "/voteresult/{voteId}", method = RequestMethod.GET)
 	public String voteResult(@PathVariable int voteId) {
-		return null;
+		return "vote_result";
 	}
 	
 }
