@@ -71,8 +71,8 @@ public class VoteServiceImpl implements VoteService {
 
 	@Override
 	public int updateVote(VotesEntity ve) {
-		return votesDao.updateVotes(ve.getId(), ve.getVname(),
-				ve.getVinfo(), ve.getCreateTime(), ve.getDeadLine(), ve.getResultAuthority());
+		return votesDao.updateVotes(ve.getId(), ve.getVname(), ve.getVinfo(),
+				ve.getVtype(), ve.getBeginTime(), ve.getDeadLine(), ve.getResultAuthority());
 	}
 
 	@Override

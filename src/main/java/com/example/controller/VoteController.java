@@ -49,7 +49,7 @@ public class VoteController {
 	@RequestMapping(value = "/addvote", method = RequestMethod.POST)
 	@ResponseBody
 	public String addVote(VotesEntity votesEntity, String[] options,
-			@ModelAttribute(name = "currentUser")UserRegister ur) {
+			@ModelAttribute(value = "currentUser")UserRegister ur) {
 		votesEntity.setUid(ur.getId());
 		votesEntity.setCreateTime(new Date());
 		
@@ -80,7 +80,7 @@ public class VoteController {
 	@RequestMapping(value = "/votepage/{voteId}", method = RequestMethod.GET)
 	public String votePage(ModelMap modelMap, 
 			HttpServletRequest request,
-			@ModelAttribute(name = "currentUser")UserRegister ur,
+			@ModelAttribute(value = "currentUser")UserRegister ur,
 			@PathVariable int voteId) {
 		String ip = IpAddress.getIpAddr(request);
 		
@@ -123,11 +123,14 @@ public class VoteController {
 	 */
 	@RequestMapping(value = "/updatevote/{voteId}", method = RequestMethod.GET)
 	public String updVotePage(ModelMap modelMap,
-			@ModelAttribute(name = "currentUser")UserRegister ur,
+			@ModelAttribute(value = "currentUser")UserRegister ur,
 			@PathVariable int voteId) {
 
-		VotesEntity voteEntity = (VotesEntity)voteService.findVoteById(voteId).getData();
-		List<VoteOptionsEntity> optionList = (List<VoteOptionsEntity>)voteService.findVoteOptionsByVid(voteEntity.getId()).getData();
+		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
+		if(voteEntity == null) return "no_vote";
+		List<VoteOptionsEntity> optionList = voteService.findVoteOptionsByVid(voteEntity.getId()).getData();
+		boolean isVoteOwner = voteEntity.getUid() == ur.getId();
+		if(!isVoteOwner) return "error";
 		
 		modelMap.addAttribute("voteEntity", voteEntity);
 		modelMap.addAttribute("optionList", optionList);
@@ -136,9 +139,20 @@ public class VoteController {
 	/**
 	 * 投票更新处理
 	 */
-	@RequestMapping(value = "/updatevote/{voteId}", method = RequestMethod.POST)
-	public String updVote(@PathVariable int voteId) {
-		return null;
+	@RequestMapping(value = "/updatevote", method = RequestMethod.POST)
+	public String updVote(ModelMap modelMap, 
+			VotesEntity votesEntity,
+			@ModelAttribute(value = "currentUser")UserRegister ur,
+			String vid) {
+		votesEntity.setId(Integer.parseInt(vid));
+		VotesEntity origin = voteService.findVoteById(votesEntity.getId()).getData();
+		if(origin == null) return "error";
+		boolean isVoteOwner = origin.getUid() == ur.getId();
+		if(!isVoteOwner) return "error";
+		voteService.updateVote(votesEntity);
+		
+		modelMap.addAttribute("voteEntity", votesEntity);
+		return  "updated_vote_data";
 	}
 	/**
 	 * 删除投票

@@ -72,7 +72,7 @@ public class GuestController {
 	 */
 	@RequestMapping(value = "/domsg", method = RequestMethod.POST)
 	public String doMsg(ModelMap modelMap, 
-			@ModelAttribute(name = "currentUser")UserRegister ur,
+			@ModelAttribute(value = "currentUser")UserRegister ur,
 			HttpServletRequest request, String vidstr, String msg) {
 		String ip = IpAddress.getIpAddr(request);
 		int voteId;
@@ -106,7 +106,7 @@ public class GuestController {
 	 */
 	@RequestMapping(value = "/delmsg", method = RequestMethod.POST)
 	public String delMsg(ModelMap modelMap,
-			@ModelAttribute(name = "currentUser")UserRegister ur,
+			@ModelAttribute(value = "currentUser")UserRegister ur,
 			HttpServletRequest request, String mid, String vid) {
 		int msgId, voteId;
 		try {
