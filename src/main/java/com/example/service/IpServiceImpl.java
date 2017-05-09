@@ -22,6 +22,15 @@ public class IpServiceImpl implements IpService{
     }
 
     @Override
+    public boolean isBanned(int id) {
+        Ip i = ipDao.findOne(id);
+        if(i!=null){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean isBanned(String ip) {
         Ip i = ipDao.findByIp(ip);
         if(i!=null){

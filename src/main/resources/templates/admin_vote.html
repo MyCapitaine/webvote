@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
-    <title>管理中心</title>
+    <title>投票管理</title>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -32,12 +32,13 @@
     <!--<script src="bootstrap-datetimepicker.zh-CN.js"></script>-->
     <link href="/css/home.css" rel="stylesheet" type="text/css" />
     <link href="/css/admin.css" rel="stylesheet" type="text/css" />
+    <link href="/css/admin_vote.css" rel="stylesheet" type="text/css" />
     <link href="/css/my.css" rel="stylesheet" type="text/css" />
     <link href="/css/top.css" rel="stylesheet" type="text/css" />
 
+    <!--<script src="/js/admin_page.js"></script>-->
     <script src="/js/dynamic_page.js"></script>
-    <script src="/js/admin_release_user.js"></script>
-
+    <script src="/js/admin_vote.js"></script>
     <script src="/js/jquery.validate.js"></script>
     <style>
         .a-upload {
@@ -113,7 +114,7 @@
         <div class="security-left">
             <ul class="child-list">
                 <li>
-                    <a href='javascript:void(0);' id="home" title="首页" class="active">
+                    <a  href="/admin"  id="home" title="首页" class="canHover">
                         <i ></i>
                         <span>用户管理</span>
                     </a>
@@ -126,7 +127,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/vote" id="vote" class="canHover">
+                    <a  href='javascript:void(0);' id="vote"  class="active">
                         <i class="al-jl"></i>
                         <span>投票管理</span>
                     </a>
@@ -142,12 +143,7 @@
 
         <div class="security-right">
             <div class="title">
-                <div class="tab canHover" id="ban">
-                    封禁用户
-                </div>
-                <div class="tab tab-active" id="release">
-                    解封用户
-                </div>
+                <span class="title-text">删除投票</span>
             </div>
             <div class="information">
                 <form class="information-form">
@@ -157,9 +153,9 @@
                                 <thead>
                                 <tr>
                                     <td><input type="checkbox" id="all"/></td>
-                                    <td ><div>用户ID</div></td>
-                                    <td ><div>用户昵称</div></td>
-                                    <td ><div>最近登录IP</div></td>
+                                    <td ><div>发布者</div></td>
+                                    <td ><div>投票主题</div></td>
+                                    <td ><div>投票简介</div></td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -170,7 +166,7 @@
 
                 </form>
                 <div>
-                    <input type="button" class="release" value="解封用户"/>
+                    <input type="button" class="delete" value="删除投票" id="banUser"/>
                 </div>
                 <div class="img-wrapper" style="display: none">
 

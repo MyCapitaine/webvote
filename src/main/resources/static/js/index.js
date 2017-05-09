@@ -23,12 +23,6 @@ $(document).ready(function(){
             var page=result.data;
             var data=page.content;
             var pageTotal=page.totalPages;
-            // var pageTotal=10;
-            // page={
-            //     totalPage:10,
-            //     current:pageIndex,
-            // };
-            //dp=$(".pagination").createPage(page);
             if(pageTotal==0){
                 $(".result").html("空空如也");
             }
@@ -41,12 +35,6 @@ $(document).ready(function(){
                 dynamic_result(data);
             }
             else{
-                // var pages={
-                //     totalPage:pageTotal,
-                //     current:pageIndex,
-                // };
-                // dp=$(".pagination").createPage(pages);
-                // $(".img-wrapper").show();
                 $(".result").html("page index error");
             }
         }

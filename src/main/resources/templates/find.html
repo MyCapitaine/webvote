@@ -30,12 +30,15 @@
     <!--<script src="bootstrap-datetimepicker.zh-CN.js"></script>-->
 
 
-    <script src="/js/get_user_by_name.js"></script>
-    <script src="/js/get_user_by_sendtime.js"></script>
-    <script src="/js/get_user_by_id.js"></script>
+    <script src="/js/find.js"></script>
+
     <title>Find</title>
 </head>
 <body>
+<script th:inline="javascript">
+    var id = [[${currentUser.id}]];
+    var pageIndex = [[${pageIndex}]];
+</script>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -47,7 +50,7 @@
             <li><a href="signin"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
         </ul>
         <ul th:unless="${currentUser} eq null" class="nav navbar-nav navbar-right">
-            <li><a href="#" ><span class="glyphicon glyphicon-user" th:text="${currentUser.nickName}"></span> </a></li>
+            <li><a href="#" ><span class="glyphicon glyphicon-user" th:text="${UserInformation.nickName}"></span> </a></li>
             <li><a href="signout"><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
         </ul>
     </div>

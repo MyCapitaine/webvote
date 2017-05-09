@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
-    <title>管理中心</title>
+    <title>留言管理</title>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -35,9 +35,9 @@
     <link href="/css/my.css" rel="stylesheet" type="text/css" />
     <link href="/css/top.css" rel="stylesheet" type="text/css" />
 
+    <!--<script src="/js/admin_page.js"></script>-->
     <script src="/js/dynamic_page.js"></script>
-    <script src="/js/admin_release_user.js"></script>
-
+    <script src="/js/admin_comment.js"></script>
     <script src="/js/jquery.validate.js"></script>
     <style>
         .a-upload {
@@ -113,7 +113,7 @@
         <div class="security-left">
             <ul class="child-list">
                 <li>
-                    <a href='javascript:void(0);' id="home" title="首页" class="active">
+                    <a href="/admin" id="home" title="首页" class="canHover">
                         <i ></i>
                         <span>用户管理</span>
                     </a>
@@ -132,7 +132,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/comment" id="safe" class="canHover">
+                    <a  href='javascript:void(0);' id="safe" class="active">
                         <i class="al-aq"></i>
                         <span>留言管理</span>
                     </a>
@@ -142,10 +142,10 @@
 
         <div class="security-right">
             <div class="title">
-                <div class="tab canHover" id="ban">
+                <div class="tab tab-active">
                     封禁用户
                 </div>
-                <div class="tab tab-active" id="release">
+                <div class="tab canHover" id="release">
                     解封用户
                 </div>
             </div>
@@ -170,7 +170,8 @@
 
                 </form>
                 <div>
-                    <input type="button" class="release" value="解封用户"/>
+                    <input type="button" class="ban" value="封禁用户" id="banUser"/>
+                    <input type="button" class="ban" value="封禁IP" id="banIp"/>
                 </div>
                 <div class="img-wrapper" style="display: none">
 

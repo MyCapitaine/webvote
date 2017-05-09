@@ -67,6 +67,7 @@ public class SimpleController {
         //JsonResult jr=new JsonResult();
         Pageable page = new PageRequest(pageIndex, page_size);
         ServiceResult sr = voteService.findAllVote(page);
+
         return new JsonResult(sr.getData());
     }
 
@@ -150,8 +151,17 @@ public class SimpleController {
     }
 
     @RequestMapping("/find")
-    public String find(){
+    public String find(@ModelAttribute(value = "currentUser") UserRegister ur){
+
         return "find";
+    }
+
+    @RequestMapping("/model")
+    @ResponseBody
+    public String model(int id, HttpServletRequest request){
+        System.out.println(id);
+        UserRegister ur = (UserRegister) request.getSession().getAttribute("currentUser");
+        return ur.getId()+"";
     }
 
     //message界面

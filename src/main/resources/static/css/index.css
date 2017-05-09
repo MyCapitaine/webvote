@@ -107,9 +107,21 @@
 }
 /*投票列表*/
 .result{
+    border-top: 1px solid;
     width: 980px;
     margin:0 auto;
     //padding-top: 30px;
     clear: both;
     min-height: 700px;
+}
+.template{
+    border-bottom: 1px solid;
+}
+.row-top a{
+    padding: 10px;
+    color: #337ab7;
+    font-size: 14px;
+}
+.row-bottom{
+    padding: 0 10px 5px;
 }
