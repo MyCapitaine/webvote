@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -189,7 +190,9 @@ public class VoteController {
 				|| (ur != null && ur.getAuthority() == 0) //管理员
 				|| (ur != null && ur.getId() == voteEntity.getUid()); //投票发布者
 		if(!hasAuthority) return "no_result_authority";
-		guestService.voteResult(voteId);
+		List<Pair<VoteOptionsEntity, Integer>> results = guestService.voteResult(voteId).getData();
+		modelMap.addAttribute("voteEntity", voteEntity);
+		modelMap.addAttribute("results", results);
 		
 		return "vote_result";
 	}
