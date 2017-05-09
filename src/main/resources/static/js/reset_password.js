@@ -105,7 +105,7 @@ function setPassword(validate){
 			success : function(result){
 				console.log("result :"+result.success);
 				$('.loading').hide();
-                location.href="message";
+                location.href="/message";
 
             }
 		});

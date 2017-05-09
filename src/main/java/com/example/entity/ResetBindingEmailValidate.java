@@ -7,11 +7,11 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * Created by hasee on 2017/4/14.
+ * Created by hasee on 2017/5/9.
  */
 @Entity
-@Table(name = "reset_password_validate")
-public class ResetPasswordValidate {
+@Table(name = "reset_binding_emial_validate")
+public class ResetBindingEmailValidate {
     @Id
     private int id;//用户id
 
@@ -21,10 +21,10 @@ public class ResetPasswordValidate {
     @Column(name="deadline",nullable = false)
     private Date deadline;//默认有效期三分钟
 
-    public ResetPasswordValidate() {
+    public ResetBindingEmailValidate() {
     }
 
-    public ResetPasswordValidate(int id) {
+    public ResetBindingEmailValidate(int id) {
         this.id=id;
         long time=new Date().getTime()+1000*60*3;
         this.deadline=new Date(time);

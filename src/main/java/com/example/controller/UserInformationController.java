@@ -2,13 +2,12 @@ package com.example.controller;
 
 import com.example.dao.LoginRecordDao;
 import com.example.entity.*;
-import com.example.serviceInterface.LoginRecordService;
-import com.example.serviceInterface.UserInformationService;
-import com.example.serviceInterface.UserRegisterService;
-import com.example.serviceInterface.VoteService;
-import com.example.util.Code;
-import com.example.util.Encrypt;
+import com.example.exception.ActiveValidateServiceException;
+import com.example.exception.SendEmailException;
+import com.example.serviceInterface.*;
+import com.example.util.*;
 import com.example.vo.ModifyInformationVO;
+import com.example.vo.SetPasswordVO;
 import com.example.vo.UserInformationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +42,8 @@ public class UserInformationController {
     private LoginRecordService loginRecordService;
     @Autowired
     private VoteService voteService;
+    @Autowired
+    private ResetBindingEmailValidateService resetBindingEmailValidateService;
 
     /************************个人中心***************************/
     @RequestMapping("/home")
@@ -132,6 +139,60 @@ public class UserInformationController {
         return "sendEmailForResetBE";
     }
 
+    @RequestMapping("/home/sendEmailForResetBE")
+    @ResponseBody
+    public JsonResult sendEmailForResetBE(int id,ModelMap model){
+        JsonResult jr = new JsonResult();
+        jr.setMessage("failed");
+        jr.setSuccess(false);
+
+        ServiceResult<UserRegister> ursr = userRegisterService.findById(id);
+        UserRegister ur = ursr.getData();
+        String email = ur.getBindingEmail();
+        try {
+            ServiceResult<ResetBindingEmailValidate> sr = resetBindingEmailValidateService.add(id,email);
+            ResetBindingEmailValidate rbev =  sr.getData();
+            String validateCode = rbev.getValidateCode();
+
+            StringBuilder url = new StringBuilder("token=");
+            url.append(validateCode);
+            url.append("&id=");
+            url.append(id);
+
+            SendEmail se = SendEmailFactory.getInstance(SendValidateEmailForResetBE.class);
+            se.send(email,url.toString());
+
+            model.addAttribute("redirectTo","index");
+            model.addAttribute("message","邮件发送成功，请在3分钟内查看邮件完成绑定操作");
+
+            jr.setMessage("Send email to reset binding email success");
+            jr.setSuccess(true);
+
+        } catch (ActiveValidateServiceException e) {
+            jr.setMessage(e.getMessage());
+        } catch (SendEmailException e) {
+            jr.setMessage(e.getMessage());
+        }
+        return jr;
+    }
+    @RequestMapping("/home/resetBindingEmailValidate")
+    public String resetBindingEmail(int id,String token,ModelMap model){
+        ServiceResult<ResetBindingEmailValidate> sr = resetBindingEmailValidateService.validate(id,token);
+        if(sr.isSuccess()){
+            model.addAttribute("message","验证通过");
+            model.addAttribute("redirectTo","/bindEmail");
+        }
+        else if(sr.getMessage().equals("link overdue")){
+            model.addAttribute("message","连接过期，请重新发送邮件");
+            model.addAttribute("redirectTo","/home/resetBE");
+        }
+        else if(sr.getMessage().equals("link lose efficacy")){
+            model.addAttribute("redirectTo","/home/resetBE");
+            model.addAttribute("message","链接已使用");
+        }
+        return "message";
+    }
+
     /************************我的账号***************************/
     @RequestMapping("/home/safe")
     public String safe(ModelMap model,@RequestParam(value = "pageIndex",defaultValue = "1")int pageIndex,
@@ -205,6 +266,47 @@ public class UserInformationController {
         //Page result = loginRecordDao.findByUserId2(ur.getId(),page);
         jr.setData(vsr.getData());
         jr.setSuccess(true);
+        return jr;
+    }
+    /************************重置密码***************************/
+    @RequestMapping("/home/resetPasswordPage")
+    public String resetPasswordPage(ModelMap model){
+
+        return "home_resetPassword";
+    }
+
+    @RequestMapping("/home/oldPassword")
+    @ResponseBody
+    public String isOldPasswordCorrect(int id,String password){
+        ServiceResult<UserRegister> ursr = userRegisterService.findById(id);
+        UserRegister ur = ursr.getData();
+        String result = password.equals(ur.getLoginPassword())+"";
+        return result;
+    }
+
+    @RequestMapping("/home/resetPassword")
+    @ResponseBody
+    public JsonResult resetPassword(SetPasswordVO spvo, HttpServletRequest request,
+                                    ModelMap model){
+        HttpSession session = request.getSession();
+
+        JsonResult<Object> jr = new JsonResult<Object>();
+        jr.setData(null);
+        jr.setMessage("reset failed");
+        jr.setSuccess(false);
+
+        ServiceResult<UserRegister> ursr = userRegisterService.findById(spvo.getId());
+        UserRegister ur = ursr.getData();
+        ur.setLoginPassword(spvo.getPassword());
+        userRegisterService.modify(ur);
+
+        //sessionStatus.setComplete();
+        model.remove("currentUser");
+        model.remove("UserInformation");
+        session.removeAttribute("currentUser");
+        session.removeAttribute("UserInformation");
+        model.addAttribute("redirectTo","/signin");
+        model.addAttribute("message","重置密码成功，请登录");
         return jr;
     }
 
