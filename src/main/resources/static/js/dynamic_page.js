@@ -19,7 +19,6 @@
         //填充html
         fillHtml:function(totalsubpageTmep,args){
             return (function(){
-                console.log(args.pageCurrent);
                 var dp=totalsubpageTmep;
                 var cn=$(dp).attr("class")
                 totalsubpageTmep="";

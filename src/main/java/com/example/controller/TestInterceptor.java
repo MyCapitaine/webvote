@@ -97,8 +97,9 @@ public class TestInterceptor implements HandlerInterceptor {
             }
 
             if (session.getAttribute("currentUser") != null) {
+                referer = referer==null?"/signin":referer;
                 session.removeAttribute("currentUser");
-                session.setAttribute("redirectTo", httpServletRequest.getHeader("Referer"));
+                session.setAttribute("redirectTo", referer);
                 return true;
             }
             else{
