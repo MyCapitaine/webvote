@@ -65,22 +65,7 @@ $(document).ready(function(){
 
     $(".mask").hide();
 
-    $(".portrait-img").on("click",function(){
-        $("html").attr("style","height:100%");
-        $("body").attr("style","height:100%");
-        $(".mask").show();
-        $(".mask").on("click",function(){
-           // $(".mask").hide();
-            $(".mask").addClass("hidden");
-            $(".mask").off("click");
-            setTimeout(function(){
-                $(".mask").removeClass("hidden");
-                $(".mask").hide();
-                $("html").attr("style","");
-                $("body").attr("style","");
-            },1500);
-        });
-    });
+    showImage();
 
     $(".submit-btn").bind("click",function(){
         modifyInformation(validate);
@@ -91,6 +76,50 @@ $(document).ready(function(){
     });
 
 })
+function showImage(){
+    $(".portrait-img").on("click",function(){
+        var realWidth;//真实的宽度
+        var realHeight;//真实的高度
+        var imgSrc = $(".portrait-img").attr("src");
+        getImageWidth(imgSrc,function(w,h){
+            realWidth=w;
+            realHeight=h;
+            $(".mask .portrait-img").css("height","800px");
+        });
+
+        // $("html").attr("style","height:"+realHeight+"px");
+        // $("body").attr("style","height:"+realWidth+"px");
+        $("html").attr("style","height:100%");
+        $("body").attr("style","height:100%");
+        $(".mask").show();
+        $(".mask").on("click",function(){
+            // $(".mask").hide();
+            $(".mask").addClass("hidden");
+            $(".mask").off("click");
+            setTimeout(function(){
+                $(".mask").removeClass("hidden");
+                $(".mask").hide();
+                $("html").attr("style","");
+                $("body").attr("style","");
+            },1500);
+        });
+    });
+}
+function getImageWidth(url,callback){
+    var img = new Image();
+    img.src = url;
+
+    // 如果图片被缓存，则直接返回缓存数据
+    if(img.complete){
+        callback(img.width, img.height);
+    }else{
+        // 完全加载完毕的事件
+        img.onload = function(){
+            callback(img.width, img.height);
+        }
+    }
+
+}
 
 function upload(){
     var size = $("#file")[0].files[0].size;

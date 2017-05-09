@@ -53,11 +53,15 @@ function dynamic_result(data){
     var template=$(".template");
     $(".result").empty();
     for(var index in data){
+        var beginTime = new Date(data[index].beginTime).Format("yyyy-MM-dd hh:mm:ss");
+        var deadline = new Date(data[index].deadLine).Format("yyyy-MM-dd hh:mm:ss");
         var row = template.clone();
         $(row).find("a").attr("href","/votepage/"+data[index].id);
         $(row).find("a").attr("target","_blank");
         $(row).find("a").text(data[index].vname);
-        $(row).find(".row-bottom").text(data[index].vinfo);
+        $(row).find(".row-middle").text(data[index].vinfo);
+        $(row).find(".beginTime").text(beginTime);
+        $(row).find(".deadline").text(deadline);
         $(".result").append(row);
     }
 }

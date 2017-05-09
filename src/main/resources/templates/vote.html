@@ -132,42 +132,59 @@
             </div>
             <form class="information-form">
                 <div class="row">
-                    <div class="textName">
-                        <label for="vinfo">投票简介:</label>
+
+                    <div class="summary" th:text="${voteEntity.vinfo}">
+
                     </div>
-                    <input th:text="${voteEntity.vinfo}" readonly="readonly" type="text" id="vinfo" class="text"/><br/>
-                </div>
-                <div class="row">
-                    <div class="textName">
-                        <label for="begintime">开始时间:</label>
-                    </div>
-                    <input th:text="${voteEntity.beginTime}" type="date" id="begintime" readonly="readonly"  class="text"/><br/>
-                </div>
-                <div class="row">
-                    <div class="textName">
-                        <label for="deadline">截止时间:</label>
-                    </div>
-                    <input th:text="${voteEntity.deadLine}" type="date" id="deadline" readonly="readonly"  class="text"/><br/>
                 </div>
                 
                 <div class="row">
-                    <div class="textName">
-                        <label for="deadline">投票选项:</label>
-                    </div>
+                    <!--<div class="textName">-->
+                        <!--<label >投票选项:</label>-->
+                    <!--</div>-->
                     <ul th:each="option : ${optionList}">
 						<li th:if="${voteEntity.vtype} == 0">
-							<input type="radio" th:text="${option.optionText}" name="vote_option" th:value="${option.id}" class="option"/>
+                            <input type="radio" name="vtype" value="1" class="radio" th:id="'single'+${option.id}"/>
+                            <div class="radioName">
+                                <label th:for="'single'+${option.id}" th:text="${option.optionText}"></label>
+                            </div>
 						</li>
 						<li th:if="${voteEntity.vtype} == 1">
 							<input type="checkbox" th:text="${option.optionText}" name="vote_option" th:value="${option.id}" class="option"/>
 						</li>
 					</ul>
+
                     <div class="do-vote-wrapper" id="vote_input_filed">
                         <a th:if="${isVoted} == false and ${isVoteBegin} == true and ${isVoteOver} == false" type="button" id="vote_submit" class="do-vote">提交</a>
 						<p th:if="${isVoted} == true and ${isVoteBegin} == true and ${isVoteOver} == false">您已进行过投票<a target="_blank" th:href="'../voteresult/' + ${voteEntity.id}" th:if="${canCheckResult}">查看投票结果</a></p>
 						<p th:if="${isVoteBegin} == false and ${isVoteOver} == false">投票尚未开始</p>
 						<p th:if="${isVoteOver} == true">投票已经结束<a target="_blank" th:href="'../voteresult/' + ${voteEntity.id}" th:if="${canCheckResult}">查看投票结果</a></p>
                     </div>
+                </div>
+                <div class="row">
+                    <ul>
+                        <li>
+                            <div class="textName">
+                                <label>开始时间:</label>
+                            </div>
+                            <div class="textValue">
+                                <label th:with="date=${voteEntity.beginTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">
+                                    注册时间:
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="textName">
+                                <label >截止时间:</label>
+                            </div>
+                            <div class="textValue">
+                                <label th:with="date=${voteEntity.deadLine}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">
+                                    注册时间:
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+
                 </div>
             </form>
             	
@@ -195,59 +212,6 @@
 			</div>
             
         </div>
-		
-	<!-- 
-		<div>
-			<p th:text="${voteEntity.vname}"></p>
-			<p th:text="${voteEntity.vinfo}"></p>
-			<p th:text="${voteEntity.beginTime}"></p>
-			<p th:text="${voteEntity.deadLine}"></p>
-			<p th:text="${voteEntity.id}" hidden="hidden" id="vote_id"></p>
-			<form th:if="${canDelVote} == true">
-				<input type="button" value="删除投票" id="del_vote" />
-			</form>
-		</div>
-		<div>
-			<form>
-				<ul th:each="option : ${optionList}">
-					<li th:if="${voteEntity.vtype} == 0">
-						<input type="radio" th:text="${option.optionText}" name="vote_option" th:value="${option.id}"/>
-					</li>
-					<li th:if="${voteEntity.vtype} == 1">
-						<input type="checkbox" th:text="${option.optionText}" name="vote_option" th:value="${option.id}"/>
-					</li>
-				</ul>
-				<div id="vote_input_filed">
-					<input th:if="${isVoted} == false and ${isVoteBegin} == true and ${isVoteOver} == false" type="button" value="提交" id="vote_submit" />
-					<p th:if="${isVoted} == true and ${isVoteBegin} == true and ${isVoteOver} == false">您已进行过投票<a target="_blank" th:href="'../voteresult/' + ${voteEntity.id}" th:if="${canCheckResult}">查看投票结果</a></p>
-					<p th:if="${isVoteBegin} == false and ${isVoteOver} == false">投票尚未开始</p>
-					<p th:if="${isVoteOver} == true">投票已经结束<a target="_blank" th:href="'../voteresult/' + ${voteEntity.id}" th:if="${canCheckResult}">查看投票结果</a></p>
-				</div>
 
-			</form>
-		</div>
-		
-		<div id="msg_field">
-			<form>
-				<div id="msg_input_field">
-					<input th:if="${isMsged} == false" type="text" id="msg_text" />
-					<input th:if="${isMsged} == false" type="button" value="发表" id="msg_submit" />
-					<p th:if="${isMsged} == true">您已进行过留言</p>
-				</div>
-			</form>
-			<div>
-				<ul th:each="msg : ${msgList}">
-					<li>
-						<p th:text="${msg.msgText}"></p>
-						<p th:text="${msg.msgTime}"></p>
-						<form th:if="${canDelMsg} == true">
-							<input th:value="${msg.id}" hidden="hidden" class="del_msg_id" />
-							<input type="button" value="删除" class="del_msg" />
-						</form>
-					</li>
-				</ul>
-			</div>
-		</div>
-		 -->
 	</body>
 </html>

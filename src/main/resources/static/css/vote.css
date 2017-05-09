@@ -1,4 +1,11 @@
 @CHARSET "UTF-8";
+
+/*简介*/
+.summary {
+    width: 400px;
+    margin: 0 auto;
+    word-wrap: break-word;
+}
 .information{
     width:450px;
     margin:20px auto 20px auto;
@@ -17,6 +24,7 @@
     margin-bottom: 10px;
     margin-right: 0px;
     margin-left: 0px;
+    border-bottom: 1px dotted;
 }
 .textName{
     width: 120px;
@@ -93,10 +101,10 @@ a.canHover:hover{
 }
 .textName label,.textValue label{
     text-align: right;
-    float:right;
-    margin-right:20px;
-    height: 28px;
-    line-height: 28px;
+    float: right;
+    margin-right: 20px;
+    height: 18px;
+    line-height: 18px;
 }
 .error{
     float: none;
