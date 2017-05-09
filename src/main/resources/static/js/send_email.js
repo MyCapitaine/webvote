@@ -91,7 +91,7 @@ function resetPassword(validate){
 			success : function(result){
 				$('.loading').hide();
                 if(result.success){
-                    location.href="message";
+                    location.href="/message";
                 }
                 else{
                     var label=$("label[for='email']");

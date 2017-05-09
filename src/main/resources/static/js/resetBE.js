@@ -5,23 +5,39 @@ $(document).ready(function(){
     $(".loading").hide();
 
     $("#submit").bind('click',function(){
-        clickSlow(validate);
+        clickSlow();
     });
-
-    $("body").each(function() {
-        $(this).keydown(function() {
-            if (event.keyCode == 13) {
-                resetPassword(validate);
-            }
-        });
-    });
-
 });
 
-function clickSlow(validate){
+function clickSlow(){
     $(this).unbind('click');
-    resetPassword(validate);
+    sendEmail();
     setTimeout(function(){
         $(this).bind('click',clickSlow);
     },1500);
+}
+
+function sendEmail(){
+    $.ajax({
+        url:"/home/sendEmailForResetBE",
+        type:"post",
+        data:{
+            id:id,
+        },
+        beforeSend : function() {
+            $('.loading').show();
+        },
+        success:function(result){
+            $('.loading').hide();
+            console.log(result);
+            if(result.success){
+                location.href="/message";
+            }
+            else{
+                var label=$("label[for='email']");
+                label.html(result.message);
+                label.show();
+            }
+        }
+    })
 }
