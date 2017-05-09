@@ -40,46 +40,6 @@
     <script src="/js/dynamic_page.js"></script>
     <script src="/js/admin_vote.js"></script>
     <script src="/js/jquery.validate.js"></script>
-    <style>
-        .a-upload {
-            width: 128px;
-            text-align: center;
-            padding: 4px 10px;
-            height: 20px;
-            line-height: 20px;
-            position: relative;
-            cursor: pointer;
-            color: #888;
-            background: #fafafa;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            display: inline-block;
-            *display: inline;
-            *zoom: 1
-        }
-
-        .a-upload  input {
-            position: absolute;
-            font-size: 20px;
-            right: 0;
-            top: 0;
-            opacity: 0;
-            filter: alpha(opacity=0);
-            cursor: pointer
-        }
-
-        .a-upload:hover {
-            color: #444;
-            background: #eee;
-            border-color: #ccc;
-            text-decoration: none
-        }
-        .showFileName{
-            padding: 0 5px;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
 <script th:inline="javascript">
@@ -132,12 +92,12 @@
                         <span>投票管理</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/admin/comment" id="safe" class="canHover">
-                        <i class="al-aq"></i>
-                        <span>留言管理</span>
-                    </a>
-                </li>
+                <!--<li>-->
+                    <!--<a href="/admin/comment" id="safe" class="canHover">-->
+                        <!--<i class="al-aq"></i>-->
+                        <!--<span>留言管理</span>-->
+                    <!--</a>-->
+                <!--</li>-->
             </ul>
         </div>
 

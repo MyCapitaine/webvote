@@ -37,44 +37,7 @@
     <script src="/js/home_information.js"></script>
     <script src="/js/jquery.validate.js"></script>
     <style>
-        .a-upload {
-            width: 128px;
-            text-align: center;
-            padding: 4px 10px;
-            height: 20px;
-            line-height: 20px;
-            position: relative;
-            cursor: pointer;
-            color: #888;
-            background: #fafafa;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            display: inline-block;
-            *display: inline;
-            *zoom: 1
-        }
 
-        .a-upload  input {
-            position: absolute;
-            font-size: 20px;
-            right: 0;
-            top: 0;
-            opacity: 0;
-            filter: alpha(opacity=0);
-            cursor: pointer
-        }
-
-        .a-upload:hover {
-            color: #444;
-            background: #eee;
-            border-color: #ccc;
-            text-decoration: none
-        }
-        .showFileName{
-            padding: 0 5px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -120,12 +83,12 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a href="/home/comment" id="comment" class="canHover">
-                            <i class="al-coin"></i>
-                            <span>我的留言</span>
-                        </a>
-                    </li>
+                    <!--<li>-->
+                        <!--<a href="/home/comment" id="comment" class="canHover">-->
+                            <!--<i class="al-coin"></i>-->
+                            <!--<span>我的留言</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
                     <li>
                         <a href="/home/vote" id="vote" class="canHover">
                             <i class="al-jl"></i>
@@ -156,7 +119,7 @@
                             <!--<img class="portrait-img" src="/portrait/red_yellow.jpg"/>-->
                             <img th:if="${UserInformation.portrait} eq null" class="portrait-img" src="/images/default_portrait.jpg"/>
                             <div class="texttip">
-                                <p>点击查看原图</p>
+                                <p>点击查看大图</p>
                             </div>
                         </div>
                     </div>
@@ -259,8 +222,9 @@
                                 <label>注册时间:</label>
                             </div>
                             <div class="textValue">
-                                <label th:with="date=${UserInformation.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}"
-                                >注册时间:</label>
+                                <label th:with="date=${UserInformation.registerTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">
+                                    注册时间:
+                                </label>
                             </div>
                         </div>
                     </form>

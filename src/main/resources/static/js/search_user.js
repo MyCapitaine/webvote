@@ -3,6 +3,7 @@
  */
 $(document).ready(function(){
     $("#vote").on("click",function(){
-        location.href="/search?keyword="+keyword;
+        location.href="/search?searchType=Vote&keyword="+keyword;
     });
 });
+

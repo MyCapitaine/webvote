@@ -121,13 +121,13 @@ public class SimpleController {
         if(searchType.equals("User")){
             model.addAttribute("searchType",searchType);
             model.addAttribute("searchResult","result");
-            return "/search_result";
-//            return "search_user";
+            //return "/search_result";
+            return "search_user";
         }
         model.addAttribute("searchType",searchType);
         model.addAttribute("searchResult","result");
-        return "/search_result";
-//        return "search_vote";
+        //return "/search_result";
+        return "search_vote";
     }
     /*ajax获取搜索结果*/
     @RequestMapping("/searchVote")
