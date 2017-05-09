@@ -137,12 +137,12 @@ input[type=radio]:nth-child(odd){
     resize: none;
 }
 
-.upd-wrapper{
+.do-vote-wrapper{
     height: 34px;
     line-height: 34px;
     padding-top: 20px;
 }
-.upd-vote{
+.do-vote{
     display: block;
     margin: 0 auto;
     background: url(../images/bg.png) repeat-x left top;

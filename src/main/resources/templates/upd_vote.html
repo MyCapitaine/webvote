@@ -68,7 +68,7 @@
 	    				type : "POST",
 	    				url : "/updatevote",
 	    				data : {
-	    					vid : vid,
+	    					id : vid,
 	    					vname : vname,
 	    					vinfo : vinfo,
 	    					vtype : vtype,
@@ -209,11 +209,11 @@
 							<p th:text="${option.optionText}" class="option"></p>
 						</li>
 					</ul>
-                    <div class="publish-wrapper">
-                        <a class="publish-vote" id="submit">确认修改</a>
+                    <div class="upd-wrapper">
+                        <a class="upd-vote" id="submit">确认修改</a>
                     </div>
-                    <div class="publish-wrapper">
-                        <a class="publish-vote" id="submit">重置</a>
+                    <div class="upd-wrapper">
+                        <a class="upd-vote" id="submit">重置</a>
                     </div>
                 </div>
             </form>
