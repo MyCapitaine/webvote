@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,7 +48,11 @@ public class VoteController {
 	@RequestMapping(value = "/addvote", method = RequestMethod.POST)
 	@ResponseBody
 	public String addVote(VotesEntity votesEntity, String[] options,
-			@ModelAttribute(value = "currentUser")UserRegister ur) {
+			HttpServletRequest request) {
+		
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
+		
 		votesEntity.setUid(ur.getId());
 		votesEntity.setCreateTime(new Date());
 		
@@ -80,16 +83,17 @@ public class VoteController {
 	@RequestMapping(value = "/votepage/{voteId}", method = RequestMethod.GET)
 	public String votePage(ModelMap modelMap, 
 			HttpServletRequest request,
-			@ModelAttribute(value = "currentUser")UserRegister ur,
 			@PathVariable int voteId) {
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
+		
 		String ip = IpAddress.getIpAddr(request);
 		
-		
-		boolean isManager = ur.getAuthority() == 0;
+		boolean isManager = ur != null && ur.getAuthority() == 0;
 		
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		if(voteEntity == null) return "no_vote";
-		boolean isVoteOwner = voteEntity.getUid() == ur.getId();
+		boolean isVoteOwner = ur != null && voteEntity.getUid() == ur.getId();
 		boolean canCheckResult = voteEntity.getResultAuthority() == 1 || isVoteOwner || isManager;
 		
 		List<VoteOptionsEntity> optionList = voteService.findVoteOptionsByVid(voteEntity.getId()).getData();
@@ -123,13 +127,15 @@ public class VoteController {
 	 */
 	@RequestMapping(value = "/updatevote/{voteId}", method = RequestMethod.GET)
 	public String updVotePage(ModelMap modelMap,
-			@ModelAttribute(value = "currentUser")UserRegister ur,
+			HttpServletRequest request,
 			@PathVariable int voteId) {
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
 
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		if(voteEntity == null) return "no_vote";
 		List<VoteOptionsEntity> optionList = voteService.findVoteOptionsByVid(voteEntity.getId()).getData();
-		boolean isVoteOwner = voteEntity.getUid() == ur.getId();
+		boolean isVoteOwner = ur != null && voteEntity.getUid() == ur.getId();
 		if(!isVoteOwner) return "error";
 		
 		modelMap.addAttribute("voteEntity", voteEntity);
@@ -142,12 +148,13 @@ public class VoteController {
 	@RequestMapping(value = "/updatevote", method = RequestMethod.POST)
 	public String updVote(ModelMap modelMap, 
 			VotesEntity votesEntity,
-			@ModelAttribute(value = "currentUser")UserRegister ur,
-			String vid) {
-		votesEntity.setId(Integer.parseInt(vid));
+			HttpServletRequest request) {
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
+		
 		VotesEntity origin = voteService.findVoteById(votesEntity.getId()).getData();
 		if(origin == null) return "error";
-		boolean isVoteOwner = origin.getUid() == ur.getId();
+		boolean isVoteOwner = ur != null && origin.getUid() == ur.getId();
 		if(!isVoteOwner) return "error";
 		voteService.updateVote(votesEntity);
 		
@@ -170,7 +177,20 @@ public class VoteController {
 	 * 投票结果页面
 	 */
 	@RequestMapping(value = "/voteresult/{voteId}", method = RequestMethod.GET)
-	public String voteResult(@PathVariable int voteId) {
+	public String voteResult(ModelMap modelMap, @PathVariable int voteId,
+			HttpServletRequest request) {
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
+		
+		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
+		if(voteEntity == null) return "no_vote";
+		
+		boolean hasAuthority = (ur == null && voteEntity.getResultAuthority() == 1) //开放结果
+				|| (ur != null && ur.getAuthority() == 0) //管理员
+				|| (ur != null && ur.getId() == voteEntity.getUid()); //投票发布者
+		if(!hasAuthority) return "no_result_authority";
+		guestService.voteResult(voteId);
+		
 		return "vote_result";
 	}
 	

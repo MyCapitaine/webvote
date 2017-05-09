@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -72,8 +71,10 @@ public class GuestController {
 	 */
 	@RequestMapping(value = "/domsg", method = RequestMethod.POST)
 	public String doMsg(ModelMap modelMap, 
-			@ModelAttribute(value = "currentUser")UserRegister ur,
 			HttpServletRequest request, String vidstr, String msg) {
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
+		
 		String ip = IpAddress.getIpAddr(request);
 		int voteId;
 		try {
@@ -94,7 +95,7 @@ public class GuestController {
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
 		isMsged = guestService.isIpMsg(ip, voteId).isSuccess();
-		boolean canDelMsg = (ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId());
+		boolean canDelMsg = ur != null && (ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId());
 		modelMap.addAttribute("msgList", msgs);
 		modelMap.addAttribute("isMsged", isMsged);
 		modelMap.addAttribute("canDelMsg", canDelMsg);
@@ -106,8 +107,10 @@ public class GuestController {
 	 */
 	@RequestMapping(value = "/delmsg", method = RequestMethod.POST)
 	public String delMsg(ModelMap modelMap,
-			@ModelAttribute(value = "currentUser")UserRegister ur,
 			HttpServletRequest request, String mid, String vid) {
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
+		
 		int msgId, voteId;
 		try {
 			msgId = Integer.parseInt(mid);
@@ -122,7 +125,7 @@ public class GuestController {
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
 		boolean isMsged = guestService.isIpMsg(IpAddress.getIpAddr(request), voteId).isSuccess();
-		boolean canDelMsg = (ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId());
+		boolean canDelMsg = ur != null && (ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId());
 		modelMap.addAttribute("msgList", msgs);
 		modelMap.addAttribute("isMsged", isMsged);
 		modelMap.addAttribute("canDelMsg", canDelMsg);

@@ -137,18 +137,12 @@ input[type=radio]:nth-child(odd){
     resize: none;
 }
 
-/*添加和发布按钮*/
-#add{
-    width: 72px;
-    display: block;
-    margin: 10px auto 0;
-}
-.publish-wrapper{
+.upd-wrapper{
     height: 34px;
     line-height: 34px;
     padding-top: 20px;
 }
-.publish-vote{
+.upd-vote{
     display: block;
     margin: 0 auto;
     background: url(../images/bg.png) repeat-x left top;
