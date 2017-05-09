@@ -55,7 +55,6 @@ public class UserRegisterController {
     public String signout(ModelMap model,SessionStatus sessionStatus){//SessionStatus sessionStatus,,@ModelAttribute(value = "previousPage")String previous
         model.addAttribute("message","退出登录");
         sessionStatus.setComplete();
-
         return "message";
     }
 
