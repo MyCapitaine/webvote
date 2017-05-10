@@ -1,3 +1,92 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+		<meta charset="UTF-8" />
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<title>投票更新页</title>
+		<script src="/js/jquery.min.js"></script>
+	    <link href="/css/bootstrap.css" rel="stylesheet"/>
+	    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+	    <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+	    <script src="/js/bootstrap.js"></script>
+	    <script src="/js/bootstrap-datetimepicker.js"></script>
+	    <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
+        <link href="/css/my.css" rel="stylesheet"/>
+        <link href="/css/top.css" rel="stylesheet"/>
+        <link href="/css/vote_result.css" rel="stylesheet"/>
+	    <script  type="text/javascript">
+	    	$(document).ready(function(){
+	    		
+	    	});
+	    </script>
+	</head>
+	<body>
+		
+        <div class="z_top_container">
+            <div class="z_top b-header-blur-black">
+                <div class="z_header">
+                    <div class="z_top_nav">
+                        <ul>
+                            <li class="home">
+                                <a href="/"><span>网投</span><span>主站</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="uns_box" >
+                        <ul class="menu" th:if="${currentUser} eq null">
+                            <li ><a href="/signin"> 登录</a></li>
+                            <li ><a href="/signup" >注册</a></li>
+                        </ul>
+                        <ul class="menu" th:unless="${currentUser} eq null">
+                            <li style="display: list-item;"><a href="/home" th:with="str=${UserInformation.nickName}" th:text=" ${#strings.abbreviate(str ,10)} "></a></li>
+                            <li ><a href="/signout"> 退出</a></li>
+                        </ul>
+                    </div>
+                    <div class="nav-search">
+                        <form action="/search" id="nav_searchform" target="_blank">
+                            <input name="keyword" type="text"
+                                   class="nav-search-keyword" id="nav_search_keyword" autocomplete="off"
+                                   accesskey="s" x-webkit-speech="" x-webkit-grammar="builtin:translate" placeholder="搜索"/>
+                            <button type="submit" class="nav-search-submit"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<div class="information">
+            <div class="title">
+                <h3 style="margin-top: 10px" th:text="${voteEntity.vname}"></h3>
+            </div>
+            <div class="information-form">
+	            <div class="row">
+	                <div class="textName">
+	                    <label for="vinfo">投票简介:</label>
+	                </div>
+	                <textarea th:text="${voteEntity.vinfo}" readonly="readonly" id="vinfo"></textarea><br/>
+	            </div>
+	            <div class="row">
+	                <div class="textName">
+	                    <label for="begintime">开始时间:</label>
+	                </div>
+	                <input th:value="${#dates.format(voteEntity.beginTime, 'yyyy-MM-dd')}" type="date" id="begintime" readonly="readonly"  class="text"/><br/>
+	            </div>
+	            <div class="row">
+	                <div class="textName">
+	                    <label for="deadline">截止时间:</label>
+	                </div>
+	                <input th:value="${#dates.format(voteEntity.deadLine, 'yyyy-MM-dd')}" type="date" id="deadline" readonly="readonly"  class="text"/><br/>
+	            </div>
+	            <div class="row">
+	                <div class="textName">
+	                    <label for="deadline">投票类型:</label>
+	                </div>
+	            </div>
+            </div>
+            
+            
+        </div>
+		
+	
+	</body>
 </html>

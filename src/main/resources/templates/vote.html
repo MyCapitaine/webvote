@@ -130,6 +130,12 @@
             <div class="title">
                 <h3 style="margin-top: 10px" th:text="${voteEntity.vname}"></h3>
             </div>
+            
+            <p th:text="${voteEntity.id}" hidden="hidden" id="vote_id"></p>
+ 			<form th:if="${canDelVote} == true">
+ 				<input type="button" value="删除投票" id="del_vote" />
+ 			</form>
+            
             <form class="information-form">
                 <div class="row">
 
@@ -168,7 +174,7 @@
                                 <label>开始时间:</label>
                             </div>
                             <div class="textValue">
-                                <label th:with="date=${voteEntity.beginTime}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">
+                                <label th:with="date=${voteEntity.beginTime}" th:text="${#dates.format(date, 'yyyy-MM-dd')}">
                                     注册时间:
                                 </label>
                             </div>
@@ -178,7 +184,7 @@
                                 <label >截止时间:</label>
                             </div>
                             <div class="textValue">
-                                <label th:with="date=${voteEntity.deadLine}" th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm:ss')}">
+                                <label th:with="date=${voteEntity.deadLine}" th:text="${#dates.format(date, 'yyyy-MM-dd')}">
                                     注册时间:
                                 </label>
                             </div>
@@ -201,7 +207,7 @@
 					<ul th:each="msg : ${msgList}">
 						<li>
 							<p th:text="${msg.msgText}"></p>
-							<p th:text="${msg.msgTime}"></p>
+							<p th:text="${#dates.format(msg.msgTime, 'yyyy-MM-dd')}"></p>
 							<form th:if="${canDelMsg} == true">
 								<input th:value="${msg.id}" hidden="hidden" class="del_msg_id" />
 								<input type="button" value="删除" class="del_msg" />

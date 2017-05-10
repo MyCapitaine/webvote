@@ -72,10 +72,9 @@ public class VoteController {
 	 */
 	@RequestMapping("/voteslist")
 	@ResponseBody
+	@Deprecated
 	public String voteOverview() {
-		
-		
-		return "";
+		return "error";
 	}
 	/**
 	 * 投票页面
@@ -171,27 +170,4 @@ public class VoteController {
 		return "success";
 	}
 
-
-	
-	/**
-	 * 投票结果页面
-	 */
-	@RequestMapping(value = "/voteresult/{voteId}", method = RequestMethod.GET)
-	public String voteResult(ModelMap modelMap, @PathVariable int voteId,
-			HttpServletRequest request) {
-		Object urObj = request.getSession(true).getAttribute("currentUser");
-		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
-		
-		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
-		if(voteEntity == null) return "no_vote";
-		
-		boolean hasAuthority = (ur == null && voteEntity.getResultAuthority() == 1) //开放结果
-				|| (ur != null && ur.getAuthority() == 0) //管理员
-				|| (ur != null && ur.getId() == voteEntity.getUid()); //投票发布者
-		if(!hasAuthority) return "no_result_authority";
-		guestService.voteResult(voteId);
-		
-		return "vote_result";
-	}
-	
 }

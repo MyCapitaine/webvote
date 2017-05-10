@@ -18,13 +18,13 @@
 		    function reset() {
 	    		$("#vname").val($("#vname_origin").val());
 	    		$("#vinfo").val($("#vinfo_origin").val());
-	    		if($("vtype_origin").val() == 0)
+	    		if($("#vtype_origin").val() == 0)
 	    			$("input[name='vtype'][value='0']").prop("checked", "checked");
 	    		else
 	    			$("input[name='vtype'][value='1']").prop("checked", "checked");
 	    		$("#begintime").val($("#begintime_origin").val());
 	    		$("#deadline").val($("#deadline_origin").val());
-	    		if($("resultauthority_origin").val() == 0)
+	    		if($("#resultauthority_origin").val() == 0)
 	    			$("input[name='resultauthority'][value='0']").prop("checked", "checked");
 	    		else
 	    			$("input[name='resultauthority'][value='1']").prop("checked", "checked");
@@ -151,7 +151,7 @@
                     <div class="textName">
                         <label for="vinfo">投票简介:</label>
                     </div>
-                    <input type="text" id="vinfo" class="text"/><br/>
+                    <textarea id="vinfo"></textarea><br/>
                 </div>
                 <div class="row">
                     <div class="textName">
@@ -167,13 +167,13 @@
                 </div>
                 <div class="row">
                     <div class="textName">
-                        <label for="deadline">创建时间:</label>
+                        <label for="create_time">创建时间:</label>
                     </div>
-                    <p class="text" th:text="'创建时间:' + ${voteEntity.createTime}"></p><br/>
+                    <input class="text" th:value="${#dates.format(voteEntity.createTime, 'yyyy-MM-dd')}" readonly="readonly" id="create_time" /><br/>
                 </div>
                 <div class="row">
                     <div class="textName">
-                        <label for="deadline">投票类型:</label>
+                        <label for="single">投票类型:</label>
                     </div>
                     <input type="radio" name="vtype" value="0" class="radio" id="single"/>
                     <div class="radioName">
@@ -187,7 +187,7 @@
                 </div>
                 <div class="row">
                     <div class="textName">
-                        <label for="deadline">结果权限:</label>
+                        <label for="myself">结果权限:</label>
                     </div>
                     <input type="radio" name="resultauthority" value="0" class="radio" id="myself"/>
                     <div class="radioName">
@@ -202,18 +202,18 @@
 
                 <div class="row">
                     <div class="textName">
-                        <label for="deadline">投票选项:</label>
+                        <label>投票选项:</label>
                     </div>
-                    <ul th:each="option : ${optionList}">
-						<li>
-							<p th:text="${option.optionText}" class="option"></p>
-						</li>
-					</ul>
+                    <div th:each="option : ${optionList}" class="newOption">
+						<input th:value="${option.optionText}" class="option" readonly="readonly"/>
+					</div>
                     <div class="upd-wrapper">
-                        <a class="upd-vote" id="submit">确认修改</a>
-                    </div>
-                    <div class="upd-wrapper">
-                        <a class="upd-vote" id="submit">重置</a>
+                    	<div class="col-xs-5">
+	                    	<a class="upd-vote" id="submit">确认修改</a>
+	                    </div>
+	                    <div class="col-xs-5">
+	                        <a class="upd-vote" id="reset">重置</a>
+	                    </div>
                     </div>
                 </div>
             </form>
