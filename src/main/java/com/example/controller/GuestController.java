@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +17,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.example.entity.MsgsEntity;
 import com.example.entity.UserRegister;
 import com.example.entity.VoteActivitiesEntity;
-import com.example.entity.VoteOptionsEntity;
 import com.example.entity.VotesEntity;
 import com.example.serviceInterface.GuestService;
 import com.example.serviceInterface.VoteService;
 import com.example.util.IpAddress;
+import com.example.vo.VoteResultVO;
 
 /**
  * 游客控制器
@@ -152,7 +151,8 @@ public class GuestController {
 				|| (ur != null && ur.getAuthority() == 0) //管理员
 				|| (ur != null && ur.getId() == voteEntity.getUid()); //投票发布者
 		if(!hasAuthority) return "no_result_authority";
-		List<Pair<VoteOptionsEntity, Integer>> results = guestService.voteResult(voteId).getData();
+		List<VoteResultVO> results = guestService.voteResult(voteId).getData();
+		
 		modelMap.addAttribute("voteEntity", voteEntity);
 		modelMap.addAttribute("results", results);
 		

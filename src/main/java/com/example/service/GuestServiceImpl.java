@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.MsgsDao;
@@ -15,6 +14,7 @@ import com.example.entity.ServiceResult;
 import com.example.entity.VoteActivitiesEntity;
 import com.example.entity.VoteOptionsEntity;
 import com.example.serviceInterface.GuestService;
+import com.example.vo.VoteResultVO;
 
 /**
  * 游客接口实现
@@ -72,23 +72,32 @@ public class GuestServiceImpl implements GuestService {
 		return sr;
 	}
 	@Override
-	public ServiceResult<List<Pair<VoteOptionsEntity, Integer>>> voteResult(int vid) {
-		ServiceResult<List<Pair<VoteOptionsEntity, Integer>>> sr = new ServiceResult<List<Pair<VoteOptionsEntity, Integer>>>();
-		List<Pair<VoteOptionsEntity, Integer>> pairs = new ArrayList<Pair<VoteOptionsEntity, Integer>>();
-		sr.setData(pairs);
+	public ServiceResult<List<VoteResultVO>> voteResult(int vid) {
+		ServiceResult<List<VoteResultVO>> sr = new ServiceResult<List<VoteResultVO>>();
+		List<VoteResultVO> vros = new ArrayList<VoteResultVO>();
+		sr.setData(vros);
 		List<VoteOptionsEntity> vos = voteOptionsDao.findByVid(vid);
 		if(vos == null) {
 			sr.setSuccess(false); 
 			return sr;
 		}
+		int allVoteNum = 0;
 		for(VoteOptionsEntity vo : vos) {
 			List<VoteActivitiesEntity> vas = voteActivitiesDao.findByOptionId(vo.getId());
 			if(vas == null){
 				sr.setSuccess(false); 
 				return sr;
 			}
-			pairs.add(Pair.of(vo, vas.size()));
+			VoteResultVO vro = new VoteResultVO();
+			vro.setVoteNum(vas.size());
+			vro.setVoteOption(vo);
+			vros.add(vro);
+			allVoteNum += vas.size();
 		}
+		for(VoteResultVO vro : vros) {
+			vro.setRatio(Math.round((vro.getVoteNum() * 1000 / allVoteNum)) / 10 + "%");
+		}
+		
 		sr.setSuccess(true);
 		return sr;
 	}
