@@ -2,12 +2,10 @@ package com.example.serviceInterface;
 
 import java.util.List;
 
-import org.springframework.data.util.Pair;
-
 import com.example.entity.MsgsEntity;
 import com.example.entity.ServiceResult;
 import com.example.entity.VoteActivitiesEntity;
-import com.example.entity.VoteOptionsEntity;
+import com.example.vo.VoteResultVO;
 
 /**
  * 游客接口
@@ -64,7 +62,7 @@ public interface GuestService {
 	/**
 	 * 投票结果
 	 */
-	ServiceResult<List<Pair<VoteOptionsEntity, Integer>>> voteResult(int vid);
+	ServiceResult<List<VoteResultVO>> voteResult(int vid);
 	/**
 	 * 封禁留言
 	 */
