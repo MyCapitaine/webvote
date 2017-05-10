@@ -130,9 +130,9 @@ input[type=radio]:nth-child(odd){
     margin-left: 50px;
 }
 .row textarea{
-    width:600px;
+    width:270px;
     height:80px;
-    padding: 3px 8px;
+    padding: 5px;
     color: #717171;
     resize: none;
 }
