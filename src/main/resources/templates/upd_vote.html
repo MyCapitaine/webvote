@@ -18,13 +18,13 @@
 		    function reset() {
 	    		$("#vname").val($("#vname_origin").val());
 	    		$("#vinfo").val($("#vinfo_origin").val());
-	    		if($("vtype_origin").val() == 0)
+	    		if($("#vtype_origin").val() == 0)
 	    			$("input[name='vtype'][value='0']").prop("checked", "checked");
 	    		else
 	    			$("input[name='vtype'][value='1']").prop("checked", "checked");
 	    		$("#begintime").val($("#begintime_origin").val());
 	    		$("#deadline").val($("#deadline_origin").val());
-	    		if($("resultauthority_origin").val() == 0)
+	    		if($("#resultauthority_origin").val() == 0)
 	    			$("input[name='resultauthority'][value='0']").prop("checked", "checked");
 	    		else
 	    			$("input[name='resultauthority'][value='1']").prop("checked", "checked");
