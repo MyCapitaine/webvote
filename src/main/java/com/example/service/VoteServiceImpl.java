@@ -1,18 +1,15 @@
 package com.example.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import com.example.dao.VoteActivitiesDao;
 import com.example.dao.VoteOptionsDao;
 import com.example.dao.VotesDao;
 import com.example.entity.ServiceResult;
-import com.example.entity.VoteActivitiesEntity;
 import com.example.entity.VoteOptionsEntity;
 import com.example.entity.VotesEntity;
 import com.example.serviceInterface.VoteService;
@@ -100,28 +97,6 @@ public class VoteServiceImpl implements VoteService {
 //		sr.setSuccess(ves != null);
 //		return sr;
 		throw new RuntimeException("not support");
-	}
-
-	@Override
-	public ServiceResult<List<Pair<VoteOptionsEntity, Integer>>> voteResult(int vid) {
-		ServiceResult<List<Pair<VoteOptionsEntity, Integer>>> sr = new ServiceResult<List<Pair<VoteOptionsEntity, Integer>>>();
-		List<Pair<VoteOptionsEntity, Integer>> pairs = new ArrayList<Pair<VoteOptionsEntity, Integer>>();
-		sr.setData(pairs);
-		List<VoteOptionsEntity> vos = voteOptionsDao.findByVid(vid);
-		if(vos == null) {
-			sr.setSuccess(false); 
-			return sr;
-		}
-		for(VoteOptionsEntity vo : vos) {
-			List<VoteActivitiesEntity> vas = voteActivitiesDao.findByOptionId(vo.getId());
-			if(vas == null){
-				sr.setSuccess(false); 
-				return sr;
-			}
-			pairs.add(Pair.of(vo, vas.size()));
-		}
-		sr.setSuccess(true);
-		return sr;
 	}
 
 	@Override

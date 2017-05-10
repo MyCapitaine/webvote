@@ -95,6 +95,10 @@ public class GuestServiceImpl implements GuestService {
 			allVoteNum += vas.size();
 		}
 		for(VoteResultVO vro : vros) {
+			if(allVoteNum == 0) {
+				vro.setRatio("0%");
+				continue;
+			}
 			vro.setRatio(Math.round((vro.getVoteNum() * 1000 / allVoteNum)) / 10 + "%");
 		}
 		

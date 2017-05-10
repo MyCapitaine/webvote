@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.util.Pair;
-
 import com.example.entity.ServiceResult;
 import com.example.entity.VoteOptionsEntity;
 import com.example.entity.VotesEntity;
@@ -58,10 +56,6 @@ public interface VoteService {
 	 */
 	@Deprecated
 	ServiceResult<List<VotesEntity>> findBanList();
-	/**
-	 * 投票结果
-	 */
-	ServiceResult<List<Pair<VoteOptionsEntity, Integer>>> voteResult(int vid);
 
 	
 	
