@@ -103,7 +103,7 @@ function dynamicList(data){
         var tr_foot="</tr>";
         var box="<td><input type='checkbox' value='"+data[obj].id+"'/>"+"</td>";
         var id="<td>"+data[obj].uid +"</td>";
-        var title="<td>" + data[obj].vname + "</td>";
+        var title="<td>" + "<a href='/votepage/" + data[obj].id + "' target='_blank'>" + data[obj].vname + "</a>"+ "</td>";
         var summary="<td>" + data[obj].vinfo + "</td>";
         var tr=tr_head + box + id + title + summary + tr_foot;
         $("tbody").append(tr);

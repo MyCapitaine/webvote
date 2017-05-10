@@ -34,6 +34,7 @@ function initPublishVote(){
             if(pageIndex<=pageTotal){
                 pms=$(".pagination").createPage(publish);
                 dynamicInformation(data);
+                checkAll();
             }
             else{
                 $(".img-wrapper").show();
@@ -41,7 +42,16 @@ function initPublishVote(){
         }
     });
 }
-
+function checkAll(){
+    $("#all").click(function(){
+        if(this.checked){
+            $(":checkbox").prop("checked", true);
+        }
+        else{
+            $(":checkbox").prop("checked", false);
+        }
+    });
+}
 
 function changeURL(index){
     history.pushState("", "", "/home/vote?type="+type+"&pageIndex="+index);
@@ -72,11 +82,12 @@ function dynamicInformation(data){
     for(var obj in data){
         var tr_head="<tr>";
         var tr_foot="</tr>";
+        var box="<td><input type='checkbox' value='"+data[obj].id+"'/>"+"</td>";
         var time="<td>"+new Date(data[obj].createTime).Format("yyyy-MM-dd hh:mm:ss")+"</td>";
-        +"</td>";
-        var ip="<td>"+data[obj].vinfo+"</td>";
-        var position="<td>" + data[obj].vname + "</td>";
-        var tr=tr_head + time + ip + position + tr_foot;
+        var title="<td>" + "<a href='/votepage/" + data[obj].id + "' target='_blank'>" + data[obj].vname + "</a>"+ "</td>";
+        var summary="<td>" + data[obj].vinfo + "</td>";
+        var modify="<td>" +  "<a href='/updatevote/" + data[obj].id + "' target='_blank'>修改</a>" + "</td>";
+        var tr=tr_head + box + time + title + summary + modify + tr_foot;
         $("tbody").append(tr);
     }
 }
