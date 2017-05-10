@@ -90,6 +90,17 @@
 					
 				});
 				
+				$(".get_result").click(function(){
+					var voteId = $("#vote_id").text();
+					var url = "/voteresult/" + voteId;
+					$.ajax({
+						type : "GET",
+	    				url : url,
+	    				success : function(result) {
+	    					$("#vote_result_field").html(result);
+	    				}
+					});
+				});
 				
 	    	});
 	    </script>
@@ -163,9 +174,12 @@
 
                     <div class="do-vote-wrapper" id="vote_input_filed">
                         <a th:if="${isVoted} == false and ${isVoteBegin} == true and ${isVoteOver} == false" type="button" id="vote_submit" class="do-vote">提交</a>
-						<p th:if="${isVoted} == true and ${isVoteBegin} == true and ${isVoteOver} == false">您已进行过投票<a target="_blank" th:href="'../voteresult/' + ${voteEntity.id}" th:if="${canCheckResult}">查看投票结果</a></p>
+						<p th:if="${isVoted} == true and ${isVoteBegin} == true and ${isVoteOver} == false">您已进行过投票 <a th:if="${canCheckResult}" class='get_result'>查看投票结果</a></p>
 						<p th:if="${isVoteBegin} == false and ${isVoteOver} == false">投票尚未开始</p>
-						<p th:if="${isVoteOver} == true">投票已经结束<a target="_blank" th:href="'../voteresult/' + ${voteEntity.id}" th:if="${canCheckResult}">查看投票结果</a></p>
+						<p th:if="${isVoteOver} == true">投票已经结束 <a th:if="${canCheckResult}" class='get_result'>查看投票结果</a></p>
+                    </div>
+                    <div id="vote_result_field">
+                    
                     </div>
                 </div>
                 <div class="row">
