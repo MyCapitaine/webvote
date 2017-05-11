@@ -35,9 +35,8 @@
 	    					optionIds : checkedOptionIds
 	    				},
 	    				traditional : true,
-	    				success : function(result) {
-	    					alert("vote " + result);
-	    					$("#vote_input_filed").html("<p>您已进行过投票</p>");
+	    				success : function(vote_success) {
+	    					$("#vote_input_filed").html(vote_success);
 	    				}
 	    			});
 	    			
@@ -90,7 +89,7 @@
 					
 				});
 				
-				$(".get_result").click(function(){
+				$("body").on("click", ".get_result",  function(){
 					var voteId = $("#vote_id").text();
 					var url = "/voteresult/" + voteId;
 					$.ajax({
@@ -101,7 +100,6 @@
 	    				}
 					});
 				});
-				
 	    	});
 	    </script>
 	</head>
@@ -162,7 +160,7 @@
                     <!--</div>-->
                     <ul th:each="option : ${optionList}">
 						<li th:if="${voteEntity.vtype} == 0">
-                            <input type="radio" name="vtype" value="1" class="radio" th:id="'single'+${option.id}"/>
+                            <input type="radio" name="vote_option" th:value="${option.id}" class="radio" th:id="'single'+${option.id}"/>
                             <div class="radioName">
                                 <label th:for="'single'+${option.id}" th:text="${option.optionText}"></label>
                             </div>
