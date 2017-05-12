@@ -139,36 +139,33 @@
 		<div class="information">
             <div class="title">
                 <h3 style="margin-top: 10px" th:text="${voteEntity.vname}"></h3>
+                
             </div>
-            
             <p th:text="${voteEntity.id}" hidden="hidden" id="vote_id"></p>
- 			<form th:if="${canDelVote} == true">
- 				<input type="button" value="删除投票" id="del_vote" />
- 			</form>
             
             <form class="information-form">
                 <div class="row">
-
-                    <div class="summary" th:text="${voteEntity.vinfo}">
-
-                    </div>
+                    <div class="summary" th:text="${voteEntity.vinfo}"></div>
                 </div>
                 
                 <div class="row">
                     <!--<div class="textName">-->
                         <!--<label >投票选项:</label>-->
                     <!--</div>-->
-                    <ul th:each="option : ${optionList}">
-						<li th:if="${voteEntity.vtype} == 0">
-                            <input type="radio" name="vote_option" th:value="${option.id}" class="radio" th:id="'single'+${option.id}"/>
+                    <div th:each="option : ${optionList}">
+						<div th:if="${voteEntity.vtype} == 0" class="option-wapper">
+                            <input type="radio" name="vote_option" th:value="${option.id}" class="option" th:id="'single'+${option.id}"/>
                             <div class="radioName">
                                 <label th:for="'single'+${option.id}" th:text="${option.optionText}"></label>
                             </div>
-						</li>
-						<li th:if="${voteEntity.vtype} == 1">
-							<input type="checkbox" th:text="${option.optionText}" name="vote_option" th:value="${option.id}" class="option"/>
-						</li>
-					</ul>
+						</div>
+						<div th:if="${voteEntity.vtype} == 1" class="option-wapper">
+                            <input type="checkbox" name="vote_option" th:value="${option.id}" class="option" th:id="'single'+${option.id}"/>
+                            <div class="radioName">
+                                <label th:for="'single'+${option.id}" th:text="${option.optionText}"></label>
+                            </div>
+						</div>
+					</div>
 
                     <div class="do-vote-wrapper" id="vote_input_filed">
                         <a th:if="${isVoted} == false and ${isVoteBegin} == true and ${isVoteOver} == false" type="button" id="vote_submit" class="do-vote">提交</a>
@@ -187,9 +184,7 @@
                                 <label>开始时间:</label>
                             </div>
                             <div class="textValue">
-                                <label th:with="date=${voteEntity.beginTime}" th:text="${#dates.format(date, 'yyyy-MM-dd')}">
-                                    注册时间:
-                                </label>
+                                <label th:with="date=${voteEntity.beginTime}" th:text="${#dates.format(date, 'yyyy-MM-dd')}"></label>
                             </div>
                         </li>
                         <li>
@@ -197,9 +192,7 @@
                                 <label >截止时间:</label>
                             </div>
                             <div class="textValue">
-                                <label th:with="date=${voteEntity.deadLine}" th:text="${#dates.format(date, 'yyyy-MM-dd')}">
-                                    注册时间:
-                                </label>
+                                <label th:with="date=${voteEntity.deadLine}" th:text="${#dates.format(date, 'yyyy-MM-dd')}"></label>
                             </div>
                         </li>
                     </ul>
@@ -208,29 +201,31 @@
             </form>
             	
             
-			<div id="msg_field">
-				<form>
-					<div id="msg_input_field">
-						<input th:if="${isMsged} == false" type="text" id="msg_text" />
-						<input th:if="${isMsged} == false" type="button" value="发表" id="msg_submit" />
-						<p th:if="${isMsged} == true">您已进行过留言</p>
+			<div class="row" id="msg_field">
+				<div id="msg_input_field">
+					<input th:if="${isMsged} == false" type="text" id="msg_text" />
+					<input th:if="${isMsged} == false" type="button" value="发表" id="msg_submit" />
+					<p th:if="${isMsged} == true">您已进行过留言</p>
+				</div>
+				<div th:each="msg : ${msgList}">
+					<div class="single-msg">
+						<span th:text="${msg.msgText}"></span>
+						<span th:text="${#dates.format(msg.msgTime, 'yyyy-MM-dd')}"></span>
+						<span th:if="${canDelMsg} == true">
+							<input th:value="${msg.id}" hidden="hidden" class="del_msg_id" />
+							<a type="button" class="del_msg" >删除</a>
+						</span>
 					</div>
-				</form>
-				<div>
-					<ul th:each="msg : ${msgList}">
-						<li>
-							<p th:text="${msg.msgText}"></p>
-							<p th:text="${#dates.format(msg.msgTime, 'yyyy-MM-dd')}"></p>
-							<form th:if="${canDelMsg} == true">
-								<input th:value="${msg.id}" hidden="hidden" class="del_msg_id" />
-								<input type="button" value="删除" class="del_msg" />
-							</form>
-						</li>
-					</ul>
 				</div>
 			</div>
             
+            <div class="del-field">
+	            <form th:if="${canDelVote} == true">
+			 		<input type="button" value="删除投票" id="del_vote" />
+			 	</form>
+            </div>
+		 	
         </div>
-
+		
 	</body>
 </html>
