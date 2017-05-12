@@ -107,7 +107,7 @@ public class GuestController {
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
 		isMsged = guestService.isIpMsg(ip, voteId).isSuccess();
-		boolean canDelMsg = ur != null && (ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId());
+		boolean canDelMsg = ur != null && ((ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId()));
 		modelMap.addAttribute("msgList", msgs);
 		modelMap.addAttribute("isMsged", isMsged);
 		modelMap.addAttribute("canDelMsg", canDelMsg);
@@ -137,7 +137,7 @@ public class GuestController {
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
 		boolean isMsged = guestService.isIpMsg(IpAddress.getIpAddr(request), voteId).isSuccess();
-		boolean canDelMsg = ur != null && (ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId());
+		boolean canDelMsg = ur != null && ((ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId()));
 		modelMap.addAttribute("msgList", msgs);
 		modelMap.addAttribute("isMsged", isMsged);
 		modelMap.addAttribute("canDelMsg", canDelMsg);
