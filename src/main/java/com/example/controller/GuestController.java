@@ -11,7 +11,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.entity.MsgsEntity;
@@ -40,17 +39,20 @@ public class GuestController {
 	 * 进行投票
 	 */
 	@RequestMapping(value = "/dovote", method = RequestMethod.POST)
-	@ResponseBody
-	public String doVote(HttpServletRequest request, String vidstr, String[] optionIds) {
+	public String doVote(ModelMap modelMap, 
+			HttpServletRequest request, String vidstr, String[] optionIds) {
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
+		
 		String ip = IpAddress.getIpAddr(request);
 		int vid;
 		try {
 			vid = Integer.parseInt(vidstr);
 		}catch(Exception e) {
-			return "fail, vid should be integer";
+			return "error";
 		}
 		
-		if(optionIds == null || optionIds.length == 0) return "fail, should choose option";
+		if(optionIds == null || optionIds.length == 0) return "error";
 		
 		for(String optionId : optionIds) {
 			VoteActivitiesEntity vae = new VoteActivitiesEntity();
@@ -59,13 +61,21 @@ public class GuestController {
 			try {
 				vae.setOptionId(Integer.parseInt(optionId));
 			}catch(Exception e) {
-				return "fail, option id should be integer";
+				return "error";
 			}
 			vae.setVoteTime(new Date());
 			if(!guestService.doVote(vae))
-				return "fail, do vote fail";
+				return "error";
 		}
-		return "success";
+		boolean isVoted = guestService.isIpVoted(ip, vid).isSuccess();
+		VotesEntity voteEntity = voteService.findVoteById(vid).getData();
+		boolean isVoteOwner = ur != null && voteEntity.getUid() == ur.getId();
+		boolean isManager = ur != null && ur.getAuthority() == 0;
+		boolean canCheckResult = voteEntity.getResultAuthority() == 1 || isVoteOwner || isManager;
+
+		modelMap.addAttribute("isVoted", isVoted);
+		modelMap.addAttribute("canCheckResult", canCheckResult);
+		return "vote_success";
 	}
 	
 	/**

@@ -2,8 +2,8 @@
 			<div class="progress">
 			    <div class="progress-bar" role="progressbar"
 		         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-		         th:styleappend="'width:' + ${result.ratio} + ';'">
-		        	<span th:text="${result.voteOption.optionText} + '(' + ${result.voteNum} + ')(' + ${result.ratio} + ')'"></span>
-		        </div>
+		         th:styleappend="'width:' + (${result.ratio} == '0%' ? '1%' : ${result.ratio}) + ';'"></div>
+		        <br/>
+		        <span th:text="${result.voteOption.optionText} + '(' + ${result.voteNum} + ')(' + ${result.ratio} + ')'"></span>
 			</div>
 		</div>

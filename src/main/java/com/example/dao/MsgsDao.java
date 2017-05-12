@@ -24,6 +24,7 @@ public interface MsgsDao extends JpaRepository<MsgsEntity, Integer> {
 	 * 通过投票id查询所有留言
 	 */
 	List<MsgsEntity> findByVid(int id);
+	
 	/**
 	 * 通过投票id查询未封禁的留言
 	 */
