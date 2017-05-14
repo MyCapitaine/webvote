@@ -4,7 +4,7 @@
 					<p th:if="${isMsged} == true">您已进行过留言</p>
 				</div>
 				<div th:each="msg : ${msgList}">
-					<div class="single_msg">
+					<div class="single-msg">
 						<span th:text="${msg.msgText}"></span>
 						<span th:text="${#dates.format(msg.msgTime, 'yyyy-MM-dd')}"></span>
 						<span th:if="${canDelMsg} == true">
