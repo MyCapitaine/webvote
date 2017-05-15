@@ -157,7 +157,7 @@ public class GuestController {
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		if(voteEntity == null) return "no_vote";
 		
-		boolean hasAuthority = (ur == null && voteEntity.getResultAuthority() == 1) //开放结果
+		boolean hasAuthority = voteEntity.getResultAuthority() == 1 //开放结果
 				|| (ur != null && ur.getAuthority() == 0) //管理员
 				|| (ur != null && ur.getId() == voteEntity.getUid()); //投票发布者
 		if(!hasAuthority) return "no_result_authority";
