@@ -40,6 +40,13 @@ public class MsgsEntity {
     @Column(name = "banned", nullable = false, length = 1)
     private int banned = 0;
     
+    @Column(name = "bumpnum")
+    private int bumpNum = 0;
+    
+    @Column(name = "treadnum")
+    private int treadNum = 0;
+    
+    
 	public int getId() {
 		return id;
 	}
@@ -88,4 +95,21 @@ public class MsgsEntity {
 		this.banned = banned;
 	}
 
+	public int getBumpNum() {
+		return bumpNum;
+	}
+
+	public void setBumpNum(int bumpNum) {
+		this.bumpNum = bumpNum;
+	}
+
+	public int getTreadNum() {
+		return treadNum;
+	}
+
+	public void setTreadNum(int treadNum) {
+		this.treadNum = treadNum;
+	}
+
+	
 }

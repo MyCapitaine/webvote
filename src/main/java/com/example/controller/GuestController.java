@@ -104,16 +104,21 @@ public class GuestController {
 		msgEntity.setMsgTime(new Date());
 		guestService.doMsg(msgEntity);
 		
+		fillInRefreshMsg(modelMap, ip, voteId, ur);
+		
+		return "refresh_msg";
+	}
+	
+	private void fillInRefreshMsg(ModelMap modelMap, String ip, int voteId, UserRegister ur) {
 		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
 		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
-		isMsged = guestService.isIpMsg(ip, voteId).isSuccess();
+		boolean isMsged = guestService.isIpMsg(ip, voteId).isSuccess();
 		boolean canDelMsg = ur != null && ((ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId()));
 		modelMap.addAttribute("msgList", msgs);
 		modelMap.addAttribute("isMsged", isMsged);
 		modelMap.addAttribute("canDelMsg", canDelMsg);
-		
-		return "refresh_msg";
 	}
+	
 	/**
 	 * 删除留言
 	 */
@@ -134,16 +139,65 @@ public class GuestController {
 		msgEntity.setId(msgId);
 		guestService.delMsg(msgEntity);
 		
-		VotesEntity voteEntity = voteService.findVoteById(voteId).getData();
-		List<MsgsEntity> msgs = guestService.getMsgsByVid(voteEntity.getId()).getData();
-		boolean isMsged = guestService.isIpMsg(IpAddress.getIpAddr(request), voteId).isSuccess();
-		boolean canDelMsg = ur != null && ((ur.getAuthority() == 0) || (voteEntity.getUid() == ur.getId()));
-		modelMap.addAttribute("msgList", msgs);
-		modelMap.addAttribute("isMsged", isMsged);
-		modelMap.addAttribute("canDelMsg", canDelMsg);
+		fillInRefreshMsg(modelMap, IpAddress.getIpAddr(request), voteId, ur);
 		
 		return "refresh_msg";
 	}
+	
+	@RequestMapping(value = "/bumpMsg", method = RequestMethod.POST)
+	public String bumpMsg(ModelMap modelMap,
+			HttpServletRequest request, String mid, String vid) {
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
+		
+		String ip = IpAddress.getIpAddr(request);
+		
+		int msgId, voteId;
+		try {
+			msgId = Integer.parseInt(mid);
+			voteId = Integer.parseInt(vid);
+		}catch(Exception e) {
+			return "refresh_msg";
+		}
+		
+		guestService.bumpMsg(msgId, ip, voteId);
+		
+		fillInRefreshMsg(modelMap, IpAddress.getIpAddr(request), voteId, ur);
+		
+		return "refresh_msg";
+	}
+	
+	@RequestMapping(value = "/treadMsg", method = RequestMethod.POST)
+	public String treadMsg(ModelMap modelMap,
+			HttpServletRequest request, String mid, String vid) {
+		Object urObj = request.getSession(true).getAttribute("currentUser");
+		UserRegister ur = urObj == null ? null : (UserRegister)urObj;
+		
+		String ip = IpAddress.getIpAddr(request);
+		
+		int msgId, voteId;
+		try {
+			msgId = Integer.parseInt(mid);
+			voteId = Integer.parseInt(vid);
+		}catch(Exception e) {
+			return "refresh_msg";
+		}
+
+		guestService.treadMsg(msgId, ip, voteId);
+		
+		fillInRefreshMsg(modelMap, ip, voteId, ur);
+		
+		return "refresh_msg";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * 投票结果页面

@@ -7,6 +7,10 @@
 					<div class="single-msg">
 						<span th:text="${msg.msgText}"></span>
 						<span th:text="${#dates.format(msg.msgTime, 'yyyy-MM-dd')}"></span>
+						<input th:value="${msg.id}" hidden="hidden" class="react_msg_id" />
+						<a th:text="${'顶(' + msg.bumpNum + ')'}" class="bump_msg"></a>
+						<input th:value="${msg.id}" hidden="hidden" class="react_msg_id" />
+						<a th:text="${'踩(' + msg.treadNum + ')'}" class="tread_msg"></a>
 						<span th:if="${canDelMsg} == true">
 							<input th:value="${msg.id}" hidden="hidden" class="del_msg_id" />
 							<a type="button" class="del_msg" >删除</a>

@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.dao.MsgReactionsDao;
 import com.example.dao.MsgsDao;
 import com.example.dao.VoteActivitiesDao;
 import com.example.dao.VoteOptionsDao;
+import com.example.entity.MsgReactionsEntity;
 import com.example.entity.MsgsEntity;
 import com.example.entity.ServiceResult;
 import com.example.entity.VoteActivitiesEntity;
@@ -27,6 +29,8 @@ public class GuestServiceImpl implements GuestService {
 	VoteActivitiesDao voteActivitiesDao;
 	@Autowired
 	MsgsDao msgsDao;
+	@Autowired
+	MsgReactionsDao msgReactionsDao;
 	@Autowired
 	VoteOptionsDao voteOptionsDao;
 	
@@ -137,6 +141,54 @@ public class GuestServiceImpl implements GuestService {
 	public boolean delMsg(MsgsEntity me) {
 		msgsDao.delete(me.getId());
 		return true;
+	}
+	@Override
+	public int bumpMsg(int mid, String ip, int vid) {
+		MsgReactionsEntity reaction = msgReactionsDao.findByMidAndIp(mid, ip);
+		MsgReactionsEntity bump = new MsgReactionsEntity();
+		bump.setIp(ip);
+		bump.setMid(mid);
+		bump.setRtype(0);
+		bump.setVid(vid);
+		if(reaction == null) { //未进行过回执,顶
+			msgReactionsDao.saveAndFlush(bump);
+			msgsDao.bumpMsg(mid, ip);
+			return 1;
+		}
+		if(reaction.getRtype() == 0) {//回执为顶,取消顶
+			msgReactionsDao.delete(reaction.getId());
+			msgsDao.unBumpMsg(mid, ip);
+			return 1;
+		}
+		else{ //回执为踩,转为顶
+			msgReactionsDao.changeToBumpMsg(mid, ip);
+			msgsDao.changeToBumpMsg(mid, ip);
+			return 1;
+		}
+	}
+	@Override
+	public int treadMsg(int mid, String ip, int vid) {
+		MsgReactionsEntity reaction = msgReactionsDao.findByMidAndIp(mid, ip);
+		MsgReactionsEntity bump = new MsgReactionsEntity();
+		bump.setIp(ip);
+		bump.setMid(mid);
+		bump.setRtype(1);
+		bump.setVid(vid);
+		if(reaction == null) { //未进行过回执,踩
+			msgReactionsDao.saveAndFlush(bump);
+			msgsDao.treadMsg(mid, ip);
+			return 1;
+		}
+		if(reaction.getRtype() == 1){ //回执为踩,取消踩
+			msgReactionsDao.delete(reaction.getId());
+			msgsDao.unTreadMsg(mid, ip);
+			return 1;
+		}
+		else{ //回执为顶,转为踩
+			msgReactionsDao.changeToTreadMsg(mid, ip);
+			msgsDao.changeToTreadMsg(mid, ip);
+			return 1;
+		}
 	}
 	
 	

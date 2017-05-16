@@ -74,4 +74,14 @@ public interface GuestService {
 	@Deprecated
 	int unbanMsg(int mid);
 	
+	/**
+	 * 顶留言
+	 */
+	int bumpMsg(int mid, String ip, int vid);
+	/**
+	 * 踩留言
+	 */
+	int treadMsg(int mid, String ip, int vid);
+	
+	
 }
