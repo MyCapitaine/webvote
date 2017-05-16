@@ -63,48 +63,50 @@ public class UserRegisterController {
     @ResponseBody
     public JsonResult<UserInformation> login(LoginVO form, ModelMap model,
                                              HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
-        JsonResult<UserInformation> jr=new JsonResult<UserInformation>();
+        JsonResult<UserInformation> jr = new JsonResult<UserInformation>();
         jr.setData(null);
         jr.setMessage("log in failed");
         jr.setSuccess(false);
         //登录前获取上一次登录时间
-        ServiceResult usersr = userRegisterService.findByLoginName(form.getLoginName());
-        ServiceResult usersr2 = userRegisterService.findByBindEmail(form.getLoginName());
-        UserRegister userr=null;
+        ServiceResult<UserRegister> usersr = null;
+        ServiceResult<UserRegister> usersr2 = null;
+        if (form.getLoginName() != null) {
+            usersr = userRegisterService.findByLoginName(form.getLoginName());
+            usersr2 = userRegisterService.findByBindEmail(form.getLoginName());
+        }
+        UserRegister userr = null;
         long last = 0;
-        if(usersr.getData()!=null){
-            userr = (UserRegister) usersr.getData();
+        if (usersr != null && usersr.getData() != null) {
+            userr = usersr.getData();
             last = userr.getLastLoginTime().getTime();
-        }
-        else if(usersr2.getData()!=null){
-            userr = (UserRegister) usersr2.getData();
+        } else if (usersr2!= null && usersr2.getData() != null) {
+            userr = usersr2.getData();
             last = userr.getLastLoginTime().getTime();
-        }
-        else{
+        } else {
             jr.setMessage("User is not exist");
             jr.setSuccess(false);
             return jr;
         }
         //登录后上一次登录时间更新
-        ServiceResult<?> ursr= userRegisterService.login(form.getLoginName(),form.getLoginPassword());
+        ServiceResult<UserRegister> ursr = userRegisterService.login(form.getLoginName(), form.getLoginPassword());
         jr.setMessage(ursr.getMessage());
         jr.setSuccess(ursr.isSuccess());
-        if(ursr.isSuccess()){
+        if (ursr.isSuccess()) {
             //登录后获取最近的的登录时间
-            UserRegister ur = (UserRegister)ursr.getData();
+            UserRegister ur = ursr.getData();
             long now = ur.getLastLoginTime().getTime();
             //获取UserInformation放入session
-            ServiceResult<?> uisr = userInformationService.findById(ur.getId());
-            UserInformation ui = (UserInformation)uisr.getData();
+            ServiceResult<UserInformation> uisr = userInformationService.findById(ur.getId());
+            UserInformation ui = uisr.getData();
             UserInformationVO uivo = new UserInformationVO(ui);
             //uivo.setBindingEmail(Encrypt.encryptEmailPrefix(uivo.getBindingEmail()));
 
             jr.setData(ui);
             jr.setMessage(ursr.getMessage());
             jr.setSuccess(ursr.isSuccess());
-            model.addAttribute("currentUser",ur);
-            model.addAttribute("UserInformation",uivo);
-            if(now-last>=1000*60*60){
+            model.addAttribute("currentUser", ur);
+            model.addAttribute("UserInformation", uivo);
+            if (now - last >= 1000 * 60 * 60) {
                 LoginRecord lr = new LoginRecord(ur);
                 lr.setIp(IpAddress.getIpAddr(httpServletRequest));
                 ui.setLatestIP(IpAddress.getIpAddr(httpServletRequest));
@@ -113,10 +115,10 @@ public class UserRegisterController {
                 System.out.println("***********controller登录记录**********");
             }
             //remember me 利用cookie实现自动登录
-            if(form.getRemember()){
-                String cu=form.getLoginName()+":"+form.getLoginPassword();
-                Cookie cookie=new Cookie("currentUser",cu);
-                cookie.setMaxAge(60*60*24*30);
+            if (form.getRemember()) {
+                String cu = form.getLoginName() + ":" + form.getLoginPassword();
+                Cookie cookie = new Cookie("currentUser", cu);
+                cookie.setMaxAge(60 * 60 * 24 * 30);
                 cookie.setPath("/");
                 httpServletResponse.addCookie(cookie);
             }

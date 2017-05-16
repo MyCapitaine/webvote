@@ -5,7 +5,6 @@ import com.example.serviceInterface.IpService;
 import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
-import com.example.util.Encrypt;
 import com.example.util.IpAddress;
 import com.example.vo.UserInformationVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
 
 /**
  * Created by hasee on 2017/4/10.
