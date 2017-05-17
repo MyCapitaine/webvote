@@ -26,6 +26,50 @@ public interface MsgsDao extends JpaRepository<MsgsEntity, Integer> {
 	List<MsgsEntity> findByVid(int id);
 	
 	/**
+	 * 顶留言，留言顶数+1
+	 */
+	@Modifying
+	@Transactional
+	@Query("update MsgsEntity set bumpnum = bumpnum + 1 where id = ?1 and ip = ?2")
+	int bumpMsg(int mid, String ip);
+	/**
+	 * 取消顶留言，留言顶数-1
+	 */
+	@Modifying
+	@Transactional
+	@Query("update MsgsEntity set bumpnum = bumpnum - 1 where id = ?1 and ip = ?2")
+	int unBumpMsg(int mid, String ip);
+	/**
+	 * 转为顶留言，留言踩数-1，顶数+1
+	 */
+	@Modifying
+	@Transactional
+	@Query("update MsgsEntity set bumpnum = bumpnum + 1, treadnum = treadnum - 1 where id = ?1 and ip = ?2")
+	int changeToBumpMsg(int mid, String ip);
+	/**
+	 * 踩留言，踩留言数+1
+	 */
+	@Modifying
+	@Transactional
+	@Query("update MsgsEntity set treadnum = treadnum + 1 where id = ?1 and ip = ?2")
+	int treadMsg(int mid, String ip);
+	/**
+	 * 取消踩留言，踩留言数-1
+	 */
+	@Modifying
+	@Transactional
+	@Query("update MsgsEntity set treadnum = treadnum - 1 where id = ?1 and ip = ?2")
+	int unTreadMsg(int mid, String ip);
+	/**
+	 * 转为踩留言，顶留言数-1，踩留言数+1
+	 */
+	@Modifying
+	@Transactional
+	@Query("update MsgsEntity set bumpnum = bumpnum - 1, treadnum = treadnum + 1 where id = ?1 and ip = ?2")
+	int changeToTreadMsg(int mid, String ip);
+	
+	
+	/**
 	 * 通过投票id查询未封禁的留言
 	 */
 	@Deprecated
