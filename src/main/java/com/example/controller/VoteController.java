@@ -107,6 +107,17 @@ public class VoteController {
 		boolean isVoteBegin = currentDate.after(voteEntity.getBeginTime());
 		boolean isVoteOver = currentDate.after(voteEntity.getDeadLine());
 
+		//热评
+		boolean hasHotMsg = false;
+		MsgsEntity hotMsg = new MsgsEntity();
+		hotMsg.setBumpNum(0);
+		for(MsgsEntity msg : msgs) {
+			if(msg.getBumpNum() > hotMsg.getBumpNum()) 
+				hotMsg = msg;
+		}
+		if(hotMsg.getBumpNum() >= 3) hasHotMsg = true;
+		
+		
 		modelMap.addAttribute("voteEntity", voteEntity);
 		modelMap.addAttribute("optionList", optionList);
 		modelMap.addAttribute("msgList", msgs);
@@ -117,6 +128,8 @@ public class VoteController {
 		modelMap.addAttribute("isVoteBegin", isVoteBegin);
 		modelMap.addAttribute("isVoteOver", isVoteOver);
 		modelMap.addAttribute("canCheckResult", canCheckResult);
+		modelMap.addAttribute("hasHotMsg", hasHotMsg);
+		modelMap.addAttribute("hotMsg", hotMsg);
 		
 		return "vote";
 	}

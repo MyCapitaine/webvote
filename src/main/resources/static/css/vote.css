@@ -125,14 +125,53 @@ input[type=radio]{
 
 #msg_input_field{
 	padding-left: 10px;
-	padding-bottom: 10px;
+	padding-bottom: 0px;
 }
 
 .single-msg{
-	margin: 10px;
+	padding: 10px;
 	margin-top: 0px;
+	border-top: 1px solid #F2F2F2;
 }
 
 .del-field{
 	margin: 10px;
+}
+
+.msg_title{
+	color: grey;
+	font-size: 13px;
+	padding: 10px;
+	padding-bottom: 0px;
+	border-top: 1px solid #F2F2F2;
+}
+
+.recommand_title{
+	padding-left: 10px;
+}
+
+.col-xs-4{
+	width: 33%;
+	padding: 0px;
+	border: 1px solid #e6e6e6;
+}
+
+.recommand_info {
+	margin: 10px;
+	font-size: 13px;
+}
+
+a .recommand_title {
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+	color:black;
+}
+
+
+.recommand_time{
+	margin: 10px;
+	color: #666;
+    font-size: 12px;
+    font: 12px 'Microsoft YaHei','Hiragino Sans GB',Arial,sans-serif;
 }
