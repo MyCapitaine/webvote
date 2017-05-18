@@ -16,17 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by hasee on 2017/4/18.
@@ -57,9 +50,6 @@ public class UserInformationController {
                                      @RequestParam("id") int id,
                                      ModelMap model){
         JsonResult jr = new JsonResult();
-        System.out.println(file.getOriginalFilename().lastIndexOf("."));
-        System.out.println(file.getOriginalFilename().split("\\.")[0]);
-        System.out.println(id);
         if(!file.isEmpty()){
             try{
                 String fileName = file.getOriginalFilename();
@@ -75,8 +65,8 @@ public class UserInformationController {
                 file.transferTo(new File(path));
 
                 String portrait = "/portrait/"+codeFileName+"."+fix[1];
-                ServiceResult uisr = userInformationService.findById(id);
-                UserInformation ui = (UserInformation) uisr.getData();
+                ServiceResult<UserInformation> uisr = userInformationService.findById(id);
+                UserInformation ui = uisr.getData();
                 ui.setPortrait(portrait);
                 userInformationService.modify(ui);
 
@@ -163,7 +153,7 @@ public class UserInformationController {
             se.send(email,url.toString());
 
             model.addAttribute("redirectTo","index");
-            model.addAttribute("message","邮件发送成功，请在3分钟内查看邮件完成绑定操作");
+            model.addAttribute("message","邮件发送成功，请在3分钟内查看邮件完成修改绑定邮箱操作");
 
             jr.setMessage("Send email to reset binding email success");
             jr.setSuccess(true);
@@ -211,7 +201,7 @@ public class UserInformationController {
     @RequestMapping("/home/loginRecord")
     @ResponseBody
     public JsonResult loginRecord(@ModelAttribute(value = "currentUser")UserRegister ur,int pageIndex){
-        int pageSize= 5;
+        int pageSize = 5;
         JsonResult jr = new JsonResult();
         jr.setMessage("failed");
         jr.setSuccess(false);

@@ -3,8 +3,9 @@ package com.example.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
+import javax.persistence.Table;
+
 
 /**
  * Created by hasee on 2017/4/11.
@@ -18,19 +19,19 @@ public class BindingEmailValidate {
     @Column(name = "binding_mail",nullable = false)
     private String bindingEmail;//绑定邮箱
 
-    @Column(name="validator",nullable = false)
+    @Column(name = "validator",nullable = false)
     private String validator;//验证码
 
-    @Column(name="deadline",nullable = false)
+    @Column(name = "deadline",nullable = false)
     private Date deadline;//默认有效期三分钟
 
     public BindingEmailValidate() {
     }
 
     public BindingEmailValidate(UserRegister ur) {
-        this.id=ur.getId();
-        long time=ur.getRegisterTime().getTime()+1000*60*3;
-        this.deadline=new Date(time);
+        this.id = ur.getId();
+        long time = ur.getRegisterTime().getTime() + 1000 * 60 * 3;
+        this.deadline = new Date(time);
         this.bindingEmail = ur.getBindingEmail();
     }
 

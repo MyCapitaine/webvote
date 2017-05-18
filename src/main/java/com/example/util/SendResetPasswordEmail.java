@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -36,7 +37,7 @@ public class SendResetPasswordEmail implements SendEmail {
             MimeMessage message = new MimeMessage(EmailSession.getSession());
             message.setFrom(new InternetAddress(EmailSession.getFrom(),"网投", "UTF-8"));
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
-            message.setSubject("修改密码");
+            message.setSubject("修改密码验证");
             message.setContent(getContent(to,url) , "text/html;charset=utf-8");
             Transport.send(message);
         }catch (MessagingException me) {
@@ -47,7 +48,7 @@ public class SendResetPasswordEmail implements SendEmail {
                 throw new SendEmailException("邮件系统出了点问题，正在修复。请稍后再试");
             }
         }
-        catch (UnsupportedEncodingException ue){
+        catch (UnsupportedEncodingException ue) {
             throw new SendEmailException("邮件系统出了点问题：不支持的编码格式");
         }
     }

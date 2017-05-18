@@ -86,7 +86,7 @@ function dynamicInformation(data){
         var time="<td>"+new Date(data[obj].createTime).Format("yyyy-MM-dd hh:mm:ss")+"</td>";
         var title="<td>" + "<a href='/votepage/" + data[obj].id + "' target='_blank'>" + data[obj].vname + "</a>"+ "</td>";
         var summary="<td>" + data[obj].vinfo + "</td>";
-        var modify="<td>" +  "<a href='/updatevote/" + data[obj].id + "' target='_blank'>修改</a>" + "</td>";
+        var modify="<td>" +  "<a href='/updatevote/" + data[obj].id + "' target='_blank' class='modify'>修改</a>" + "</td>";
         var tr=tr_head + box + time + title + summary + modify + tr_foot;
         $("tbody").append(tr);
     }

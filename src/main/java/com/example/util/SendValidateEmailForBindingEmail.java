@@ -30,7 +30,7 @@ public class SendValidateEmailForBindingEmail implements SendEmail {
             MimeMessage message = new MimeMessage(EmailSession.getSession());
             message.setFrom(new InternetAddress(EmailSession.getFrom(),"网投", "UTF-8"));
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
-            message.setSubject("账号邮箱绑定确认");
+            message.setSubject("账号邮箱绑定验证");
             message.setContent(getContent(to,url) , "text/html;charset=utf-8");
             Transport.send(message);
         }catch (MessagingException me) {
