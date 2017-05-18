@@ -17,6 +17,16 @@
 	    <link href="/css/vote_result.css" rel="stylesheet"/>
 	    <script type="text/javascript">
 			$(document).ready(function(){
+				var voteId = $("#vote_id").text();
+				var url = "/recommandvote/" + voteId;
+				$.ajax({
+					type : "GET",
+					url : url,
+					success : function(recommand_votes) {
+						$(".recommand-field").html(recommand_votes);
+					}
+				});
+				
 	    		$("#vote_submit").click(function(){
 	    			var checkedOptionIds = new Array();
 	    			$("input[name='vote_option']:checked").each(function(){
@@ -132,7 +142,6 @@
 	    				}
 					});
 				});
-				
 	    	});
 	    </script>
 	</head>
@@ -236,12 +245,28 @@
             
 			<div class="row" id="msg_field">
 				<div id="msg_input_field">
-					<input th:if="${isMsged} == false" type="text" id="msg_text" />
+					<input th:if="${isMsged} == false" type="text" id="msg_text" style="margin-bottom:10px" />
 					<input th:if="${isMsged} == false" type="button" value="发表" id="msg_submit" />
 					<p th:if="${isMsged} == true">您已进行过留言</p>
 				</div>
-				<div th:each="msg : ${msgList}">
+				<div th:if="${hasHotMsg}" class="hot_msg_field">
+					<div class="msg_title"><p>热门评论</p></div>
 					<div class="single-msg">
+						<span th:text="${hotMsg.msgText}"></span>
+						<span th:text="${#dates.format(hotMsg.msgTime, 'yyyy-MM-dd')}"></span>
+						<input th:value="${hotMsg.id}" hidden="hidden" class="react_msg_id" />
+						<a th:text="${'顶(' + hotMsg.bumpNum + ')'}" class="bump_msg"></a>
+						<input th:value="${hotMsg.id}" hidden="hidden" class="react_msg_id" />
+						<a th:text="${'踩(' + hotMsg.treadNum + ')'}" class="tread_msg"></a>
+						<span th:if="${canDelMsg} == true">
+							<input th:value="${hotMsg.id}" hidden="hidden" class="del_msg_id" />
+							<a type="button" class="del_msg" >删除</a>
+						</span>
+					</div>
+				</div>
+				<div >
+					<div class="msg_title"><p>普通评论</p></div>
+					<div class="single-msg" th:each="msg : ${msgList}">
 						<span th:text="${msg.msgText}"></span>
 						<span th:text="${#dates.format(msg.msgTime, 'yyyy-MM-dd')}"></span>
 						<input th:value="${msg.id}" hidden="hidden" class="react_msg_id" />
@@ -255,6 +280,9 @@
 					</div>
 				</div>
 			</div>
+            
+            <div class="recommand-field">
+            </div>
             
             <div class="del-field">
 	            <form th:if="${canDelVote} == true">

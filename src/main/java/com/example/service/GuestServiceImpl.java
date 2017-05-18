@@ -1,7 +1,13 @@
 package com.example.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,11 +16,13 @@ import com.example.dao.MsgReactionsDao;
 import com.example.dao.MsgsDao;
 import com.example.dao.VoteActivitiesDao;
 import com.example.dao.VoteOptionsDao;
+import com.example.dao.VotesDao;
 import com.example.entity.MsgReactionsEntity;
 import com.example.entity.MsgsEntity;
 import com.example.entity.ServiceResult;
 import com.example.entity.VoteActivitiesEntity;
 import com.example.entity.VoteOptionsEntity;
+import com.example.entity.VotesEntity;
 import com.example.serviceInterface.GuestService;
 import com.example.vo.VoteResultVO;
 
@@ -33,6 +41,8 @@ public class GuestServiceImpl implements GuestService {
 	MsgReactionsDao msgReactionsDao;
 	@Autowired
 	VoteOptionsDao voteOptionsDao;
+	@Autowired
+	VotesDao votesDao;
 	
 	@Override
 	public ServiceResult<List<MsgsEntity>> getMsgsByVid(int vid) {
@@ -189,6 +199,52 @@ public class GuestServiceImpl implements GuestService {
 			msgsDao.changeToTreadMsg(mid, ip);
 			return 1;
 		}
+	}
+	
+	private static final long TIME_INTER = 7 * 24 * 3600 * 1000;
+	private static final long RECOMMAND_NUM = 3;
+	@Override
+	public ServiceResult<List<VotesEntity>> getRecommandVotes(int vid) {
+		ServiceResult<List<VotesEntity>> sr = new ServiceResult<List<VotesEntity>>();
+		
+		Date now = new Date();
+		Date aWeekAgo =  new Date(now.getTime() - TIME_INTER);
+		//获取一段时间参与该投票的IP
+		List<String> ips = voteActivitiesDao.findIpByVid(vid, aWeekAgo, now);
+		if(ips.size() == 0) {
+			sr.setData(new ArrayList<VotesEntity>());
+			sr.setSuccess(false);
+			return sr;
+		}
+		//统计一段时间IP参与的投票
+		List<Object[]> voteActivities = voteActivitiesDao.findByIps(ips, aWeekAgo, now);
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(Object[] vce : voteActivities) {
+			Integer num = map.get(vce[1]);
+			if(num == null) {
+				num = 0;
+			}
+			map.put((Integer)vce[1], num + 1);
+		}
+		//去掉自己
+		map.remove(vid);
+		//排序
+		List<Entry<Integer, Integer>> mapList = new ArrayList<Entry<Integer, Integer>>(map.entrySet());
+		Collections.sort(mapList, new Comparator<Map.Entry<Integer, Integer>>() {
+			@Override
+			public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
+				return o1.getValue() - o2.getValue();
+			}
+		}.reversed());
+		List<Integer> vids = new ArrayList<Integer>();
+		for(int i = 0; i < RECOMMAND_NUM && i < mapList.size(); i ++) {
+			vids.add(mapList.get(i).getKey());
+		}
+		List<VotesEntity> votes = vids.size() == 0 ? 
+				new ArrayList<VotesEntity>() : votesDao.findByVid(vids);
+		sr.setData(votes);
+		sr.setSuccess(votes != null && votes.size() != 0);
+		return sr;
 	}
 	
 	

@@ -117,6 +117,18 @@ public class GuestController {
 		modelMap.addAttribute("msgList", msgs);
 		modelMap.addAttribute("isMsged", isMsged);
 		modelMap.addAttribute("canDelMsg", canDelMsg);
+		
+		//热评
+		boolean hasHotMsg = false;
+		MsgsEntity hotMsg = new MsgsEntity();
+		hotMsg.setBumpNum(0);
+		for(MsgsEntity msg : msgs) {
+			if(msg.getBumpNum() > hotMsg.getBumpNum()) 
+				hotMsg = msg;
+		}
+		if(hotMsg.getBumpNum() >= 3) hasHotMsg = true;
+		modelMap.addAttribute("hasHotMsg", hasHotMsg);
+		modelMap.addAttribute("hotMsg", hotMsg);
 	}
 	
 	/**
@@ -143,7 +155,9 @@ public class GuestController {
 		
 		return "refresh_msg";
 	}
-	
+	/**
+	 * 顶留言
+	 */
 	@RequestMapping(value = "/bumpMsg", method = RequestMethod.POST)
 	public String bumpMsg(ModelMap modelMap,
 			HttpServletRequest request, String mid, String vid) {
@@ -166,7 +180,9 @@ public class GuestController {
 		
 		return "refresh_msg";
 	}
-	
+	/**
+	 * 踩留言
+	 */
 	@RequestMapping(value = "/treadMsg", method = RequestMethod.POST)
 	public String treadMsg(ModelMap modelMap,
 			HttpServletRequest request, String mid, String vid) {
@@ -189,14 +205,6 @@ public class GuestController {
 		
 		return "refresh_msg";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/**
@@ -222,4 +230,18 @@ public class GuestController {
 		
 		return "vote_result";
 	}
+	
+	/**
+	 * 推送投票部分
+	 */
+	@RequestMapping(value = "/recommandvote/{voteId}", method = RequestMethod.GET)
+	public String recommandVotes(ModelMap modelMap, @PathVariable int voteId) {
+		List<VotesEntity> recommandVotes = guestService.getRecommandVotes(voteId).getData();
+		modelMap.addAttribute("recommandVotes", recommandVotes);
+		return "recommand_vote";
+	}
+	
+	
+	
+	
 }

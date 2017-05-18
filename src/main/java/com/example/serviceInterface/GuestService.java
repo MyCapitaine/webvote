@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.entity.MsgsEntity;
 import com.example.entity.ServiceResult;
 import com.example.entity.VoteActivitiesEntity;
+import com.example.entity.VotesEntity;
 import com.example.vo.VoteResultVO;
 
 /**
@@ -82,6 +83,8 @@ public interface GuestService {
 	 * 踩留言
 	 */
 	int treadMsg(int mid, String ip, int vid);
-	
-	
+	/**
+	 * 获取推荐投票(一段时间内，投了该投票的其他人也在投)
+	 */
+	ServiceResult<List<VotesEntity>> getRecommandVotes(int vid);
 }
