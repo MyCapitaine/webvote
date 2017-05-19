@@ -79,5 +79,10 @@ public interface VotesDao extends JpaRepository<VotesEntity, Integer> {
 	 */
 	@Query("from VotesEntity where id in ?1 and banned = 0")
 	List<VotesEntity> findByVid(List<Integer> ids);
+	/**
+	 * 根据投票名和投票简介是否包含关键字查找投票
+	 */
+	@Query("select v from VotesEntity v where v.vname like %?1% or v.vinfo like %?1% and v.banned = 0")
+	Page<VotesEntity> research(String keyword, Pageable pageable);
 	
 }

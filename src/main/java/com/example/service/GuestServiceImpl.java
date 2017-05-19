@@ -202,7 +202,7 @@ public class GuestServiceImpl implements GuestService {
 	}
 	
 	private static final long TIME_INTER = 7 * 24 * 3600 * 1000;
-	private static final long RECOMMAND_NUM = 3;
+	private static final int RECOMMAND_NUM = 3;
 	@Override
 	public ServiceResult<List<VotesEntity>> getRecommandVotes(int vid) {
 		ServiceResult<List<VotesEntity>> sr = new ServiceResult<List<VotesEntity>>();

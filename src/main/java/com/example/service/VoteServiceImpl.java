@@ -1,11 +1,19 @@
 package com.example.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import com.example.dao.VoteActivitiesDao;
 import com.example.dao.VoteOptionsDao;
 import com.example.dao.VotesDao;
@@ -106,6 +114,52 @@ public class VoteServiceImpl implements VoteService {
 		sr.setData(options);
 		sr.setSuccess(options != null);
 		return sr;
+	}
+	
+	private static final long HOT__TIME = 7 * 24 * 3600 * 1000;
+	private static final int HOT_NUM = 3;
+	@Override
+	public ServiceResult<List<VotesEntity>> findHotVotes() {
+		ServiceResult<List<VotesEntity>> sr = new ServiceResult<List<VotesEntity>>();
+		
+		Date now = new Date();
+		Date aWeekAgo =  new Date(now.getTime() - HOT__TIME);
+		List<Object[]> voteActivities = voteActivitiesDao.findByTime(aWeekAgo, now);
+		//统计
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(Object[] vce : voteActivities) {
+			Integer num = map.get(vce[1]);
+			if(num == null) {
+				num = 0;
+			}
+			map.put((Integer)vce[1], num + 1);
+		}
+		//排序
+		List<Entry<Integer, Integer>> mapList = new ArrayList<Entry<Integer, Integer>>(map.entrySet());
+		Collections.sort(mapList, new Comparator<Map.Entry<Integer, Integer>>() {
+			@Override
+			public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
+				return o1.getValue() - o2.getValue();
+			}
+		}.reversed());
+		List<Integer> vids = new ArrayList<Integer>();
+		for(int i = 0; i < HOT_NUM && i < mapList.size(); i ++) {
+			vids.add(mapList.get(i).getKey());
+		}
+		List<VotesEntity> votes = vids.size() == 0 ? 
+				new ArrayList<VotesEntity>() : votesDao.findByVid(vids);
+		sr.setData(votes);
+		sr.setSuccess(votes != null && votes.size() != 0);
+		return sr;
+	}
+
+	@Override
+	public ServiceResult<Page<VotesEntity>> researchVotes(Pageable pageable, String keywords) {
+		
+		
+		
+		
+		return null;
 	}
 
 
