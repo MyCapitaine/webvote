@@ -72,6 +72,48 @@
 .direct-button{
     height: 34px;
 }
+
+/*投票列表*/
+.result{
+    border-top: 1px solid;
+    width: 980px;
+    margin:0 auto;
+//padding-top: 30px;
+    clear: both;
+    min-height: 700px;
+}
+.template{
+    border-bottom: 1px solid;
+}
+.row-top a{
+    padding: 10px 10px 5px;
+    color: #337ab7;
+    font-size: 16px;
+}
+.row-middle{
+    font-size: 12px;
+    padding: 0 10px 5px;
+}
+.textValue, .action {
+    display: inline-block;
+    position: relative;
+    color: #666;
+    font-size: 12px;
+    font: 12px 'Microsoft YaHei','Hiragino Sans GB',Arial,sans-serif;
+}
+.textValue:nth-child(odd){
+    /*display: inline;*/
+    /*vertical-align: middle;*/
+    /*margin-top: 0;*/
+    margin-left: 10px;
+}
+.textName label,.textValue label{
+    text-align: right;
+    float:right;
+    margin-right:20px;
+    height: 28px;
+    line-height: 28px;
+}
 /*结果栏*/
 .result-wrapper{
     width: 980px;

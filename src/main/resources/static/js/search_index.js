@@ -7,6 +7,11 @@ $(document).ready(function(){
             search();
         }
     });
+    $(".input-wrapper").keydown(function() {
+        if (event.keyCode == 13 && $("#search-keyword").val()) {
+            search();
+        }
+    });
 });
 
 function search(){
@@ -17,7 +22,12 @@ function search(){
             keyword:$("#search-keyword").val()
         },
         success:function(result){
+            changeURL();
             $("body").html(result);
         }
     });
+}
+
+function changeURL(){
+    history.pushState("", "", "/search?keyword=" + $("#search-keyword").val());
 }

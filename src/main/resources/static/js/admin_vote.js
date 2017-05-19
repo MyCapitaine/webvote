@@ -75,7 +75,7 @@ function changeURL(index){
     history.pushState("","","/admin/vote?pageIndex="+index);
 }
 function changeToPage(index){
-
+    pageIndex=index;
     $(":checkbox").prop("checked", false);
     $.ajax({
         url:"/admin/vote/getAllVotes",
