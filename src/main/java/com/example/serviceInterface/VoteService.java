@@ -57,8 +57,14 @@ public interface VoteService {
 	@Deprecated
 	ServiceResult<List<VotesEntity>> findBanList();
 
+	/**
+	 * 获取热门投票
+	 */
+	ServiceResult<List<VotesEntity>> findHotVotes();
 	
-	
-	
+	/**
+	 * 搜索投票
+	 */
+	ServiceResult<Page<VotesEntity>> researchVotes(Pageable pageable, String keywords);
 	
 }

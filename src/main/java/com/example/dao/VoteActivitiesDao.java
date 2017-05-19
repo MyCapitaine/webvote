@@ -40,7 +40,11 @@ public interface VoteActivitiesDao extends JpaRepository<VoteActivitiesEntity, I
 	 */
 	@Query(" select distinct va.ip, va.vid from VoteActivitiesEntity va, VotesEntity v where va.ip in ?1 and va.voteTime > ?2 and va.voteTime < ?3 and va.vid = v.id and v.banned = 0")
 	List<Object[]> findByIps(List<String> ip, Date time1, Date time2);
-	
+	/**
+	 * 查找一段时间的投票(未被删除的)
+	 */
+	@Query(" select distinct va.ip, va.vid from VoteActivitiesEntity va, VotesEntity v where va.voteTime > ?1 and va.voteTime < ?2 and va.vid = v.id and v.banned = 0")
+	List<Object[]> findByTime(Date time1, Date time2);
 	/**
 	 * 更新投票活动
 	 */
