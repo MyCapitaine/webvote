@@ -52,6 +52,31 @@
 .publish-page li{
     display: inline;
 }
+/*修改操作*/
+.modify:hover{
+    color:blue;
+}
+/*删除按钮*/
+.delete-btn{
+    margin-left: 30px;
+    display: block;
+    width: 80px;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    color: red;
+    font-size: 16px;
+    border-radius: 3px;
+    border: 1px solid #215A8D;
+    opacity: 0.75;
+    padding: 0;
+}
+.delete-btn:hover{
+    text-decoration:none;
+    color : red;
+    opacity:1;
+}
+
 /*分页相关*/
 .disable a{
     color: grey !important;

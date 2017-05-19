@@ -59,7 +59,7 @@ public class UserInformation {
         this.id=ur.getId();
         this.bindingEmail =ur.getBindingEmail();
         this.registerTime=ur.getRegisterTime();
-        this.sign="这个人很懒，什么也没留下";
+        this.sign="这个人很懒，什么也没留下。";
         this.level=1;
         this.experience=0;
         this.portrait=null;
