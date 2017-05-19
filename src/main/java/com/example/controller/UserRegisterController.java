@@ -23,7 +23,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @Controller
@@ -46,7 +45,7 @@ public class UserRegisterController {
     /************************用户登录***************************/
     //返回登录界面
     @RequestMapping("/signin")
-    public String signin(){
+    public String signin(ModelMap model){
         return "signin";
     }
 
@@ -167,12 +166,12 @@ public class UserRegisterController {
 
         try{
             ServiceResult<UserRegister> ursr = userRegisterService.register(ur);
-            ur = (UserRegister) ursr.getData();
+            ur = ursr.getData();
             UserInformation ui = new UserInformation(ur);
             ui.setNickName(form.getNickName());
             ui.setLatestIP(IpAddress.getIpAddr(httpServletRequest));
-            ServiceResult<?> uisr = userInformationService.register(ui);
-            ui = (UserInformation) uisr.getData();
+            ServiceResult<UserInformation> uisr = userInformationService.register(ui);
+            ui = uisr.getData();
             UserInformationVO uivo = new UserInformationVO(ui);
 
 //            ServiceResult<?> avsr = bindingEmailValidateService.add(ur);
@@ -266,7 +265,7 @@ public class UserRegisterController {
             se.send(email,url.toString());
 
             model.addAttribute("redirectTo","index");
-            model.addAttribute("message","邮件发送成功，请在3分钟内查看邮件完成绑定操作");
+            model.addAttribute("message","邮件发送成功，请在3分钟内查看邮件完成绑定邮箱操作");
 
             jr.setMessage("Send email to binding email success");
             jr.setSuccess(true);
@@ -340,14 +339,14 @@ public class UserRegisterController {
         jr.setMessage("Email is not binding");
         jr.setSuccess(false);
 
-        ServiceResult<?> ursr = userRegisterService.findByBindEmail(email);
-        UserRegister ur = (UserRegister) ursr.getData();
+        ServiceResult<UserRegister> ursr = userRegisterService.findByBindEmail(email);
+        UserRegister ur = ursr.getData();
 
         if(ur!=null){
             try{
 
-                ServiceResult<?> sr = resetPasswordValidateService.add(ur);                   
-                ResetPasswordValidate rpv = (ResetPasswordValidate)sr.getData();                    
+                ServiceResult<ResetPasswordValidate> sr = resetPasswordValidateService.add(ur);
+                ResetPasswordValidate rpv = sr.getData();
                 String validateCode = rpv.getValidateCode();                  
                 int id=rpv.getId();
                 
@@ -355,7 +354,6 @@ public class UserRegisterController {
                 url.append(validateCode);
                 url.append("&id=");
                 url.append(id);
-
                 SendEmail se = SendEmailFactory.getInstance(SendResetPasswordEmail.class);
                 se.send(email,url.toString());
 
@@ -376,7 +374,7 @@ public class UserRegisterController {
     }
 
     @RequestMapping("/resetPasswordValidate")
-    public String resetPasswordValidate(@RequestParam(value = "token")String validateCode,int id,ModelMap modelMap,Model model){
+    public String resetPasswordValidate(@RequestParam(value = "token")String validateCode,@RequestParam(value = "id")int id,ModelMap modelMap,Model model){
 
         ServiceResult<?> rpvsr = resetPasswordValidateService.validate(id,validateCode);        
         if(rpvsr.isSuccess()){
@@ -412,9 +410,9 @@ public class UserRegisterController {
     	
     	ServiceResult<SetPasswordValidate> spvsr = setPasswordValidateService.validate(id, validateCode);
     	if(spvsr.isSuccess()){
-    		SetPasswordValidate spv = (SetPasswordValidate) spvsr.getData();
+    		SetPasswordValidate spv = spvsr.getData();
     		ServiceResult<UserRegister> ursr = userRegisterService.findById(spv.getId());
-    		UserRegister ur = (UserRegister) ursr.getData();
+    		UserRegister ur =  ursr.getData();
     		ur.setLoginPassword(password);
     		userRegisterService.modify(ur);
     		

@@ -29,8 +29,6 @@ public class ResetBindingEmailValidateServiceImpl implements ResetBindingEmailVa
         sr.setMessage("validate failed");
         sr.setSuccess(false);
         ResetBindingEmailValidate rbev = resetBindingEmailValidateDao.validate(id,validateCode);
-        System.out.println(validateCode);
-        System.out.println(resetBindingEmailValidateDao.findOne(id).getValidateCode());
         if(rbev!=null){
             Date deadline = rbev.getDeadline();
             if(now.before(deadline)){
