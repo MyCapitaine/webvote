@@ -155,11 +155,10 @@ public class VoteServiceImpl implements VoteService {
 
 	@Override
 	public ServiceResult<Page<VotesEntity>> researchVotes(Pageable pageable, String keywords) {
-		
-		
-		
-		
-		return null;
+		ServiceResult<Page<VotesEntity>> sr = new ServiceResult<Page<VotesEntity>>();
+		sr.setData(votesDao.research(keywords, pageable));
+		sr.setSuccess(true);
+		return sr;
 	}
 
 
