@@ -9,10 +9,31 @@ var page={
 };
 $(document).ready(function(){
     template=$(".template");
+    initHot();
     if(pageIndex-1<0){
         pageIndex=1;
         changeURL(1);
     }
+    init();
+});
+
+function initHot(){
+    //$(".result").empty();
+    for(var index in hotVotes){
+        var beginTime = new Date(hotVotes[index].beginTime).Format("yyyy-MM-dd hh:mm:ss");
+        var deadline = new Date(hotVotes[index].deadLine).Format("yyyy-MM-dd hh:mm:ss");
+        var row = template.clone();
+        $(row).find("a").attr("href","/votepage/"+hotVotes[index].id);
+        $(row).find("a").attr("target","_blank");
+        $(row).find("a").text(hotVotes[index].vname);
+        $(row).find(".row-middle").text(hotVotes[index].vinfo);
+        $(row).find(".beginTime").text(beginTime);
+        $(row).find(".deadline").text(deadline);
+        $(".hot").append(row);
+    }
+}
+
+function init(){
     $.ajax({
         url : "/getVotes",
         type : "GET",
@@ -21,7 +42,6 @@ $(document).ready(function(){
         },
         dataType : "json",
         success : function(result) {
-            console.log(result);
             var page=result.data;
             var data=page.content;
             var pageTotal=page.totalPages;
@@ -41,7 +61,30 @@ $(document).ready(function(){
             }
         }
     });
-});
+}
+
+function hot(){
+    $.ajax({
+        url : "/hotVotes",
+        type : "GET",
+        dataType : "json",
+        success : function(result) {
+            console.log(result);
+            var page=result.data;
+            var data=page.content;
+            var pageTotal=page.totalPages;
+            if(pageTotal==0){
+                $(".hot").html("空空如也");
+            }
+            else if(pageIndex<=pageTotal){
+
+            }
+            else{
+                $(".hot").html("page index error");
+            }
+        }
+    });
+}
 
 function changeURL(index){
     pageIndex=index;
@@ -84,7 +127,6 @@ function dynamic_result(data){
 
     $(".result").empty();
     for(var index in data){
-        console.log(index);
         var beginTime = new Date(data[index].beginTime).Format("yyyy-MM-dd hh:mm:ss");
         var deadline = new Date(data[index].deadLine).Format("yyyy-MM-dd hh:mm:ss");
         var row = template.clone();

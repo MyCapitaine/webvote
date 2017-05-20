@@ -105,6 +105,12 @@
 .direct-button{
     height: 34px;
 }
+/*热门投票*/
+.hot{
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-top: 1px solid;
+}
 /*投票列表*/
 .result{
     border-top: 1px solid;
