@@ -30,13 +30,17 @@ public class SimpleController {
     @RequestMapping("/")
     public String index(ModelMap model){
         /*返回页码，首页默认为第一页。由ajax获取具体数据*/
+        ServiceResult sr = voteService.findHotVotes();
         model.addAttribute("pageIndex",1);
+        model.addAttribute("hotVotes",sr.getData());
         return "/index";
     }
     @RequestMapping("/index")
     public String index2(ModelMap model){
         /*返回页码，首页默认为第一页。由ajax获取具体数据*/
+        ServiceResult sr = voteService.findHotVotes();
         model.addAttribute("pageIndex",1);
+        model.addAttribute("hotVotes",sr.getData());
         return "/index";
     }
     /*刷新浏览器和地址栏URL访问首页第几页*/
@@ -47,6 +51,13 @@ public class SimpleController {
         /*返回页码，由ajax获取具体数据*/
         model.addAttribute("pageIndex",pageIndex);
         return "/index";
+    }
+    /*热门投票*/
+    @RequestMapping(value = "/hotVotes")
+    @ResponseBody
+    public JsonResult hotVotes(ModelMap model){
+        ServiceResult sr = voteService.findHotVotes();
+        return new JsonResult(sr.getData());
     }
     /*ajax访问首页第几页*/
     @RequestMapping(value = "/votes",method = RequestMethod.POST)

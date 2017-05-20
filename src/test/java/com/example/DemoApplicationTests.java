@@ -10,6 +10,7 @@ import com.example.serviceInterface.UserInformationService;
 import com.example.serviceInterface.UserRegisterService;
 import com.example.util.Encrypt;
 import com.example.vo.ModifyLoginPasswordVO;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class DemoApplicationTests {
 
 	@Autowired
 	private LoginRecordDao loginRecordDao;
+
 
 	@Test
 	public void test15(){
