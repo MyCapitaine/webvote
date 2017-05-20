@@ -47,6 +47,7 @@
     <div class="z_top_container">
 		<div class="z_top b-header-blur-black">
 			<div class="z_header">
+
 				<div class="z_top_nav">
 					<ul>
 						<li class="home">
@@ -67,6 +68,15 @@
 						<li ><a href="/signout"> 退出</a></li>
 					</ul>
 				</div>
+
+                <div class="nav-search">
+                    <form action="/search" id="nav_searchform" target="_blank">
+                        <input name="keyword" type="text"
+                               class="nav-search-keyword" id="nav_search_keyword" autocomplete="off"
+                               accesskey="s" x-webkit-speech="" x-webkit-grammar="builtin:translate" placeholder="搜索"/>
+                        <button type="submit" class="nav-search-submit"></button>
+                    </form>
+                </div>
 				
 			</div>
 		</div>

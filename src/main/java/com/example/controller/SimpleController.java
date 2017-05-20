@@ -126,18 +126,19 @@ public class SimpleController {
         }
         model.addAttribute("searchType",searchType);
         model.addAttribute("searchResult","result");
-        //return "/search_result";
-        return "search_vote";
+        return "/search_result";
+        //return "search_vote";
     }
     /*ajax获取搜索结果*/
     @RequestMapping("/searchVote")
     @ResponseBody
     public JsonResult searchVote(ModelMap model,String keyword,
                                  @RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex){
-        int page_size=5;
-        Pageable pageable =new PageRequest(pageIndex, page_size);
-        ServiceResult lrsr = loginRecordService.find(1,pageable);
-        return new JsonResult(lrsr.getData());
+        int pageSize = 10;
+        Pageable pageable =new PageRequest(pageIndex, pageSize);
+        ServiceResult vs = voteService.researchVotes(pageable,keyword);
+//        ServiceResult lrsr = loginRecordService.find(1,pageable);
+        return new JsonResult(vs.getData());
     }
     /*ajax获取搜索结果*/
     @RequestMapping("/searchUser")

@@ -54,9 +54,11 @@ function checkAll(){
 }
 
 function changeURL(index){
+    pageIndex=index;
     history.pushState("", "", "/home/vote?type="+type+"&pageIndex="+index);
 }
 function changeToPage(index){
+    pageIndex=index;
     $.get("/home/publishVote",
         {
             pageIndex:index

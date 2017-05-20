@@ -7,6 +7,7 @@
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="/css/top.css" rel="stylesheet" type="text/css" />
     <link href="/css/search_result.css" rel="stylesheet" type="text/css" />
+    <!--<link href="/css/home_vote.css" rel="stylesheet" type="text/css" />-->
 
     <script type="text/javascript" src="/js/jquery-3.2.0.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
@@ -76,20 +77,34 @@
                 <!---->
             <!--</div>-->
         <!--</div>-->
-        <div class="title">
-            <div class="tab tab-active" id="vote" style="margin-left: 150px;">
-                投票
-            </div>
-            <div class="tab" id="user">
-                用户
-            </div>
-            <div class="tab-border">
+        <!--<div class="title">-->
+            <!--<div class="tab tab-active" id="vote" style="margin-left: 150px;">-->
+                <!--投票-->
+            <!--</div>-->
+            <!--<div class="tab" id="user">-->
+                <!--用户-->
+            <!--</div>-->
+            <!--<div class="tab-border">-->
 
-            </div>
-        </div>
+            <!--</div>-->
+        <!--</div>-->
         <div class="result">
-            <!--<p th:text=" 'search result is :' + ${searchResult}"></p>-->
-            <!--<p th:text="${searchType}"></p>-->
+            <div class="template">
+                <div class="row-top"><a href="/votepage/1">vote1</a></div>
+                <div class="row-middle">vote1 summary</div>
+                <div class="row-bottom">
+                    <div class="textValue">
+                        <label class="beginTime">
+                            注册时间:
+                        </label>
+                    </div>
+                    <div class="textValue">
+                        <label class="deadline">
+                            注册时间:
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="page-wrapper">
 
