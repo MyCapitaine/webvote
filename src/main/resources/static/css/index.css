@@ -47,7 +47,18 @@
     outline:none;
 
 }
-
+/*信息栏标题*/
+.title{
+    height: 50px;
+    padding-left: 30px;
+    /*border-bottom: 1px solid #ddd;*/
+}
+.title-text{
+    color:#00a1d6;
+    float: left;
+    margin: 15px 0 0 5px;
+    font-size:14px;
+}
 /*发布按钮和分页*/
 .publish-wrapper{
     display: inline-block;
