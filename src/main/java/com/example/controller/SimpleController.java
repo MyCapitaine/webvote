@@ -1,10 +1,7 @@
 package com.example.controller;
 
 import com.example.dao.UserRegisterDao;
-import com.example.entity.JsonResult;
-import com.example.entity.LoginRecord;
-import com.example.entity.ServiceResult;
-import com.example.entity.UserRegister;
+import com.example.entity.*;
 import com.example.serviceInterface.LoginRecordService;
 import com.example.serviceInterface.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Created by hasee on 2017/3/4.
@@ -30,7 +29,7 @@ public class SimpleController {
     @RequestMapping("/")
     public String index(ModelMap model){
         /*返回页码，首页默认为第一页。由ajax获取具体数据*/
-        ServiceResult sr = voteService.findHotVotes();
+        ServiceResult<List<VotesEntity>> sr = voteService.findHotVotes();
         model.addAttribute("pageIndex",1);
         model.addAttribute("hotVotes",sr.getData());
         return "/index";
@@ -49,6 +48,9 @@ public class SimpleController {
                                       ModelMap model){
 
         /*返回页码，由ajax获取具体数据*/
+        ServiceResult<List<VotesEntity>> sr = voteService.findHotVotes();
+        //model.addAttribute("pageIndex",1);
+        model.addAttribute("hotVotes",sr.getData());
         model.addAttribute("pageIndex",pageIndex);
         return "/index";
     }
@@ -65,6 +67,7 @@ public class SimpleController {
     public JsonResult postVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
                                       ModelMap model){
         /*获取投票列表分页*/
+
         return new JsonResult();
     }
     /*ajax访问首页第几页*/
@@ -73,10 +76,10 @@ public class SimpleController {
     public JsonResult ajaxGetVotes(@RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex,
                                  ModelMap model){
         /*获取投票列表分页*/
-        int page_size=5;
+        int pageSize = 10;
         System.out.println("getVotes index:"+pageIndex);
         //JsonResult jr=new JsonResult();
-        Pageable page = new PageRequest(pageIndex, page_size);
+        Pageable page = new PageRequest(pageIndex, pageSize);
         ServiceResult sr = voteService.findAllVote(page);
 
         return new JsonResult(sr.getData());
@@ -156,8 +159,8 @@ public class SimpleController {
     @ResponseBody
     public JsonResult searchUser(ModelMap model,String keyword,
                                  @RequestParam(name = "pageIndex",defaultValue = "1")int pageIndex){
-        int page_size=5;
-        Pageable pageable =new PageRequest(pageIndex, page_size);
+        int pageSize = 10;
+        Pageable pageable =new PageRequest(pageIndex, pageSize);
         ServiceResult lrsr = loginRecordService.find(1,pageable);
         return new JsonResult(lrsr.getData());
     }
@@ -193,8 +196,8 @@ public class SimpleController {
     @RequestMapping("/initPage")
     @ResponseBody
     public JsonResult initPage(int pageIndex){
-        int page_size=1;
-        Pageable pageable =new PageRequest(pageIndex, page_size);
+        int pageSize=1;
+        Pageable pageable =new PageRequest(pageIndex, pageSize);
         Page<UserRegister> datas = userRegisterDao.findAll(pageable);
         if(datas!=null){
             return new JsonResult(datas);

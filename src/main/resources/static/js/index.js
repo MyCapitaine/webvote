@@ -15,9 +15,11 @@ $(document).ready(function(){
         changeURL(1);
     }
     init();
+
 });
 
 function initHot(){
+    console.log(hotVotes);
     //$(".result").empty();
     for(var index in hotVotes){
         var beginTime = new Date(hotVotes[index].beginTime).Format("yyyy-MM-dd hh:mm:ss");
